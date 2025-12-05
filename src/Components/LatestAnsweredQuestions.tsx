@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { getAuth, signInWithPopup, GoogleAuthProvider } from "firebase/auth";
 import type { Question } from "../types/QuestionsInterfaz";
 import fbIcon from "../assets/fbICONO.png"
-import inIcon from "../assets/inIcono.png";
+import inIcon from "../assets/inICONO.png";
 import logoBANNER from "../assets/logoBANNER.png"
 
 interface UserSummary {
