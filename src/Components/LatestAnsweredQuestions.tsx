@@ -4,7 +4,7 @@ import { db } from "../services/firebase";
 import { useNavigate } from "react-router-dom";
 import { getAuth, signInWithPopup, GoogleAuthProvider } from "firebase/auth";
 import type { Question } from "../types/QuestionsInterfaz";
-import fbIcon from "../assets/fbicono.png"
+import fbIcon from "../assets/fbICONO.png"
 import inIcon from "../assets/inIcono.png";
 import logoBANNER from "../assets/logoBANNER.png"
 
