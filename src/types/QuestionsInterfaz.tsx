@@ -1,4 +1,4 @@
-import { useState } from "react";
+
 export interface Question {
     id: string;
     question: string;
@@ -11,4 +11,4 @@ export interface Question {
     likedBy: string[];
     
   }
-  const [currentQuestion, setCurrentQuestion] = useState<Question | null>(null);
+  

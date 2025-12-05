@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { useRef } from "react";
 import html2canvas from "html2canvas";
 
 export default function Share({ question, answer }: any) {

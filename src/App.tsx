@@ -8,7 +8,7 @@ import Login from "./Components/Login";
 export default function App() {
   const [userId, setUserId] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
-  const navigate = useNavigate();
+ 
 
   useEffect(() => {
     const unsub = onAuthStateChanged(getAuth(), (user) => {

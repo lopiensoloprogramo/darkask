@@ -253,12 +253,7 @@ const userCard: React.CSSProperties = {
   transition: "0.25s ease"
 };
 
-const avatar: React.CSSProperties = {
-  width: 44,
-  height: 44,
-  borderRadius: "50%",
-  objectFit: "cover"
-};
+
 
 const userScore: React.CSSProperties = {
   fontSize: 12,
@@ -294,11 +289,7 @@ const bannerHeader: React.CSSProperties = {
   boxShadow: "0 8px 20px rgba(0,0,0,0.12)"
 };
 
-const bannerTitle: React.CSSProperties = {
-  fontSize: 38,
-  fontWeight: "bold",
-  textShadow: "1px 1px 4px rgba(0,0,0,0.5)"
-};
+
 
 const bannerSocial: React.CSSProperties = {
   display: "flex",
