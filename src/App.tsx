@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Routes, Route, Navigate, useNavigate } from "react-router-dom";
+import { Routes, Route, Navigate} from "react-router-dom";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import ProfileUserWrapper from "./Pages/ProfileUserWrapper";
 import LatestAnsweredQuestions from "./Components/LatestAnsweredQuestions";
