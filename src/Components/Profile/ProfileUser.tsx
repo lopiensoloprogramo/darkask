@@ -22,7 +22,7 @@ import QuestionForm from "../QuestionForm";
 import ShareModal from "../ShareModal";
 
 import type { Question } from "../../types/QuestionsInterfaz";
-import { data } from "react-router-dom";
+
 
 /* ===== INTERFACES ===== */
 
