@@ -231,7 +231,7 @@ const feedMeta: React.CSSProperties = {
 };
 
 const sidebarTitle: React.CSSProperties = {
-  marginTop: 20,
+  marginTop: 10,
   marginBottom: 16,
   fontWeight: "bold"
 };
@@ -321,6 +321,7 @@ const bannerSubtitle: React.CSSProperties = {
 const bannerDescription: React.CSSProperties = {
   fontSize: 14,
   color: "#6b7280"
+
 };
 
 const keyFrames = `
