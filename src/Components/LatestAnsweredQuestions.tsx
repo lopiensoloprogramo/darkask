@@ -99,6 +99,12 @@ export default function LatestAnsweredQuestions({ limit = 20 }: Props) {
          <img src={inIcon} style={bannerIcon} />
         </div>
       </div>
+      <div style={bannerSubtitle}>
+        <p style={bannerTagline}>Sin filtros. Sin miedo.</p>
+        <p style={bannerDescription}>
+          Recibe preguntas anónimas y respóndelas sin saber quién las envió.
+        </p>
+      </div>
 
       {/* LAYOUT ORIGINAL */}
       <div style={layout(isMobile)}>
@@ -301,6 +307,24 @@ const bannerIcon: React.CSSProperties = {
   height: 32,
   cursor: "pointer",
   
+};
+const bannerSubtitle: React.CSSProperties = {
+  maxWidth: 1400,
+  margin: "0 auto 10px",
+  padding: "0 32px",
+  textAlign: "left"
+};
+
+const bannerTagline: React.CSSProperties = {
+  fontSize: 20,
+  fontWeight: 700,
+  marginBottom: 4,
+  color: "#111"
+};
+
+const bannerDescription: React.CSSProperties = {
+  fontSize: 14,
+  color: "#6b7280"
 };
 
 const keyFrames = `
