@@ -129,7 +129,9 @@ export default function LatestAnsweredQuestions({ limit = 20 }: Props) {
               🚀 Iniciar sesión con Google
             </button>
           )}
+          <h3 style={bannerDescription}>Tus preguntas son 100% anónimas.</h3>
           <h3 style={sidebarTitle}>Perfiles más populares</h3>
+         
           {topUsers.map((user, i) => (
             <div
               key={user.id}
