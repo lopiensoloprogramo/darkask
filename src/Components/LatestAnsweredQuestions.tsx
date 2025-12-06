@@ -100,8 +100,7 @@ export default function LatestAnsweredQuestions({ limit = 20 }: Props) {
         </div>
       </div>
       <div style={bannerSubtitle}>
-        <p style={bannerTagline}>Sin filtros. Sin miedo.</p>
-        <p style={bannerDescription}>
+      <p style={bannerDescription}>
           Recibe preguntas anónimas y respóndelas sin saber quién las envió.
         </p>
       </div>
@@ -315,12 +314,7 @@ const bannerSubtitle: React.CSSProperties = {
   textAlign: "left"
 };
 
-const bannerTagline: React.CSSProperties = {
-  fontSize: 20,
-  fontWeight: 700,
-  marginBottom: 4,
-  color: "#111"
-};
+
 
 const bannerDescription: React.CSSProperties = {
   fontSize: 14,
