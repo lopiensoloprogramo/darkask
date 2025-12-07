@@ -91,7 +91,7 @@ export default function LatestAnsweredQuestions({ limit = 20 }: Props) {
   return (
     <>
       {/* HEADER CON BANNER */}
-      <div style={bannerHeader}>
+      <div style={bannerHeader(isMobile)}>
         <img src={logoBANNER}/>
         <div style={bannerSocial}>
          
@@ -281,20 +281,24 @@ const hoverLift: React.CSSProperties = {
 };
 
 /* ======= HEADER CON BANNER ======= */
-const bannerHeader: React.CSSProperties = {
+const bannerHeader = (mobile: boolean): React.CSSProperties => ({
   display: "flex",
+  flexDirection: mobile ? "column" : "row",
   justifyContent: "space-between",
   alignItems: "center",
-  padding: "24px 32px",
+  padding: mobile ? "16px" : "24px 32px",
   borderRadius: 18,
-  margin: "24px auto",
+  margin: "16px auto",
   maxWidth: 1400,
+  gap: mobile ? 12 : 0,
   backgroundImage: "url('/images/banner-bg.jpg')",
   backgroundSize: "cover",
   backgroundPosition: "center",
   color: "#fff",
-  boxShadow: "0 8px 20px rgba(0,0,0,0.12)"
-};
+  boxShadow: "0 8px 20px rgba(0,0,0,0.12)",
+  textAlign: mobile ? "center" : "left",
+});
+
 
 
 
