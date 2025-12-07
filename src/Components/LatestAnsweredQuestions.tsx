@@ -189,10 +189,10 @@ const loader: React.CSSProperties = {
 const layout = (mobile: boolean): React.CSSProperties => ({
   display: "grid",
   gridTemplateColumns: mobile ? "1fr" : "2.2fr 1fr",
-  gap: 28,
-  padding: 24,
+  gap: mobile ? 16 : 28,
+  padding: mobile ? "12px" : "24px",
   maxWidth: 1400,
-  margin: "auto",
+  margin: mobile ? "0" : "auto",
   background: "#f3f4f6",
   minHeight: "100vh"
 });
