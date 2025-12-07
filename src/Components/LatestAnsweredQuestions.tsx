@@ -88,6 +88,24 @@ export default function LatestAnsweredQuestions({ limit = 20 }: Props) {
     );
   }
 
+function timeAgo(timestamp: any) {
+  if (!timestamp) return "hace un momento";
+
+  const now = new Date().getTime();
+  const past = timestamp.toDate().getTime();
+  const diff = Math.floor((now - past) / 1000); // en segundos
+
+  if (diff < 60) return "hace segundos";
+  if (diff < 3600) return `hace ${Math.floor(diff / 60)} min`;
+  if (diff < 86400) return `hace ${Math.floor(diff / 3600)} h`;
+  if (diff < 604800) return `hace ${Math.floor(diff / 86400)} días`;
+  if (diff < 2592000) return `hace ${Math.floor(diff / 604800)} sem`;
+  return `hace ${Math.floor(diff / 2592000)} mes(es)`;
+}
+
+
+
+
   return (
     <>
       {/* HEADER CON BANNER */}
@@ -126,8 +144,8 @@ export default function LatestAnsweredQuestions({ limit = 20 }: Props) {
               <p style={feedQuestion}>{q.question}</p>
               <div style={feedAnswer}>{q.answer}</div>
               <div style={feedMeta}>
-                ❤️ {q.likes || 0}
-                <span>⭐ {q.score || 0}</span>
+                <span>⏳ {timeAgo(q.timestamp)}</span>
+                <span>❤️ {q.likes || 0} | ⭐ {q.score || 0}</span>
               </div>
             </div>
           ))}
