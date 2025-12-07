@@ -117,7 +117,8 @@ function timeAgo(timestamp: any) {
             width: "100%",
             maxWidth: isMobile ? "220px" : "420px",
             height: "auto",
-            objectFit: "contain"
+            objectFit: "contain",
+            animation: "fadeIn .8s ease"
           }}
         />
 
@@ -169,7 +170,7 @@ function timeAgo(timestamp: any) {
             >
              
               <div>
-                <strong>{i + 1}. {user.name}</strong>
+                <strong>🏆 #{i + 1} {user.name}</strong>
                 <p style={userScore}>⭐ {user.score}</p>
               </div>
             </div>
@@ -258,7 +259,8 @@ const feedMeta: React.CSSProperties = {
   display: "flex",
   justifyContent: "space-between",
   fontSize: 13,
-  opacity: 0.75
+  opacity: 0.8,
+  cursor: "pointer"
 };
 
 const sidebarTitle: React.CSSProperties = {
@@ -283,12 +285,13 @@ const userCard: React.CSSProperties = {
   display: "flex",
   alignItems: "center",
   gap: 12,
-  padding: 10,
-  borderRadius: 12,
+  padding: 12,
+  borderRadius: 14,
   cursor: "pointer",
-  background: "#f9fafb",
+  background: "linear-gradient(135deg, #f9fafb, #eef2ff)",
   marginBottom: 10,
-  transition: "0.25s ease"
+  transition: "0.25s ease",
+  fontWeight: 600
 };
 
 
