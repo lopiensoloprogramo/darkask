@@ -213,16 +213,16 @@ export default function ProfileUser({ profileUserId, authUser }: ProfileProps) {
 
       {/* PREGUNTAS */}
       <div>
-        <h2 style={sectionTitle}>PREGUNTAS RESPONDIDAS</h2>
+        <h2 style={sectionTitle}>PREGUNTAS PENDIENTES</h2>
 
         {visibleQuestions.length === 0 && (
           <p>No hay preguntas aún...</p>
         )}
-
+      <h2 style={sectionTitle}>PREGUNTAS PENDIENTES</h2>
         {visibleQuestions.map(q => (
           <div key={q.id} style={card}>
             <p style={questionTitle}>{q.question}</p>
- <h2 style={sectionTitle}>PREGUNTAS PENDIENTES</h2>
+
             {q.answered ? (
               <>
                 <div style={answerBox}>{q.answer}</div>
