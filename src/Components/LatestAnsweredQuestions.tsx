@@ -99,7 +99,8 @@ export default function LatestAnsweredQuestions({ limit = 20 }: Props) {
             width: "100%",
             maxWidth: isMobile ? "220px" : "420px",
             height: "auto",
-            objectFit: "contain"
+            objectFit: "contain",
+            margin:"auto"
           }}
         />
 
