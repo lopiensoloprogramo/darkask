@@ -203,7 +203,8 @@ const panel: React.CSSProperties = {
   borderRadius: 18,
   boxShadow: "0 8px 18px rgba(0,0,0,0.08)",
   display: "flex",
-  flexDirection: "column"
+  flexDirection: "column",
+  marginLeft:"0"
 };
 
 const title: React.CSSProperties = {
