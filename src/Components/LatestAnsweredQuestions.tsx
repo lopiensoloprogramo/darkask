@@ -245,12 +245,13 @@ const feedQuestion: React.CSSProperties = {
 };
 
 const feedAnswer: React.CSSProperties = {
-  background: "#ecfdf5",
+  background: "linear-gradient(120deg, #ecfdf5, #f0fdf4)",
   borderRadius: 10,
-  padding: 10,
-  color: "#065f46",
+  padding: "12px 14px",
+  color: "#064e3b",
   marginBottom: 10,
-  fontSize: 14
+  fontSize: 14,
+  fontWeight: 500
 };
 
 const feedMeta: React.CSSProperties = {
