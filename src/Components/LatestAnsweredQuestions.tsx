@@ -297,7 +297,7 @@ const bannerHeader = (mobile: boolean): React.CSSProperties => ({
   display: "flex",
   flexDirection: mobile ? "column" : "row",
   justifyContent: "space-between",
-  alignItems: "center",
+  alignItems: "left",
   padding: mobile ? "16px" : "24px 32px",
   borderRadius: 18,
   margin: "16px auto",
