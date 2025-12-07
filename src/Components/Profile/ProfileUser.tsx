@@ -218,7 +218,7 @@ export default function ProfileUser({ profileUserId, authUser }: ProfileProps) {
         {visibleQuestions.length === 0 && (
           <p>No hay preguntas aún...</p>
         )}
-      <h2 style={sectionTitle}>PREGUNTAS PENDIENTES</h2>
+    
         {visibleQuestions.map(q => (
           <div key={q.id} style={card}>
             <p style={questionTitle}>{q.question}</p>
@@ -236,7 +236,8 @@ export default function ProfileUser({ profileUserId, authUser }: ProfileProps) {
                   </button>
                 </div>
               </>
-            ) : (
+              
+            ) : ( 
               <>
                 <div style={pendingBox}>⏳ Pendiente</div>
 
