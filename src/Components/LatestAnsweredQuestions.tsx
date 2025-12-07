@@ -99,8 +99,7 @@ export default function LatestAnsweredQuestions({ limit = 20 }: Props) {
             width: "100%",
             maxWidth: isMobile ? "220px" : "420px",
             height: "auto",
-            objectFit: "contain",
-            margin:"auto"
+            objectFit: "contain"
           }}
         />
 
@@ -297,7 +296,7 @@ const bannerHeader = (mobile: boolean): React.CSSProperties => ({
   display: "flex",
   flexDirection: mobile ? "column" : "row",
   justifyContent: "space-between",
-  alignItems: "left",
+  alignItems: "center",
   padding: mobile ? "16px" : "24px 32px",
   borderRadius: 18,
   margin: "16px auto",
