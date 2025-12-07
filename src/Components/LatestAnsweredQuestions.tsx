@@ -92,7 +92,18 @@ export default function LatestAnsweredQuestions({ limit = 20 }: Props) {
     <>
       {/* HEADER CON BANNER */}
       <div style={bannerHeader(isMobile)}>
-        <img src={logoBANNER}/>
+        
+          <img
+          src={logoBANNER}
+          style={{
+            width: "100%",
+            maxWidth: isMobile ? "220px" : "420px",
+            height: "auto",
+            objectFit: "contain"
+          }}
+        />
+
+
         <div style={bannerSocial}>
          
          <img src={fbIcon} style={bannerIcon} />
