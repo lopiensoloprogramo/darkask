@@ -199,7 +199,7 @@ const layout = (mobile: boolean): React.CSSProperties => ({
 
 const panel: React.CSSProperties = {
   background: "#ffffff",
-  padding: 20,
+  padding: 0,
   borderRadius: 18,
   boxShadow: "0 8px 18px rgba(0,0,0,0.08)",
   display: "flex",
