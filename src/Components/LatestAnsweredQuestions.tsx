@@ -266,7 +266,8 @@ const feedMeta: React.CSSProperties = {
 const sidebarTitle: React.CSSProperties = {
   marginTop: 10,
   marginBottom: 16,
-  fontWeight: "bold"
+  fontWeight: "bold",
+  margin:"auto"
 };
 
 const loginBtnVIP: React.CSSProperties = {
