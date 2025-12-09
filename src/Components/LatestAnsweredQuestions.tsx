@@ -160,7 +160,7 @@ function timeAgo(timestamp: any) {
               🚀 Iniciar sesión con Google
             </button>
           )}
-          <div style={avisoAnonimo}>Tus preguntas son 100% anónimas.</div>
+          <h3 style={avisoAnonimo}>Tus preguntas son 100% anónimas.</h3>
           <h3 style={sidebarTitle}>Perfiles más populares</h3>
          
           {topUsers.map((user, i) => (
