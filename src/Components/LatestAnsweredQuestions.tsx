@@ -368,7 +368,7 @@ const bannerDescription: React.CSSProperties = {
 const avisoAnonimo: React.CSSProperties = {
   fontSize: 14,
   color: "#6b7280",
-  marginLeft:20,
+  marginLeft: "10px"
   
 };
 
