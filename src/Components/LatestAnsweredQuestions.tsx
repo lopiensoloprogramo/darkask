@@ -7,7 +7,7 @@ import type { Question } from "../types/QuestionsInterfaz";
 import fbIcon from "../assets/fbICONO.png"
 import inIcon from "../assets/inICONO.png";
 import logoBANNER from "../assets/finalbanner.png"
-import { startAudioConversation } from "firebase/ai";
+
 
 interface UserSummary {
   id: string;
@@ -368,7 +368,7 @@ const bannerDescription: React.CSSProperties = {
 const avisoAnonimo: React.CSSProperties = {
   fontSize: 14,
   color: "#6b7280",
-  textAlign: "center"
+  marginLeft: 10
   
 };
 
