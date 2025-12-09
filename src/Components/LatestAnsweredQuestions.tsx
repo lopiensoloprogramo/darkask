@@ -116,7 +116,7 @@ function timeAgo(timestamp: any) {
           src={logoBANNER}
           style={{
             width: "100%",
-            maxWidth: isMobile ? "220px" : "420px",
+            maxWidth: isMobile ? "220px" : "520px",
             height: "auto",
             objectFit: "contain",
             animation: "fadeIn .8s ease"
