@@ -160,7 +160,7 @@ function timeAgo(timestamp: any) {
               🚀 Iniciar sesión con Google
             </button>
           )}
-          <h4 style={avisoAnonimo}>Tus preguntas son 100% anónimas.</h4>
+          <div style={avisoAnonimo}>Tus preguntas son 100% anónimas.</div>
           <h3 style={sidebarTitle}>Perfiles más populares</h3>
          
           {topUsers.map((user, i) => (
@@ -368,7 +368,7 @@ const bannerDescription: React.CSSProperties = {
 const avisoAnonimo: React.CSSProperties = {
   fontSize: 14,
   color: "#6b7280",
-  marginLeft: "10px"
+  textAlign: "center"
   
 };
 
