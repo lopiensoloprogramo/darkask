@@ -7,6 +7,7 @@ import type { Question } from "../types/QuestionsInterfaz";
 import fbIcon from "../assets/fbICONO.png"
 import inIcon from "../assets/inICONO.png";
 import logoBANNER from "../assets/finalbanner.png"
+import { startAudioConversation } from "firebase/ai";
 
 interface UserSummary {
   id: string;
@@ -159,7 +160,7 @@ function timeAgo(timestamp: any) {
               🚀 Iniciar sesión con Google
             </button>
           )}
-          <h3 style={bannerDescription}>Tus preguntas son 100% anónimas.</h3>
+          <h3 style={avisoAnonimo}>Tus preguntas son 100% anónimas.</h3>
           <h3 style={sidebarTitle}>Perfiles más populares</h3>
          
           {topUsers.map((user, i) => (
@@ -363,6 +364,13 @@ const bannerDescription: React.CSSProperties = {
   color: "#6b7280"
 
 };
+
+const avisoAnonimo: React.CSSProperties = {
+  fontSize: 14,
+  color: "#6b7280",
+  marginLeft:10
+};
+
 
 const keyFrames = `
 @keyframes spin { to { transform: rotate(360deg); } }
