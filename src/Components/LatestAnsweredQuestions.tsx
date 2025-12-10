@@ -395,7 +395,7 @@ const heroTitle: React.CSSProperties = {
   fontSize: isMobile ? "2rem" : "3rem",
   fontWeight: "800",
   lineHeight: "1.1",
-  marginBottom: "16px",
+  marginBottom: "8px",
   textAlign: isMobile ? "center" : "center"
   
 };
