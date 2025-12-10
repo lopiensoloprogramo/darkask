@@ -393,10 +393,12 @@ const isMobile = window.innerWidth < 768;
 
 const heroTitle: React.CSSProperties = {
   fontSize: isMobile ? "2rem" : "3rem",
-  fontWeight: "800",
-  lineHeight: "1.1",
+  lineHeight: "1.05",
   marginBottom: "8px",
-  textAlign: isMobile ? "center" : "center"
+  textAlign: isMobile ? "center" : "center",
+  fontWeight: "bold",
+  letterSpacing: "-0.5px",
+ 
   
 };
 
