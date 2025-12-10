@@ -132,15 +132,21 @@ function timeAgo(timestamp: any) {
       </div>
 <div style={heroBox}>
   <h1 style={heroTitle}>
-    🕶️ El chisme es público.<br/>Tu nombre no.
-  </h1>
+  El chisme es público.<br />
+  Tu nombre no.
+</h1>
   <p style={heroText}>
-    Preguntas incómodas, rumores, verdades ocultas y confesiones que nadie se atreve a decir en voz alta.
+    Confesiones, rumores y preguntas que nadie haría con su nombre.
   </p>
 
   <button style={heroBtn} onClick={handleLogin}>
-    🔥 Crear mi perfil 
+    💀Ver lo que dicen de mí🔥
   </button>
+       <div style={morboBox}>
+        <p>💬 "¿Por qué nadie te soporta?"</p>
+        <p>💬 "Tu ex aún habla de ti."</p>
+        <p>💬 "No eres tan buena persona como crees."</p>
+      </div>
 
         <div style={heroSteps}>
           <span>1️⃣ Comparte tu perfil</span>
@@ -173,8 +179,8 @@ function timeAgo(timestamp: any) {
               🔥 Entrar al chisme con Google
             </button>
           )}
-          <h3 style={avisoAnonimo}>🕵️ Nadie sabrá que fuiste tú.</h3>
-          <h3 style={sidebarTitle}>Perfiles más populares</h3>
+          <h3 style={avisoAnonimo}>🕵️Nadie sabrá que fuiste tú.</h3>
+          <h3 style={sidebarTitle}>👀Los más mencionados hoy</h3>
          
           {topUsers.map((user, i) => (
             <div
@@ -383,16 +389,22 @@ const heroBox: React.CSSProperties = {
   boxShadow: "0 10px 30px rgba(0,0,0,.15)"
 };
 
+const isMobile = window.innerWidth < 768;
+
 const heroTitle: React.CSSProperties = {
-  fontSize: "clamp(1.4rem, 3vw, 2.2rem)",
-  fontWeight: 800,
-  marginBottom: 10
+  fontSize: isMobile ? "2rem" : "3rem",
+  fontWeight: "800",
+  lineHeight: "1.1",
+  marginBottom: "16px",
+  textAlign: isMobile ? "center" : "left"
+  
 };
 
 const heroText: React.CSSProperties = {
   fontSize: "0.95rem",
   opacity: 0.85,
-  marginBottom: 16
+  marginBottom: 16,
+  color: "#9ca3af"
 };
 
 const heroBtn: React.CSSProperties = {
@@ -417,6 +429,18 @@ const heroSteps: React.CSSProperties = {
   fontSize: 12,
   opacity: 0.75
 };
+
+const morboBox : React.CSSProperties = {
+  marginTop: "15px",
+  color: "#9ca3af",
+  fontSize: "0.95rem",
+  textAlign: "center",
+  lineHeight: "1.5",
+  opacity: 0.85,
+};
+
+
+
 
 
 const keyFrames = `
