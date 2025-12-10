@@ -130,17 +130,30 @@ function timeAgo(timestamp: any) {
          <img src={inIcon} style={bannerIcon} />
         </div>
       </div>
-      <div style={bannerSubtitle}>
-      <p style={bannerDescription}>
-          Recibe preguntas anónimas y respóndelas sin saber quién las envió.
-        </p>
+<div style={heroBox}>
+  <h1 style={heroTitle}>
+    🕶️ El chisme es público.<br/>Tu nombre no.
+  </h1>
+  <p style={heroText}>
+    Preguntas incómodas, rumores, verdades ocultas y confesiones que nadie se atreve a decir en voz alta.
+  </p>
+
+  <button style={heroBtn} onClick={handleLogin}>
+    🔥 Crear mi perfil 
+  </button>
+
+        <div style={heroSteps}>
+          <span>1️⃣ Comparte tu perfil</span>
+          <span>2️⃣ Recibe chisme</span>
+          <span>3️⃣ Responde público</span>
+        </div>
       </div>
 
       {/* LAYOUT ORIGINAL */}
       <div style={layout(isMobile)}>
         {/* COLUMNA IZQUIERDA */}
         <div style={panel}>
-          <h2 style={title}>🔥 Últimas respuestas</h2>
+          <h2 style={title}>🔥El chisme del momento</h2>
           {questions.map(q => (
             <div key={q.id} style={{ ...feedCard, ...fadeIn, ...hoverLift }}>
               <p style={feedQuestion}>{q.question}</p>
@@ -157,10 +170,10 @@ function timeAgo(timestamp: any) {
         <div style={panel}>
           {!authUser && (
             <button style={{ ...loginBtnVIP, ...popIn }} onClick={handleLogin}>
-              🚀 Iniciar sesión con Google
+              🔥 Entrar al chisme con Google
             </button>
           )}
-          <h3 style={avisoAnonimo}>Tus preguntas son 100% anónimas.</h3>
+          <h3 style={avisoAnonimo}>🕵️ Nadie sabrá que fuiste tú.</h3>
           <h3 style={sidebarTitle}>Perfiles más populares</h3>
          
           {topUsers.map((user, i) => (
@@ -350,26 +363,59 @@ const bannerIcon: React.CSSProperties = {
   cursor: "pointer",
   
 };
-const bannerSubtitle: React.CSSProperties = {
-  maxWidth: 1400,
-  margin: "0 auto 10px",
-  padding: "0 32px",
-  textAlign: "left"
-};
-
-
-
-const bannerDescription: React.CSSProperties = {
-  fontSize: 14,
-  color: "#6b7280"
-
-};
 
 const avisoAnonimo: React.CSSProperties = {
   fontSize: 14,
   color: "#6b7280",
   marginLeft: 10
   
+};
+
+
+const heroBox: React.CSSProperties = {
+  maxWidth: 1400,
+  margin: "8px auto 24px",
+  padding: "20px",
+  borderRadius: 16,
+  textAlign: "center",
+  background: "linear-gradient(135deg, #111827, #1f2933)",
+  color: "#fff",
+  boxShadow: "0 10px 30px rgba(0,0,0,.15)"
+};
+
+const heroTitle: React.CSSProperties = {
+  fontSize: "clamp(1.4rem, 3vw, 2.2rem)",
+  fontWeight: 800,
+  marginBottom: 10
+};
+
+const heroText: React.CSSProperties = {
+  fontSize: "0.95rem",
+  opacity: 0.85,
+  marginBottom: 16
+};
+
+const heroBtn: React.CSSProperties = {
+  background: "linear-gradient(135deg, #ef4444, #f97316)",
+  color: "#fff",
+  border: "none",
+  borderRadius: 14,
+  padding: "12px 18px",
+  fontWeight: 700,
+  cursor: "pointer",
+  fontSize: 15,
+  marginBottom: 12,
+  boxShadow: "0 6px 18px rgba(0,0,0,.3)"
+};
+
+const heroSteps: React.CSSProperties = {
+  display: "flex",
+  justifyContent: "center",
+  gap: 20,
+  flexWrap: "wrap",
+  marginTop: 8,
+  fontSize: 12,
+  opacity: 0.75
 };
 
 
