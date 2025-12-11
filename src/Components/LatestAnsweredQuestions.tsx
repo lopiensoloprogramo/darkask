@@ -6,7 +6,7 @@ import { getAuth, signInWithPopup, GoogleAuthProvider } from "firebase/auth";
 import type { Question } from "../types/QuestionsInterfaz";
 import fbIcon from "../assets/fbICONO.png"
 import inIcon from "../assets/inICONO.png";
-import logoBANNER from "../assets/bannerversionfinal.png"
+import logoBANNER from "../assets/bannerultimaversion.png"
 
 
 interface UserSummary {
