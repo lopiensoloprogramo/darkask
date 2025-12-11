@@ -117,7 +117,7 @@ function timeAgo(timestamp: any) {
           style={{
             width: "100%",
             maxWidth: isMobile ? "220px" : "420px",
-            height: "auto",
+            height: isMobile ? "60px" : "90px",
             objectFit: "contain",
             animation: "fadeIn .8s ease"
           }}
