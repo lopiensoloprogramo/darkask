@@ -117,7 +117,7 @@ function timeAgo(timestamp: any) {
         style={{
           width: isMobile ? "90%" : "400px",   // ✔ Ancho ideal
           maxWidth: "100%",                    // ✔ Nunca se sale del contenedor
-          height: "100px",                      // ✔ Mantiene proporción real
+          height: "auto",                      // ✔ Mantiene proporción real
           objectFit: "contain",                // ✔ No se deforma
           display: "block",
           alignSelf: "flex-start",             // ✔ Pegado a la izquierda
