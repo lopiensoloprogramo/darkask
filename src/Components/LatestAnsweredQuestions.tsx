@@ -117,7 +117,7 @@ function timeAgo(timestamp: any) {
           style={{
             width: "100%",
             maxWidth: isMobile ? "220px" : "800px",
-            height: isMobile ? "90px" : "160px",
+            height: isMobile ? "90px" : "170px",
             objectFit: "contain",
             animation: "fadeIn .8s ease",
             alignSelf: "flex-start"
@@ -342,7 +342,7 @@ const bannerHeader = (mobile: boolean): React.CSSProperties => ({
   display: "flex",
   flexDirection: mobile ? "column" : "row",
   justifyContent: "space-between",
-  alignItems: "center",
+  alignItems: "left",
   padding: mobile ? "16px" : "24px 32px",
   borderRadius: 18,
   margin: "16px auto",
