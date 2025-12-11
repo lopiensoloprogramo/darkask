@@ -112,17 +112,18 @@ function timeAgo(timestamp: any) {
       {/* HEADER CON BANNER */}
       <div style={bannerHeader(isMobile)}>
         
-          <img
-          src={logoBANNER}
-          style={{
-            width: "100%",
-            maxWidth: isMobile ? "220px" : "800px",
-            height: isMobile ? "90px" : "170px",
-            objectFit: "contain",
-            animation: "fadeIn .8s ease",
-            alignSelf: "flex-start"
-          }}
-        />
+      <img
+        src={logoBANNER}
+        style={{
+          width: isMobile ? "90%" : "700px",   // ✔ Ancho ideal
+          maxWidth: "100%",                    // ✔ Nunca se sale del contenedor
+          height: "auto",                      // ✔ Mantiene proporción real
+          objectFit: "contain",                // ✔ No se deforma
+          display: "block",
+          alignSelf: "flex-start",             // ✔ Pegado a la izquierda
+        }}
+      />
+
 
 
         <div style={bannerSocial}>
