@@ -6,7 +6,7 @@ import { getAuth, signInWithPopup, GoogleAuthProvider } from "firebase/auth";
 import type { Question } from "../types/QuestionsInterfaz";
 import fbIcon from "../assets/fbICONO.png"
 import inIcon from "../assets/inICONO.png";
-import logoBANNER from "../assets/bannerultimaversion.png"
+import logoBANNER from "../assets/bannerfin.png"
 
 
 interface UserSummary {
@@ -116,7 +116,7 @@ function timeAgo(timestamp: any) {
           src={logoBANNER}
           style={{
             width: "100%",
-            maxWidth: isMobile ? "220px" : "300px",
+            maxWidth: isMobile ? "220px" : "420px",
             height: "auto",
             objectFit: "contain",
             animation: "fadeIn .8s ease"
