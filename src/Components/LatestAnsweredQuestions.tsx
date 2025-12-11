@@ -115,7 +115,7 @@ function timeAgo(timestamp: any) {
       <img
         src={logoBANNER}
         style={{
-          width: isMobile ? "90%" : "500px",   // ✔ Ancho ideal
+          width: isMobile ? "90%" : "400px",   // ✔ Ancho ideal
           maxWidth: "100%",                    // ✔ Nunca se sale del contenedor
           height: "auto",                      // ✔ Mantiene proporción real
           objectFit: "contain",                // ✔ No se deforma
