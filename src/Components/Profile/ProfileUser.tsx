@@ -207,6 +207,23 @@ export default function ProfileUser({ profileUserId, authUser }: ProfileProps) {
             Hacer pregunta
           </button>
         )}
+
+              <div>
+        <h2 style={sectionTitle}>🔥 Destacadas</h2>
+
+        {topQuestions.length === 0 && <p>No hay ranking aún</p>}
+
+        {topQuestions.map((q, i) => (
+          <div key={q.id} style={rankCard}>
+            <div style={rankNumber}>#{i + 1}</div>
+            <div>
+              <strong>{q.question}</strong>
+              <p style={rankMeta}>❤️ {q.likes} · ⭐ {q.score}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+
       </div>
 
       {/* PREGUNTAS */}
@@ -266,21 +283,7 @@ export default function ProfileUser({ profileUserId, authUser }: ProfileProps) {
     </div>
   ))}
 
-      <div>
-        <h2 style={sectionTitle}>🔥 Destacadas</h2>
 
-        {topQuestions.length === 0 && <p>No hay ranking aún</p>}
-
-        {topQuestions.map((q, i) => (
-          <div key={q.id} style={rankCard}>
-            <div style={rankNumber}>#{i + 1}</div>
-            <div>
-              <strong>{q.question}</strong>
-              <p style={rankMeta}>❤️ {q.likes} · ⭐ {q.score}</p>
-            </div>
-          </div>
-        ))}
-      </div>
 
 
 </div>
