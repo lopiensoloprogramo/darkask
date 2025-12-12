@@ -139,9 +139,7 @@ export default function ProfileUser({ profileUserId, authUser }: ProfileProps) {
   }, [profileUserId, isOwner]);
 
   /* ===== VISIBLES ===== */
-  const visibleQuestions = isOwner
-    ? [...pendingQuestions, ...answeredQuestions]
-    : answeredQuestions;
+ 
 
   /* ===== LOGOUT ===== */
   const handleLogout = async () => {
@@ -212,51 +210,63 @@ export default function ProfileUser({ profileUserId, authUser }: ProfileProps) {
       </div>
 
       {/* PREGUNTAS */}
-      <div>
-        <h2 style={sectionTitle}>PREGUNTAS PENDIENTES</h2>
+{/* PREGUNTAS */}
 
-        {visibleQuestions.length === 0 && (
-          <p>No hay preguntas aún...</p>
-        )}
-    
-        {visibleQuestions.map(q => (
-          <div key={q.id} style={card}>
-            <p style={questionTitle}>{q.question}</p>
+/* === PENDIENTES (solo dueño) === */
+{isOwner && (
+  <div style={{ marginBottom: 30 }}>
+    <h2 style={sectionTitle}>🕒 Preguntas pendientes</h2>
 
-            {q.answered ? (
-              <>
-                <div style={answerBox}>{q.answer}</div>
+    {pendingQuestions.length === 0 && (
+      <p>No tienes preguntas pendientes.</p>
+    )}
 
-                <div style={likeRow}>
-                  <button
-                    style={heart(q.likedBy?.includes(authUser?.uid ?? "") ?? false)}
-                    onClick={() => handleLike(q)}
-                  >
-                    ❤️ {q.likes}
-                  </button>
-                </div>
-              </>
-              
-            ) : ( 
-              <>
-                <div style={pendingBox}>⏳ Pendiente</div>
+    {pendingQuestions.map(q => (
+      <div key={q.id} style={card}>
+        <p style={questionTitle}>{q.question}</p>
 
-                {isOwner && (
-                  <button style={btnAnswer} onClick={() => setSelectedQuestion(q)}>
-                    Responder
-                  </button>
-                )}
-              </>
-            )}
+        <div style={pendingBox}>⏳ Pendiente</div>
 
-            {q.answered && isOwner && (
-              <button style={btnShare} onClick={() => setSharedQuestion(q)}>
-                Compartir
-              </button>
-            )}
-          </div>
-        ))}
+        <button style={btnAnswer} onClick={() => setSelectedQuestion(q)}>
+          Responder
+        </button>
       </div>
+    ))}
+  </div>
+)}
+
+/* === RESPONDIDAS (públicas) === */
+<div style={{ marginBottom: 30 }}>
+  <h2 style={sectionTitle}>✔ Preguntas respondidas</h2>
+
+  {answeredQuestions.length === 0 && (
+    <p>No hay preguntas respondidas aún.</p>
+  )}
+
+  {answeredQuestions.map(q => (
+    <div key={q.id} style={card}>
+      <p style={questionTitle}>{q.question}</p>
+
+      <div style={answerBox}>{q.answer}</div>
+
+      <div style={likeRow}>
+        <button
+          style={heart(q.likedBy?.includes(authUser?.uid ?? "") ?? false)}
+          onClick={() => handleLike(q)}
+        >
+          ❤️ {q.likes}
+        </button>
+      </div>
+
+      {isOwner && (
+        <button style={btnShare} onClick={() => setSharedQuestion(q)}>
+          Compartir
+        </button>
+      )}
+    </div>
+  ))}
+</div>
+
 
       {/* DESTACADAS */}
       <div>
