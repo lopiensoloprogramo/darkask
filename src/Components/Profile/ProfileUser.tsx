@@ -101,7 +101,7 @@ export default function ProfileUser({ profileUserId, authUser }: ProfileProps) {
         snapAnswered.docs.map(d => ({ id: d.id, ...normalize(d.data()) })) as Question[]
       );
 
-      /* --- PENDIENTES (solo dueño) --- */
+     
       if (isOwner) {
         const qPending = query(
           collection(db, "questions"),
