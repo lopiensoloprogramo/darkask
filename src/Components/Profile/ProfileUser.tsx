@@ -23,7 +23,6 @@ import ShareModal from "../ShareModal";
 
 import type { Question } from "../../types/QuestionsInterfaz";
 
-
 /* ===== INTERFACES ===== */
 
 interface ProfileProps {
@@ -40,7 +39,6 @@ interface UserData {
 /* ===== COMPONENT ===== */
 
 export default function ProfileUser({ profileUserId, authUser }: ProfileProps) {
-
   const [userData, setUserData] = useState<UserData | null>(null);
   const [pendingQuestions, setPendingQuestions] = useState<Question[]>([]);
   const [answeredQuestions, setAnsweredQuestions] = useState<Question[]>([]);
@@ -64,7 +62,6 @@ export default function ProfileUser({ profileUserId, authUser }: ProfileProps) {
 
   /* ===== DATA LOAD ===== */
   useEffect(() => {
-
     const loadData = async () => {
       setLoading(true);
 
@@ -79,13 +76,12 @@ export default function ProfileUser({ profileUserId, authUser }: ProfileProps) {
       const refUser = doc(db, "users", profileUserId);
       const snapUser = await getDoc(refUser);
 
-        if (snapUser.exists()) {
+      if (snapUser.exists()) {
         const data = snapUser.data() as UserData;
-        console.log("USER DATA:", data); // ✅ ahora sí existe data
         setUserData(data);
-        } else {
+      } else {
         setUserData(null);
-        }
+      }
 
       /* --- RESPONDIDAS --- */
       const qAnswered = query(
@@ -96,12 +92,11 @@ export default function ProfileUser({ profileUserId, authUser }: ProfileProps) {
       );
 
       const snapAnswered = await getDocs(qAnswered);
-      
       setAnsweredQuestions(
         snapAnswered.docs.map(d => ({ id: d.id, ...normalize(d.data()) })) as Question[]
       );
 
-     
+      /* --- PENDIENTES (solo si dueño) --- */
       if (isOwner) {
         const qPending = query(
           collection(db, "questions"),
@@ -115,10 +110,10 @@ export default function ProfileUser({ profileUserId, authUser }: ProfileProps) {
           snapPending.docs.map(d => ({ id: d.id, ...normalize(d.data()) })) as Question[]
         );
       } else {
-        setPendingQuestions([]); // ✅ limpia si NO es dueño
+        setPendingQuestions([]);
       }
 
-      /* --- TOP RESPONDIDAS --- */
+      /* --- DESTACADAS --- */
       const qTop = query(
         collection(db, "questions"),
         where("ownerId", "==", profileUserId),
@@ -137,9 +132,6 @@ export default function ProfileUser({ profileUserId, authUser }: ProfileProps) {
 
     loadData();
   }, [profileUserId, isOwner]);
-
-  /* ===== VISIBLES ===== */
- 
 
   /* ===== LOGOUT ===== */
   const handleLogout = async () => {
@@ -185,90 +177,77 @@ export default function ProfileUser({ profileUserId, authUser }: ProfileProps) {
   return (
     <div style={layout(isMobile)}>
 
-      {/* PERFIL */}
+      {/* ===== PERFIL ===== */}
       <div style={profileCard}>
-        <img
-          src={userData.photoURL}
-          
-          style={avatar}
-        />
-
+        <img src={userData.photoURL} style={avatar} />
         <h2>{userData.name}</h2>
         <p style={{ opacity: 0.85 }}>{userData.email}</p>
 
-        {isOwner && (
+        {isOwner ? (
           <button style={btnLogout} onClick={handleLogout}>
             Cerrar sesión
           </button>
-        )}
-
-        {!isOwner && (
+        ) : (
           <button style={btnAsk} onClick={() => setQuestionModalOpen(true)}>
             Hacer pregunta
           </button>
         )}
       </div>
 
-      {/* PREGUNTAS */}
-{/* PREGUNTAS */}
-
-
-{isOwner && (
-  <div style={{ marginBottom: 30 }}>
-    <h2 style={sectionTitle}>🕒 Preguntas pendientes</h2>
-
-    {pendingQuestions.length === 0 && (
-      <p>No tienes preguntas pendientes.</p>
-    )}
-
-    {pendingQuestions.map(q => (
-      <div key={q.id} style={card}>
-        <p style={questionTitle}>{q.question}</p>
-
-        <div style={pendingBox}>⏳ Pendiente</div>
-
-        <button style={btnAnswer} onClick={() => setSelectedQuestion(q)}>
-          Responder
-        </button>
-      </div>
-    ))}
-  </div>
-)}
-
-
-<div style={{ marginBottom: 30 }}>
-  <h2 style={sectionTitle}>✔ Preguntas respondidas</h2>
-
-  {answeredQuestions.length === 0 && (
-    <p>No hay preguntas respondidas aún.</p>
-  )}
-
-  {answeredQuestions.map(q => (
-    <div key={q.id} style={card}>
-      <p style={questionTitle}>{q.question}</p>
-
-      <div style={answerBox}>{q.answer}</div>
-
-      <div style={likeRow}>
-        <button
-          style={heart(q.likedBy?.includes(authUser?.uid ?? "") ?? false)}
-          onClick={() => handleLike(q)}
-        >
-          ❤️ {q.likes}
-        </button>
-      </div>
-
+      {/* ===== PENDIENTES ===== */}
       {isOwner && (
-        <button style={btnShare} onClick={() => setSharedQuestion(q)}>
-          Compartir
-        </button>
+        <div style={{ marginBottom: 30 }}>
+          <h2 style={sectionTitle}>🕒 Preguntas pendientes</h2>
+
+          {pendingQuestions.length === 0 && <p>No tienes preguntas pendientes.</p>}
+
+          {pendingQuestions.map(q => (
+            <div key={q.id} style={card}>
+              <p style={questionTitle}>{q.question}</p>
+
+              <div style={pendingBox}>⏳ Pendiente</div>
+
+              <button style={btnAnswer} onClick={() => setSelectedQuestion(q)}>
+                Responder
+              </button>
+            </div>
+          ))}
+        </div>
       )}
-    </div>
-  ))}
-</div>
 
+      {/* ===== RESPONDIDAS ===== */}
+      <div style={{ marginBottom: 30 }}>
+        <h2 style={sectionTitle}>✔ Preguntas respondidas</h2>
 
-      {/* DESTACADAS */}
+        {answeredQuestions.length === 0 && (
+          <p>No hay preguntas respondidas aún.</p>
+        )}
+
+        {answeredQuestions.map(q => (
+          <div key={q.id} style={card}>
+            <p style={questionTitle}>{q.question}</p>
+
+            <div style={answerBox}>{q.answer}</div>
+
+            <div style={likeRow}>
+              <button
+                style={heart(q.likedBy?.includes(authUser?.uid ?? "") ?? false)}
+                onClick={() => handleLike(q)}
+              >
+                ❤️ {q.likes}
+              </button>
+            </div>
+
+            {isOwner && (
+              <button style={btnShare} onClick={() => setSharedQuestion(q)}>
+                Compartir
+              </button>
+            )}
+          </div>
+        ))}
+      </div>
+
+      {/* ===== DESTACADAS ===== */}
       <div>
         <h2 style={sectionTitle}>🔥 Destacadas</h2>
 
@@ -285,7 +264,7 @@ export default function ProfileUser({ profileUserId, authUser }: ProfileProps) {
         ))}
       </div>
 
-      {/* MODALES */}
+      {/* ===== MODALES ===== */}
       {selectedQuestion && (
         <AnswerModal
           question={selectedQuestion}
@@ -325,25 +304,26 @@ export default function ProfileUser({ profileUserId, authUser }: ProfileProps) {
 
 const layout = (mobile: boolean): React.CSSProperties => ({
   display: "grid",
-  gridTemplateColumns: mobile ? "1fr" : "300px 2fr 1fr",
+  gridTemplateColumns: mobile ? "1fr" : "260px 2fr 1fr",
   gap: 24,
   padding: 24,
   maxWidth: 1400,
   margin: "auto"
 });
 
+/* ⭐ PERFIL MÁS CORTO ⭐ */
 const profileCard: React.CSSProperties = {
-width: "280px",
-    minWidth: "280px",
-    maxHeight: "420px",   // 🔥 lo hace más corto
-    overflowY: "auto",    // 🔥 añade scroll si hay mucho contenido
-    padding: "16px",
-    display: "flex",
-    flexDirection: "column",
-    gap: "12px",
-    borderRadius: "12px",
-    backgroundColor: "#fff",
-    boxShadow: "0 2px 6px rgba(0,0,0,0.08)"
+  width: "240px",
+  minWidth: "240px",
+  maxHeight: "350px",
+  overflowY: "auto",
+  padding: "16px",
+  display: "flex",
+  flexDirection: "column",
+  gap: "12px",
+  borderRadius: "12px",
+  backgroundColor: "#fff",
+  boxShadow: "0 2px 6px rgba(0,0,0,0.08)"
 };
 
 const avatar: React.CSSProperties = {
@@ -351,7 +331,8 @@ const avatar: React.CSSProperties = {
   height: 110,
   borderRadius: "50%",
   objectFit: "cover",
-  border: "4px solid white"
+  border: "4px solid white",
+  alignSelf: "center"
 };
 
 const sectionTitle: React.CSSProperties = {
