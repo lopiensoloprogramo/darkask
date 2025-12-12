@@ -265,10 +265,7 @@ export default function ProfileUser({ profileUserId, authUser }: ProfileProps) {
       )}
     </div>
   ))}
-</div>
 
-
-      {/* DESTACADAS */}
       <div>
         <h2 style={sectionTitle}>🔥 Destacadas</h2>
 
@@ -284,6 +281,13 @@ export default function ProfileUser({ profileUserId, authUser }: ProfileProps) {
           </div>
         ))}
       </div>
+
+
+</div>
+
+
+      {/* DESTACADAS */}
+
 
       {/* MODALES */}
       {selectedQuestion && (
