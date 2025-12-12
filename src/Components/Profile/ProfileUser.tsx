@@ -208,18 +208,18 @@ export default function ProfileUser({ profileUserId, authUser }: ProfileProps) {
           </button>
         )}
 
-              <div>
-        <h2 style={sectionTitle}>🔥 Destacadas</h2>
-
-        {topQuestions.length === 0 && <p>No hay ranking aún</p>}
-
-        {topQuestions.map((q, i) => (
-          <div key={q.id} style={rankCard}>
-            <div style={rankNumber}>#{i + 1}</div>
             <div>
-              <strong>{q.question}</strong>
-              <p style={rankMeta}>❤️ {q.likes} · ⭐ {q.score}</p>
-            </div>
+              <h2 style={sectionTitle}>🔥 Destacadas</h2>
+
+              {topQuestions.length === 0 && <p>No hay ranking aún</p>}
+
+              {topQuestions.map((q, i) => (
+                <div key={q.id} style={rankCard}>
+                  <div style={rankNumber}>#{i + 1}</div>
+                  <div>
+                    <strong style={questionTop}>{q.question}</strong>
+                    <p style={rankMeta}>❤️ {q.likes} · ⭐ {q.score}</p>
+                  </div>
           </div>
         ))}
       </div>
@@ -459,6 +459,10 @@ const rankMeta: React.CSSProperties = {
   fontSize: 13,
   opacity: 0.7
 };
+
+const questionTop: React.CSSProperties={
+  color:"black"
+}
 
 const likeRow: React.CSSProperties = {
   display: "flex",
