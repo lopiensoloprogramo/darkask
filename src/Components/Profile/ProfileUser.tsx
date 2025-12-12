@@ -332,7 +332,7 @@ export default function ProfileUser({ profileUserId, authUser }: ProfileProps) {
 
 const layout = (mobile: boolean): React.CSSProperties => ({
   display: "grid",
-  gridTemplateColumns: mobile ? "1fr" : "300px 2fr 1fr",
+  gridTemplateColumns: mobile ? "1fr" : "1fr 2fr 1fr",
   gap: 24,
   padding: 24,
   maxWidth: 1400,
@@ -457,7 +457,8 @@ const rankNumber: React.CSSProperties = {
 
 const rankMeta: React.CSSProperties = {
   fontSize: 13,
-  opacity: 0.7
+  opacity: 0.7,
+  color:"black"
 };
 
 const questionTop: React.CSSProperties={
