@@ -212,7 +212,7 @@ export default function ProfileUser({ profileUserId, authUser }: ProfileProps) {
       {/* PREGUNTAS */}
 {/* PREGUNTAS */}
 
-/* === PENDIENTES (solo dueño) === */
+
 {isOwner && (
   <div style={{ marginBottom: 30 }}>
     <h2 style={sectionTitle}>🕒 Preguntas pendientes</h2>
@@ -235,7 +235,7 @@ export default function ProfileUser({ profileUserId, authUser }: ProfileProps) {
   </div>
 )}
 
-/* === RESPONDIDAS (públicas) === */
+
 <div style={{ marginBottom: 30 }}>
   <h2 style={sectionTitle}>✔ Preguntas respondidas</h2>
 
