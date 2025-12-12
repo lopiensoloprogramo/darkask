@@ -333,11 +333,17 @@ const layout = (mobile: boolean): React.CSSProperties => ({
 });
 
 const profileCard: React.CSSProperties = {
-  background: "linear-gradient(135deg, #667eea, #764ba2)",
-  borderRadius: 20,
-  padding: 22,
-  color: "#fff",
-  textAlign: "center"
+width: "280px",
+    minWidth: "280px",
+    maxHeight: "420px",   // 🔥 lo hace más corto
+    overflowY: "auto",    // 🔥 añade scroll si hay mucho contenido
+    padding: "16px",
+    display: "flex",
+    flexDirection: "column",
+    gap: "12px",
+    borderRadius: "12px",
+    backgroundColor: "#fff",
+    boxShadow: "0 2px 6px rgba(0,0,0,0.08)"
 };
 
 const avatar: React.CSSProperties = {
