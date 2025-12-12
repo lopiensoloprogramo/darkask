@@ -339,7 +339,7 @@ const profileCard: React.CSSProperties = {
   color: "#fff",
   textAlign: "center",
   flexShrink: 0,         
-  maxHeight:"100px"
+  height:"auto"
 };
 
 const avatar: React.CSSProperties = {
