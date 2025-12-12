@@ -337,7 +337,8 @@ const profileCard: React.CSSProperties = {
   borderRadius: 20,
   padding: 22,
   color: "#fff",
-  textAlign: "center"
+  textAlign: "center",
+  maxHeight:"100%"
 };
 
 const avatar: React.CSSProperties = {
