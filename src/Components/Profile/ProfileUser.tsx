@@ -181,7 +181,7 @@ export default function ProfileUser({ profileUserId, authUser }: ProfileProps) {
     return <p style={{ textAlign: "center", marginTop: 40 }}>Cargando perfil...</p>;
 
   if (!userData)
-    return <p style={{ textAlign: "center", marginTop: 40 }}>Perfil no encontrado</p>;
+    return <p style={{ textAlign: "center", marginTop: 40 }}>Perfil no encontrado.</p>;
 
   /* ===== UI ===== */
   return (
