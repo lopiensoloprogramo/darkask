@@ -23,7 +23,6 @@ import ShareModal from "../ShareModal";
 
 import type { Question } from "../../types/QuestionsInterfaz";
 
-
 /* ===== INTERFACES ===== */
 
 interface ProfileProps {
@@ -53,6 +52,9 @@ export default function ProfileUser({ profileUserId, authUser }: ProfileProps) {
 
   const [isMobile, setIsMobile] = useState(window.innerWidth < 900);
 
+  /* 👉 NUEVO: pestaña activa */
+  const [activeTab, setActiveTab] = useState<"pending" | "answered">("pending");
+
   const isOwner = authUser?.uid === profileUserId;
 
   /* ===== RESPONSIVE ===== */
@@ -79,13 +81,12 @@ export default function ProfileUser({ profileUserId, authUser }: ProfileProps) {
       const refUser = doc(db, "users", profileUserId);
       const snapUser = await getDoc(refUser);
 
-        if (snapUser.exists()) {
+      if (snapUser.exists()) {
         const data = snapUser.data() as UserData;
-        console.log("USER DATA:", data); // ✅ ahora sí existe data
         setUserData(data);
-        } else {
+      } else {
         setUserData(null);
-        }
+      }
 
       /* --- RESPONDIDAS --- */
       const qAnswered = query(
@@ -96,12 +97,11 @@ export default function ProfileUser({ profileUserId, authUser }: ProfileProps) {
       );
 
       const snapAnswered = await getDocs(qAnswered);
-      
       setAnsweredQuestions(
         snapAnswered.docs.map(d => ({ id: d.id, ...normalize(d.data()) })) as Question[]
       );
 
-      /* --- PENDIENTES (solo dueño) --- */
+      /* --- PENDIENTES --- */
       if (isOwner) {
         const qPending = query(
           collection(db, "questions"),
@@ -115,10 +115,10 @@ export default function ProfileUser({ profileUserId, authUser }: ProfileProps) {
           snapPending.docs.map(d => ({ id: d.id, ...normalize(d.data()) })) as Question[]
         );
       } else {
-        setPendingQuestions([]); // ✅ limpia si NO es dueño
+        setPendingQuestions([]);
       }
 
-      /* --- TOP RESPONDIDAS --- */
+      /* --- TOP --- */
       const qTop = query(
         collection(db, "questions"),
         where("ownerId", "==", profileUserId),
@@ -137,11 +137,6 @@ export default function ProfileUser({ profileUserId, authUser }: ProfileProps) {
 
     loadData();
   }, [profileUserId, isOwner]);
-
-  /* ===== VISIBLES ===== */
-  const visibleQuestions = isOwner
-    ? [...pendingQuestions, ...answeredQuestions]
-    : answeredQuestions;
 
   /* ===== LOGOUT ===== */
   const handleLogout = async () => {
@@ -189,12 +184,7 @@ export default function ProfileUser({ profileUserId, authUser }: ProfileProps) {
 
       {/* PERFIL */}
       <div style={profileCard}>
-        <img
-          src={userData.photoURL}
-          
-          style={avatar}
-        />
-
+        <img src={userData.photoURL} style={avatar} />
         <h2>{userData.name}</h2>
         <p style={{ opacity: 0.85 }}>{userData.email}</p>
 
@@ -213,13 +203,32 @@ export default function ProfileUser({ profileUserId, authUser }: ProfileProps) {
 
       {/* PREGUNTAS */}
       <div>
-        <h2 style={sectionTitle}>PREGUNTAS PENDIENTES</h2>
 
-        {visibleQuestions.length === 0 && (
+        {/* 👉 TABS */}
+        {isOwner && (
+          <div style={tabs}>
+            <button
+              style={tab(activeTab === "pending")}
+              onClick={() => setActiveTab("pending")}
+            >
+              Pendientes ({pendingQuestions.length})
+            </button>
+
+            <button
+              style={tab(activeTab === "answered")}
+              onClick={() => setActiveTab("answered")}
+            >
+              Respondidas ({answeredQuestions.length})
+            </button>
+          </div>
+        )}
+
+        {/* LISTA */}
+        {(activeTab === "pending" ? pendingQuestions : answeredQuestions).length === 0 && (
           <p>No hay preguntas aún...</p>
         )}
-    
-        {visibleQuestions.map(q => (
+
+        {(activeTab === "pending" ? pendingQuestions : answeredQuestions).map(q => (
           <div key={q.id} style={card}>
             <p style={questionTitle}>{q.question}</p>
 
@@ -235,9 +244,14 @@ export default function ProfileUser({ profileUserId, authUser }: ProfileProps) {
                     ❤️ {q.likes}
                   </button>
                 </div>
+
+                {isOwner && (
+                  <button style={btnShare} onClick={() => setSharedQuestion(q)}>
+                    Compartir
+                  </button>
+                )}
               </>
-              
-            ) : ( 
+            ) : (
               <>
                 <div style={pendingBox}>⏳ Pendiente</div>
 
@@ -247,12 +261,6 @@ export default function ProfileUser({ profileUserId, authUser }: ProfileProps) {
                   </button>
                 )}
               </>
-            )}
-
-            {q.answered && isOwner && (
-              <button style={btnShare} onClick={() => setSharedQuestion(q)}>
-                Compartir
-              </button>
             )}
           </div>
         ))}
@@ -285,6 +293,7 @@ export default function ProfileUser({ profileUserId, authUser }: ProfileProps) {
             setAnsweredQuestions(a => [updated, ...a]);
             setSharedQuestion(updated);
             setSelectedQuestion(null);
+            setActiveTab("answered");
           }}
         />
       )}
@@ -311,7 +320,26 @@ export default function ProfileUser({ profileUserId, authUser }: ProfileProps) {
   );
 }
 
-/* ===== ESTILOS ===== */
+/* ===== ESTILOS NUEVOS ===== */
+
+const tabs: React.CSSProperties = {
+  display: "flex",
+  gap: 8,
+  marginBottom: 16
+};
+
+const tab = (active: boolean): React.CSSProperties => ({
+  flex: 1,
+  padding: "10px 12px",
+  borderRadius: 12,
+  border: "none",
+  cursor: "pointer",
+  fontWeight: 600,
+  background: active ? "#0d6efd" : "#eee",
+  color: active ? "#fff" : "#333"
+});
+
+/* ===== ESTILOS EXISTENTES (sin cambios) ===== */
 
 const layout = (mobile: boolean): React.CSSProperties => ({
   display: "grid",
@@ -395,7 +423,6 @@ const btnAnswer: React.CSSProperties = {
 
 const btnShare: React.CSSProperties = {
   marginTop: 8,
-  marginLeft: 6,
   background: "#0d6efd",
   color: "#fff",
   border: "none",
