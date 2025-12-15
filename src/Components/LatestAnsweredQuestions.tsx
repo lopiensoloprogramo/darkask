@@ -471,7 +471,8 @@ if (!document.getElementById("ani-css")) {
 const bannerRight: React.CSSProperties = {
   display: "flex",
   alignItems: "center",
-  gap: 16
+  gap: 16,
+  marginLeft:"5px"
 };
 
 const bannerLeft: React.CSSProperties = {
