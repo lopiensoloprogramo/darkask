@@ -40,11 +40,12 @@ interface UserData {
 /* ===== COMPONENT ===== */
 
 export default function ProfileUser({ profileUserId, authUser }: ProfileProps) {
-
   const [userData, setUserData] = useState<UserData | null>(null);
+
   const [pendingQuestions, setPendingQuestions] = useState<Question[]>([]);
   const [answeredQuestions, setAnsweredQuestions] = useState<Question[]>([]);
   const [topQuestions, setTopQuestions] = useState<Question[]>([]);
+
   const [loading, setLoading] = useState(true);
 
   const [questionModalOpen, setQuestionModalOpen] = useState(false);
@@ -52,9 +53,7 @@ export default function ProfileUser({ profileUserId, authUser }: ProfileProps) {
   const [sharedQuestion, setSharedQuestion] = useState<Question | null>(null);
 
   const [isMobile, setIsMobile] = useState(window.innerWidth < 900);
-
-  /* 👉 NUEVO: pestaña activa */
-  const [activeTab, setActiveTab] = useState<"pending" | "answered">("pending");
+  const [activeTab, setActiveTab] = useState<"pending" | "answered">("answered");
 
   const isOwner = authUser?.uid === profileUserId;
 
@@ -65,31 +64,23 @@ export default function ProfileUser({ profileUserId, authUser }: ProfileProps) {
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
-  /* ===== DATA LOAD ===== */
+  /* ===== LOAD DATA ===== */
   useEffect(() => {
+    const normalize = (d: any) => ({
+      ...d,
+      likedBy: d.likedBy || [],
+      likes: d.likes || 0,
+      score: d.score || 0
+    });
 
     const loadData = async () => {
       setLoading(true);
 
-      const normalize = (d: any) => ({
-        ...d,
-        likedBy: d.likedBy || [],
-        likes: d.likes || 0,
-        score: d.score || 0
-      });
+      /* --- USER --- */
+      const snapUser = await getDoc(doc(db, "users", profileUserId));
+      setUserData(snapUser.exists() ? (snapUser.data() as UserData) : null);
 
-      /* --- PERFIL --- */
-      const refUser = doc(db, "users", profileUserId);
-      const snapUser = await getDoc(refUser);
-
-      if (snapUser.exists()) {
-        const data = snapUser.data() as UserData;
-        setUserData(data);
-      } else {
-        setUserData(null);
-      }
-
-      /* --- RESPONDIDAS --- */
+      /* --- ANSWERED --- */
       const qAnswered = query(
         collection(db, "questions"),
         where("ownerId", "==", profileUserId),
@@ -102,7 +93,7 @@ export default function ProfileUser({ profileUserId, authUser }: ProfileProps) {
         snapAnswered.docs.map(d => ({ id: d.id, ...normalize(d.data()) })) as Question[]
       );
 
-      /* --- PENDIENTES --- */
+      /* --- PENDING (ONLY OWNER) --- */
       if (isOwner) {
         const qPending = query(
           collection(db, "questions"),
@@ -172,6 +163,13 @@ export default function ProfileUser({ profileUserId, authUser }: ProfileProps) {
     setTopQuestions(sync);
   };
 
+  /* ===== DATA TO SHOW ===== */
+  const questionsToShow = isOwner
+    ? activeTab === "pending"
+      ? pendingQuestions
+      : answeredQuestions
+    : answeredQuestions;
+
   /* ===== LOADING ===== */
   if (loading)
     return <p style={{ textAlign: "center", marginTop: 40 }}>Cargando perfil...</p>;
@@ -189,23 +187,19 @@ export default function ProfileUser({ profileUserId, authUser }: ProfileProps) {
         <h2>{userData.name}</h2>
         <p style={{ opacity: 0.85 }}>{userData.email}</p>
 
-        {isOwner && (
+        {isOwner ? (
           <button style={btnLogout} onClick={handleLogout}>
             Cerrar sesión
           </button>
-        )}
-
-        {!isOwner && (
+        ) : (
           <button style={btnAsk} onClick={() => setQuestionModalOpen(true)}>
             Hacer pregunta
           </button>
         )}
       </div>
 
-      {/* PREGUNTAS */}
+      {/* QUESTIONS */}
       <div>
-
-        {/* 👉 TABS */}
         {isOwner && (
           <div style={tabs}>
             <button
@@ -214,7 +208,6 @@ export default function ProfileUser({ profileUserId, authUser }: ProfileProps) {
             >
               Pendientes ({pendingQuestions.length})
             </button>
-
             <button
               style={tab(activeTab === "answered")}
               onClick={() => setActiveTab("answered")}
@@ -224,12 +217,9 @@ export default function ProfileUser({ profileUserId, authUser }: ProfileProps) {
           </div>
         )}
 
-        {/* LISTA */}
-        {(activeTab === "pending" ? pendingQuestions : answeredQuestions).length === 0 && (
-          <p>No hay preguntas aún...</p>
-        )}
+        {questionsToShow.length === 0 && <p>No hay preguntas aún...</p>}
 
-        {(activeTab === "pending" ? pendingQuestions : answeredQuestions).map(q => (
+        {questionsToShow.map(q => (
           <div key={q.id} style={card}>
             <p style={questionTitle}>{q.question}</p>
 
@@ -267,7 +257,7 @@ export default function ProfileUser({ profileUserId, authUser }: ProfileProps) {
         ))}
       </div>
 
-      {/* DESTACADAS */}
+      {/* TOP */}
       <div>
         <h2 style={sectionTitle}>🔥 Destacadas</h2>
 
@@ -284,7 +274,7 @@ export default function ProfileUser({ profileUserId, authUser }: ProfileProps) {
         ))}
       </div>
 
-      {/* MODALES */}
+      {/* MODALS */}
       {selectedQuestion && (
         <AnswerModal
           question={selectedQuestion}
@@ -301,7 +291,7 @@ export default function ProfileUser({ profileUserId, authUser }: ProfileProps) {
 
       {sharedQuestion && (
         <ShareModal
-          isOpen={true}
+          isOpen
           onClose={() => setSharedQuestion(null)}
           question={sharedQuestion}
         />
@@ -321,7 +311,7 @@ export default function ProfileUser({ profileUserId, authUser }: ProfileProps) {
   );
 }
 
-/* ===== ESTILOS NUEVOS ===== */
+/* ===== STYLES ===== */
 
 const tabs: React.CSSProperties = {
   display: "flex",
@@ -340,7 +330,7 @@ const tab = (active: boolean): React.CSSProperties => ({
   color: active ? "#fff" : "#333"
 });
 
-/* ===== ESTILOS EXISTENTES (sin cambios) ===== */
+/* --- RESTO DE ESTILOS (SIN CAMBIOS) --- */
 
 const layout = (mobile: boolean): React.CSSProperties => ({
   display: "grid",
