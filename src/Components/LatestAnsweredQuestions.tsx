@@ -127,10 +127,11 @@ function timeAgo(timestamp: any) {
 
 
         <div style={bannerSocial}>
-          <ProfileSearch />
+         
          <img src={fbIcon} style={bannerIcon} />
          <img src={inIcon} style={bannerIcon} />
         </div>
+         <ProfileSearch />
       </div>
 <div style={heroBox}>
   <h1 style={heroTitle}>
