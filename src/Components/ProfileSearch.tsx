@@ -121,7 +121,8 @@ const resultItem: React.CSSProperties = {
   gap: 12,
   padding: 12,
   cursor: "pointer",
-  alignItems: "center"
+  alignItems: "center",
+  color:"green"
 };
 
 const avatar: React.CSSProperties = {
