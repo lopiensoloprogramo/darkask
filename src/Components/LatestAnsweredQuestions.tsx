@@ -7,7 +7,7 @@ import type { Question } from "../types/QuestionsInterfaz";
 import fbIcon from "../assets/fbICONO.png"
 import inIcon from "../assets/inICONO.png";
 import logoBANNER from "../assets/bannernew.png"
-
+import ProfileSearch from "../Components/ProfileSearch";
 
 interface UserSummary {
   id: string;
@@ -127,7 +127,7 @@ function timeAgo(timestamp: any) {
 
 
         <div style={bannerSocial}>
-         
+          <ProfileSearch />
          <img src={fbIcon} style={bannerIcon} />
          <img src={inIcon} style={bannerIcon} />
         </div>
