@@ -112,26 +112,34 @@ function timeAgo(timestamp: any) {
       {/* HEADER CON BANNER */}
       <div style={bannerHeader(isMobile)}>
         
-      <img
-        src={logoBANNER}
-        style={{
-          width: isMobile ? "90%" : "380px",   // ✔ Ancho ideal
-          maxWidth: "100%",                    // ✔ Nunca se sale del contenedor
-          height: "auto",                      // ✔ Mantiene proporción real
-          objectFit: "contain",                // ✔ No se deforma
-          display: "block",
-          alignSelf: "flex-start",             // ✔ Pegado a la izquierda
-        }}
-      />
+        <div style={bannerLeft}>
+              <img
+                src={logoBANNER}
+                style={{
+                  width: isMobile ? "90%" : "380px",   // ✔ Ancho ideal
+                  maxWidth: "100%",                    // ✔ Nunca se sale del contenedor
+                  height: "auto",                      // ✔ Mantiene proporción real
+                  objectFit: "contain",                // ✔ No se deforma
+                  display: "block",
+                  alignSelf: "flex-start",             // ✔ Pegado a la izquierda
+                }}
+              />
+      </div>
+
+            <div style={bannerRight}>
+              <ProfileSearch />
+              
+              <div style={bannerSocial}>
+                
+              <img src={fbIcon} style={bannerIcon} />
+              <img src={inIcon} style={bannerIcon} />
+              </div>
+            </div>
 
 
 
-        <div style={bannerSocial}>
-         
-         <img src={fbIcon} style={bannerIcon} />
-         <img src={inIcon} style={bannerIcon} />
-        </div>
-         <ProfileSearch />
+
+        
       </div>
 <div style={heroBox}>
   <h1 style={heroTitle}>
@@ -460,3 +468,13 @@ if (!document.getElementById("ani-css")) {
   s.innerHTML = keyFrames;
   document.head.appendChild(s);
 }
+const bannerRight: React.CSSProperties = {
+  display: "flex",
+  alignItems: "center",
+  gap: 16
+};
+
+const bannerLeft: React.CSSProperties = {
+  display: "flex",
+  alignItems: "center"
+};
