@@ -122,7 +122,7 @@ const resultItem: React.CSSProperties = {
   padding: 12,
   cursor: "pointer",
   alignItems: "center",
-  color:"green"
+ 
 };
 
 const avatar: React.CSSProperties = {
@@ -134,7 +134,8 @@ const avatar: React.CSSProperties = {
 
 const name: React.CSSProperties = {
   fontSize: 13,
-  opacity: 0.7
+  opacity: 0.7,
+   color:"#0000"
 };
 
 const hint: React.CSSProperties = {
