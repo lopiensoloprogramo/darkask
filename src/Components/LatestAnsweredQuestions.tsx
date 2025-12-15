@@ -352,7 +352,7 @@ const bannerHeader = (mobile: boolean): React.CSSProperties => ({
   backgroundImage: "url('/images/banner-bg.jpg')",
   backgroundSize: "cover",
   backgroundPosition: "center",
-  color: "#fff",
+
   boxShadow: "0 8px 20px rgba(0,0,0,0.12)",
   textAlign: mobile ? "center" : "left",
 });

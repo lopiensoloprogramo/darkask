@@ -34,6 +34,7 @@ interface UserData {
   name: string;
   email: string;
   photoURL?: string;
+  username: string;
 }
 
 /* ===== COMPONENT ===== */
