@@ -1,8 +1,48 @@
-
 import { getAuth, signInWithPopup, GoogleAuthProvider } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
-import { doc, setDoc } from "firebase/firestore";
-import { db } from "../services/firebase"; // Ajusta tu ruta
+import {
+  doc,
+  setDoc,
+  getDoc,
+  collection,
+  query,
+  where,
+  getDocs,
+  limit
+} from "firebase/firestore";
+import { db } from "../services/firebase";
+
+/* ===== HELPERS ===== */
+
+const generateUsernameBase = (name: string): string => {
+  return name
+    .toLowerCase()
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .replace(/[^a-z0-9]/g, "");
+};
+
+const getUniqueUsername = async (base: string): Promise<string> => {
+  let username = base;
+  let suffix = 0;
+
+  while (true) {
+    const q = query(
+      collection(db, "users"),
+      where("usernameLower", "==", username),
+      limit(1)
+    );
+
+    const snap = await getDocs(q);
+
+    if (snap.empty) return username;
+
+    suffix++;
+    username = `${base}${suffix}`;
+  }
+};
+
+/* ===== COMPONENT ===== */
 
 export default function Login() {
   const auth = getAuth();
@@ -14,22 +54,35 @@ export default function Login() {
       const result = await signInWithPopup(auth, provider);
       const user = result.user;
 
+      const userRef = doc(db, "users", user.uid);
+      const userSnap = await getDoc(userRef);
+
+      let usernameToSave: string | null = null;
+
+      // 👉 Solo generar username si no existe
+      if (!userSnap.exists() || !userSnap.data().username) {
+        const baseUsername = generateUsernameBase(user.displayName || "user");
+        usernameToSave = await getUniqueUsername(baseUsername);
+      }
+
       await setDoc(
-        doc(db, "users", user.uid),
+        userRef,
         {
           name: user.displayName || "",
           email: user.email || "",
           photoURL: user.photoURL || "",
-          createdAt: Date.now(),
+          ...(usernameToSave && {
+            username: usernameToSave,
+            usernameLower: usernameToSave.toLowerCase()
+          }),
+          createdAt: Date.now()
         },
-        { merge: true } // <-- No borra campos existentes si el usuario ya estaba
+        { merge: true }
       );
 
-
-
-
-      // Redirigir al perfil del usuario logueado
+      // Redirigir al perfil
       navigate(`/profile/${user.uid}`);
+
     } catch (error) {
       console.error("Error iniciando sesión con Google:", error);
       alert("No se pudo iniciar sesión. Intenta de nuevo.");
@@ -48,7 +101,7 @@ export default function Login() {
           padding: "10px 20px",
           borderRadius: "6px",
           cursor: "pointer",
-          fontSize: "16px",
+          fontSize: "16px"
         }}
       >
         Iniciar sesión con Google
