@@ -355,7 +355,7 @@ const bannerHeader = (mobile: boolean): React.CSSProperties => ({
   alignItems: "left",
   padding: mobile ? "16px" : "24px 32px",
   borderRadius: 18,
-  margin: "16px auto",
+  margin: "8px auto",
   maxWidth: 1400,
   gap: mobile ? 12 : 0,
   backgroundImage: "url('/images/banner-bg.jpg')",
