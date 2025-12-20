@@ -101,7 +101,7 @@ const container: React.CSSProperties = {
 };
 
 const input: React.CSSProperties = {
-  width: "auto",
+  width: "100%",
   padding: "12px 14px",
   borderRadius: 14,
   border: "1px solid #ddd",
@@ -109,12 +109,21 @@ const input: React.CSSProperties = {
 };
 
 const resultsBox: React.CSSProperties = {
-  marginTop: 10,
+  position: "absolute",
+  top: "100%",        // justo debajo del input
+  left: 0,
+  right: 0,
+  marginTop: 8,
   background: "#fff",
   borderRadius: 14,
   boxShadow: "0 8px 20px rgba(0,0,0,.08)",
-  overflow: "hidden"
+  overflow: "hidden",
+  zIndex: 1000,
+
+  maxHeight: 260,     // 👈 evita que crezca infinito
+  overflowY: "auto"   // scroll interno
 };
+
 
 const resultItem: React.CSSProperties = {
   display: "flex",
