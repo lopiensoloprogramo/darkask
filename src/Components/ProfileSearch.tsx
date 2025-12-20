@@ -95,13 +95,13 @@ export default function ProfileSearch() {
 /* ===== ESTILOS ===== */
 
 const container: React.CSSProperties = {
-  maxWidth: 420,
-  margin: "40px auto",
+  maxWidth: 300,
+  margin: "auto",
   position: "relative"
 };
 
 const input: React.CSSProperties = {
-  width: "100%",
+  width: "auto",
   padding: "12px 14px",
   borderRadius: 14,
   border: "1px solid #ddd",
