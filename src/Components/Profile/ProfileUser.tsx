@@ -20,7 +20,7 @@ import AnswerModal from "../AnswerModal";
 import QuestionModal from "../QuestionModal";
 import QuestionForm from "../QuestionForm";
 import ShareModal from "../ShareModal";
-
+import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import type { Question } from "../../types/QuestionsInterfaz";
 
 /* ===== INTERFACES ===== */
@@ -34,6 +34,7 @@ interface UserData {
   name: string;
   email: string;
   photoURL?: string;
+  googlePhotoURL?:string;
   username: string;
 }
 
@@ -163,6 +164,37 @@ export default function ProfileUser({ profileUserId, authUser }: ProfileProps) {
     setTopQuestions(sync);
   };
 
+  /*Subir imagen de perfil */
+
+const handleAvatarChange = async (
+  e: React.ChangeEvent<HTMLInputElement>
+) => {
+  const file = e.target.files?.[0];
+  if (!file || !authUser) return;
+
+  const storage = getStorage();
+  const avatarRef = ref(storage, `avatars/${authUser.uid}`);
+
+  // Subir archivo
+  await uploadBytes(avatarRef, file);
+
+  // Obtener URL
+  const downloadURL = await getDownloadURL(avatarRef);
+
+  // Guardar en Firestore
+  const userRef = doc(db, "users", authUser.uid);
+  await updateDoc(userRef, {
+    photoURL: downloadURL
+  });
+
+  // Actualizar estado local (sin recargar)
+  setUserData(prev =>
+    prev ? { ...prev, photoURL: downloadURL } : prev
+  );
+};
+
+
+
   /* ===== DATA TO SHOW ===== */
   const questionsToShow = isOwner
     ? activeTab === "pending"
@@ -187,7 +219,29 @@ export default function ProfileUser({ profileUserId, authUser }: ProfileProps) {
         <h2>{userData.name}</h2>
         <p style={{ opacity: 0.85 }}>{userData.email}</p>
 
+
+          {isOwner && (
+          <>
+            <input
+              type="file"
+              accept="image/*"
+              id="avatarInput"
+              style={{ display: "none" }}
+              onChange={handleAvatarChange}
+            />
+            <button
+              style={{ marginTop: 10 }}
+              onClick={() => document.getElementById("avatarInput")?.click()}
+            >
+              Cambiar foto
+            </button>
+          </>
+        )}
+
+
+
         {isOwner ? (
+          
           <button style={btnLogout} onClick={handleLogout}>
             Cerrar sesión
           </button>
