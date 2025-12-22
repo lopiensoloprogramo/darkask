@@ -101,7 +101,7 @@ const container: React.CSSProperties = {
 };
 
 const input: React.CSSProperties = {
-  width: "100%",
+  width: "auto",
   padding: "12px 14px",
   borderRadius: 14,
   border: "1px solid #ddd",
