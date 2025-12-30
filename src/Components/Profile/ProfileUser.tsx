@@ -173,7 +173,10 @@ const handleAvatarChange = async (
   if (!file || !authUser) return;
 
   const storage = getStorage();
-  const avatarRef = ref(storage, `avatars/${authUser.uid}`);
+ const avatarRef = ref(
+  storage,
+  `avatars/${authUser.uid}_${Date.now()}`
+);
 
   // Subir archivo
   await uploadBytes(avatarRef, file);
@@ -215,7 +218,11 @@ const handleAvatarChange = async (
 
       {/* PERFIL */}
       <div style={profileCard}>
-        <img src={userData.photoURL} style={avatar} />
+        <img
+          src={userData.photoURL || "/default-avatar.png"}
+          alt="avatar"
+          style={avatar}
+        />
         <h2>{userData.name}</h2>
         <p style={{ opacity: 0.85 }}>{userData.email}</p>
 
