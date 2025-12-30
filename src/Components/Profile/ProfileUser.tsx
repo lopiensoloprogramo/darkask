@@ -173,9 +173,9 @@ const handleAvatarChange = async (
   if (!file || !authUser) return;
 
   const storage = getStorage();
- const avatarRef = ref(
+const avatarRef = ref(
   storage,
-  `avatars/${authUser.uid}_${Date.now()}`
+  `avatars/${authUser.uid}/avatar.jpg`
 );
 
   // Subir archivo
