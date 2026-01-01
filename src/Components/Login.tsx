@@ -83,10 +83,10 @@ export default function Login() {
       // Redirigir al perfil
       navigate(`/profile/${user.uid}`);
 
-    } catch (error: any) {
-  console.error("LOGIN ERROR:", error.code, error.message);
-  alert("Error creando tu perfil. Revisa permisos.");
-}
+    } catch (error) {
+      console.error("Error iniciando sesión con Google:", error);
+      alert("No se pudo iniciar sesión. Intenta de nuevo.");
+    }
   };
 
   return (
