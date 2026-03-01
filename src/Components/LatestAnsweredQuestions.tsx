@@ -187,7 +187,7 @@ function timeAgo(timestamp: any) {
         <div style={panel}>
           {!authUser && (
             <button style={{ ...loginBtnVIP, ...popIn }} onClick={handleLogin}>
-              🔥 Entrar al chisme con Google
+              🔥 Entrar al chisme con Googlexddd
             </button>
           )}
           <h3 style={avisoAnonimo}>🕵️Nadie sabrá que fuiste tú.</h3>
