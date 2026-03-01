@@ -557,7 +557,8 @@ const avatarWrapper: React.CSSProperties = {
   alignItems: "center",
   justifyContent: "center",
   border: "4px solid white",
-  background: "#f3f4f6"
+  background: "#f3f4f6",
+  margin: "0 auto"
 };
 
 const avatarLoader: React.CSSProperties = {
