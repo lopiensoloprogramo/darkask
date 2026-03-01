@@ -58,6 +58,9 @@ export default function ProfileUser({ profileUserId, authUser }: ProfileProps) {
 
   const isOwner = authUser?.uid === profileUserId;
 
+const [uploadingAvatar, setUploadingAvatar] = useState(false);
+
+
   /* ===== RESPONSIVE ===== */
   useEffect(() => {
     const handleResize = () => setIsMobile(window.innerWidth < 900);
@@ -172,28 +175,33 @@ const handleAvatarChange = async (
   const file = e.target.files?.[0];
   if (!file || !authUser) return;
 
-  const storage = getStorage();
-const avatarRef = ref(
-  storage,
-  `avatars/${authUser.uid}/avatar.jpg`
-);
+  try {
+    setUploadingAvatar(true);
 
-  // Subir archivo
-  await uploadBytes(avatarRef, file);
+    const storage = getStorage();
+    const avatarRef = ref(
+      storage,
+      `avatars/${authUser.uid}/avatar.jpg`
+    );
 
-  // Obtener URL
-  const downloadURL = await getDownloadURL(avatarRef);
+    await uploadBytes(avatarRef, file);
 
-  // Guardar en Firestore
-  const userRef = doc(db, "users", authUser.uid);
-  await updateDoc(userRef, {
-    photoURL: downloadURL
-  });
+    const downloadURL = await getDownloadURL(avatarRef);
 
-  // Actualizar estado local (sin recargar)
-  setUserData(prev =>
-    prev ? { ...prev, photoURL: downloadURL } : prev
-  );
+    const userRef = doc(db, "users", authUser.uid);
+    await updateDoc(userRef, {
+      photoURL: downloadURL
+    });
+
+    setUserData(prev =>
+      prev ? { ...prev, photoURL: downloadURL } : prev
+    );
+
+  } catch (err) {
+    console.error("Error subiendo avatar:", err);
+  } finally {
+    setUploadingAvatar(false);
+  }
 };
 
 
@@ -218,11 +226,17 @@ const avatarRef = ref(
 
       {/* PERFIL */}
       <div style={profileCard}>
-        <img
-          src={userData.photoURL || "/default-avatar.png"}
-          alt="avatar"
-          style={avatar}
-        />
+          <div style={avatarWrapper}>
+            {uploadingAvatar ? (
+              <div style={avatarLoader}></div>
+            ) : (
+              <img
+                src={userData.photoURL || "/default-avatar.png"}
+                alt="avatar"
+                style={avatar}
+              />
+            )}
+          </div>
         <h2>{userData.name}</h2>
         <p style={{ opacity: 0.85 }}>{userData.email}</p>
 
@@ -413,9 +427,8 @@ const profileCard: React.CSSProperties = {
 const avatar: React.CSSProperties = {
   width: 110,
   height: 110,
-  borderRadius: "50%",
-  objectFit: "cover",
-  border: "4px solid white"
+  objectFit: "cover"
+
 };
 
 const sectionTitle: React.CSSProperties = {
@@ -534,3 +547,24 @@ const heart = (active: boolean): React.CSSProperties => ({
   fontWeight: "bold",
   color: active ? "crimson" : "#aaa"
 });
+
+const avatarWrapper: React.CSSProperties = {
+  width: 110,
+  height: 110,
+  borderRadius: "50%",
+  overflow: "hidden",
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "center",
+  border: "4px solid white",
+  background: "#f3f4f6"
+};
+
+const avatarLoader: React.CSSProperties = {
+  width: 40,
+  height: 40,
+  border: "4px solid #ddd",
+  borderTopColor: "#ffffff",
+  borderRadius: "50%",
+  animation: "spin 1s linear infinite"
+};
