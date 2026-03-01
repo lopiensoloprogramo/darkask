@@ -70,15 +70,9 @@ export default function LatestAnsweredQuestions({ limit = 20 }: Props) {
     load();
   }, []);
 
-  const handleLogin = async () => {
-    try {
-      const auth = getAuth();
-      const result = await signInWithPopup(auth, new GoogleAuthProvider());
-      navigate(`/profile/${result.user.uid}`);
-    } catch (err) {
-      alert("No se pudo iniciar sesión.");
-    }
-  };
+const handleLogin = () => {
+  navigate("/login");
+};
 
   if (loading) {
     return (
@@ -150,9 +144,9 @@ function timeAgo(timestamp: any) {
     Confesiones, rumores y preguntas que nadie haría con su nombre.
   </p>
 
-  <button style={heroBtn} onClick={handleLogin}>
-    💀Ver lo que dicen de mí🔥
-  </button>
+<button onClick={handleLogin}>
+  💀Ver lo que dicen de mí🔥
+</button>
        <div style={morboBox}>
         <p>💬 "¿Por qué nadie te soporta?"</p>
         <p>💬 "Tu ex aún habla de ti."</p>
