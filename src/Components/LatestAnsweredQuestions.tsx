@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { collection, query, orderBy, limit as firestoreLimit, getDocs, where } from "firebase/firestore";
 import { db } from "../services/firebase";
 import { useNavigate } from "react-router-dom";
-import { getAuth, signInWithPopup, GoogleAuthProvider } from "firebase/auth";
+import { getAuth } from "firebase/auth";
 import type { Question } from "../types/QuestionsInterfaz";
 import fbIcon from "../assets/fbICONO.png"
 import inIcon from "../assets/inICONO.png";
@@ -144,7 +144,7 @@ function timeAgo(timestamp: any) {
     Confesiones, rumores y preguntas que nadie haría con su nombre.
   </p>
 
-<button onClick={handleLogin}>
+<button style={heroBtn} onClick={handleLogin}>
   💀Ver lo que dicen de mí🔥
 </button>
        <div style={morboBox}>
