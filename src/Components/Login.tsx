@@ -51,56 +51,59 @@ export default function Login() {
   const navigate = useNavigate();
   const provider = new GoogleAuthProvider();
 
-  const handleLogin = async () => {
-    try {
-      console.log("Iniciando login...");
+const handleLogin = async () => {
+  try {
+    console.log("Iniciando login...");
 
-      const result = await signInWithPopup(auth, provider);
-      const user = result.user;
+    const result = await signInWithPopup(auth, provider);
+    const user = result.user;
 
-      console.log("Usuario autenticado:", user.uid);
+    console.log("Usuario autenticado:", user.uid);
 
-      const userRef = doc(db, "users", user.uid);
-      const userSnap = await getDoc(userRef);
+    const userRef = doc(db, "users", user.uid);
+    const userSnap = await getDoc(userRef);
 
-      let usernameToSave: string | null = null;
+    let usernameToSave: string | null = null;
 
-      // 👉 Crear username solo si no existe documento o no tiene username
-      if (!userSnap.exists() || !userSnap.data()?.username) {
-        console.log("Generando username...");
-
-        const baseUsername = generateUsernameBase(
-          user.displayName || "user"
-        );
-
-        usernameToSave = await getUniqueUsername(baseUsername);
-
-        console.log("Username generado:", usernameToSave);
-      }
-
-      await setDoc(
-        userRef,
-        {
-          name: user.displayName || "",
-          email: user.email || "",
-          photoURL: user.photoURL || "",
-          ...(usernameToSave && {
-            username: usernameToSave,
-            usernameLower: usernameToSave
-          }),
-          createdAt: Date.now()
-        },
-        { merge: true }
+    if (!userSnap.exists()) {
+      const baseUsername = generateUsernameBase(
+        user.displayName || "user"
       );
 
-      console.log("Documento guardado correctamente en Firestore");
+      usernameToSave = await getUniqueUsername(baseUsername);
 
-      navigate(`/profile/${user.uid}`);
-    } catch (error) {
-      console.error("ERROR INICIANDO SESIÓN:", error);
-      alert("No se pudo iniciar sesión. Revisa la consola.");
+      await setDoc(userRef, {
+        name: user.displayName || "",
+        email: user.email || "",
+        photoURL: user.photoURL || "",
+        username: usernameToSave,
+        usernameLower: usernameToSave,
+        createdAt: Date.now(),
+        score: 0
+      });
+
+      console.log("Usuario creado");
+    } else {
+      console.log("Usuario ya existía");
     }
-  };
+
+    // 🔥 VERIFICACIÓN REAL
+    const verify = await getDoc(userRef);
+
+    if (!verify.exists()) {
+      alert("Error: el usuario no se creó en Firestore.");
+      return;
+    }
+
+    console.log("Documento confirmado en Firestore");
+
+    navigate(`/profile/${user.uid}`);
+
+  } catch (error) {
+    console.error("ERROR INICIANDO SESIÓN:", error);
+    alert("No se pudo iniciar sesión. Revisa la consola.");
+  }
+};
 
   return (
     <div style={{ padding: 20, textAlign: "center" }}>
