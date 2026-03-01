@@ -15,11 +15,13 @@ import { db } from "../services/firebase";
 /* ===== HELPERS ===== */
 
 const generateUsernameBase = (name: string): string => {
-  return name
+  const base = name
     .toLowerCase()
     .normalize("NFD")
     .replace(/[\u0300-\u036f]/g, "")
     .replace(/[^a-z0-9]/g, "");
+
+  return base || "user";
 };
 
 const getUniqueUsername = async (base: string): Promise<string> => {
@@ -46,23 +48,34 @@ const getUniqueUsername = async (base: string): Promise<string> => {
 
 export default function Login() {
   const auth = getAuth();
-  const provider = new GoogleAuthProvider();
   const navigate = useNavigate();
+  const provider = new GoogleAuthProvider();
 
   const handleLogin = async () => {
     try {
+      console.log("Iniciando login...");
+
       const result = await signInWithPopup(auth, provider);
       const user = result.user;
+
+      console.log("Usuario autenticado:", user.uid);
 
       const userRef = doc(db, "users", user.uid);
       const userSnap = await getDoc(userRef);
 
       let usernameToSave: string | null = null;
 
-      // 👉 Solo generar username si no existe
-      if (!userSnap.exists() || !userSnap.data().username) {
-        const baseUsername = generateUsernameBase(user.displayName || "user");
+      // 👉 Crear username solo si no existe documento o no tiene username
+      if (!userSnap.exists() || !userSnap.data()?.username) {
+        console.log("Generando username...");
+
+        const baseUsername = generateUsernameBase(
+          user.displayName || "user"
+        );
+
         usernameToSave = await getUniqueUsername(baseUsername);
+
+        console.log("Username generado:", usernameToSave);
       }
 
       await setDoc(
@@ -73,19 +86,19 @@ export default function Login() {
           photoURL: user.photoURL || "",
           ...(usernameToSave && {
             username: usernameToSave,
-            usernameLower: usernameToSave.toLowerCase()
+            usernameLower: usernameToSave
           }),
           createdAt: Date.now()
         },
         { merge: true }
       );
 
-      // Redirigir al perfil
-      navigate(`/profile/${user.uid}`);
+      console.log("Documento guardado correctamente en Firestore");
 
+      navigate(`/profile/${user.uid}`);
     } catch (error) {
-      console.error("Error iniciando sesión con Google:", error);
-      alert("No se pudo iniciar sesión. Intenta de nuevo.");
+      console.error("ERROR INICIANDO SESIÓN:", error);
+      alert("No se pudo iniciar sesión. Revisa la consola.");
     }
   };
 
