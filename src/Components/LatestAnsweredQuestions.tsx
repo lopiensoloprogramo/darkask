@@ -8,6 +8,7 @@ import fbIcon from "../assets/fbICONO.png"
 import inIcon from "../assets/inICONO.png";
 import logoBANNER from "../assets/bannernew.png"
 import ProfileSearch from "../Components/ProfileSearch";
+import LoginModal from "./LoginModal";
 
 interface UserSummary {
   id: string;
@@ -28,6 +29,8 @@ export default function LatestAnsweredQuestions({ limit = 20 }: Props) {
 
   const navigate = useNavigate();
   const [isMobile, setIsMobile] = useState(window.innerWidth < 900);
+  const [showLogin, setShowLogin] = useState(false);
+
 
   useEffect(() => {
     const resize = () => setIsMobile(window.innerWidth < 900);
@@ -144,8 +147,8 @@ function timeAgo(timestamp: any) {
     Confesiones, rumores y preguntas que nadie haría con su nombre.
   </p>
 
-<button style={heroBtn} onClick={handleLogin}>
-  💀Ver lo que dicen de mí🔥
+<button style={heroBtn} onClick={() => setShowLogin(true)}>
+  💀Ver lo que dicen de mí(Ingresar)🔥
 </button>
        <div style={morboBox}>
         <p>💬 "¿Por qué nadie te soporta?"</p>
@@ -202,8 +205,10 @@ function timeAgo(timestamp: any) {
           ))}
         </div>
       </div>
+      {showLogin && <LoginModal onClose={() => setShowLogin(false)} />}
     </>
-  );
+  
+);
 }
 
 /* ======= ESTILOS ======= */
