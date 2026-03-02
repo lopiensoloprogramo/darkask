@@ -1,14 +1,23 @@
 // ProfileUserWrapper.tsx
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import ProfileUser from "../Components/Profile/ProfileUser";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
-import { collection, query, where, getDocs, limit } from "firebase/firestore";
+import {
+  collection,
+  query,
+  where,
+  getDocs,
+  limit,
+  doc,
+  getDoc
+} from "firebase/firestore";
 import { db } from "../services/firebase";
 import type { User } from "firebase/auth";
 
 export default function ProfileUserWrapper() {
   const { id, username } = useParams<{ id?: string; username?: string }>();
+  const navigate = useNavigate();
 
   const [authUser, setAuthUser] = useState<User | null>(null);
   const [profileUserId, setProfileUserId] = useState<string | null>(null);
@@ -23,19 +32,30 @@ export default function ProfileUserWrapper() {
     return () => unsubscribe();
   }, []);
 
-  /* ===== RESOLVE PROFILE ID ===== */
+  /* ===== RESOLVE PROFILE ===== */
   useEffect(() => {
     const resolveProfile = async () => {
       setLoading(true);
 
-      // 👉 Caso 1: viene por /profile/:id
+      // 🔁 CASO 1: viene por UID → redirigir a username
       if (id) {
-        setProfileUserId(id);
+        const snap = await getDoc(doc(db, "users", id));
+
+        if (snap.exists()) {
+          const data = snap.data();
+          const userUsername = data.username;
+
+          if (userUsername) {
+            navigate(`/u/${userUsername}`, { replace: true });
+            return;
+          }
+        }
+
         setLoading(false);
         return;
       }
 
-      // 👉 Caso 2: viene por /u/:username
+      // 🔎 CASO 2: viene por username → buscar UID
       if (username) {
         const q = query(
           collection(db, "users"),
@@ -59,9 +79,8 @@ export default function ProfileUserWrapper() {
     };
 
     resolveProfile();
-  }, [id, username]);
+  }, [id, username, navigate]);
 
-  /* ===== LOADING ===== */
   if (loading) {
     return (
       <p style={{ textAlign: "center", marginTop: 40 }}>
