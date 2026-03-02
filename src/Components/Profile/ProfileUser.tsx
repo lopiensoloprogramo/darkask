@@ -92,6 +92,7 @@ const [uploadingAvatar, setUploadingAvatar] = useState(false);
         orderBy("timestamp", "desc")
       );
 
+  
       const snapAnswered = await getDocs(qAnswered);
       setAnsweredQuestions(
         snapAnswered.docs.map(d => ({ id: d.id, ...normalize(d.data()) })) as Question[]
@@ -237,7 +238,7 @@ const handleAvatarChange = async (
               />
             )}
           </div>
-        <h2>{userData.name}</h2>
+        <h1>{userData.name}</h1>
         <p style={{ opacity: 0.85 }}>{userData.email}</p>
 
 
@@ -270,7 +271,22 @@ const handleAvatarChange = async (
           <button style={btnAsk} onClick={() => setQuestionModalOpen(true)}>
             Hacer pregunta
           </button>
+          
         )}
+  
+        <div>
+          <button style={btnCompartirperfil} 
+              onClick={() => {
+                  if (!userData?.username) return;
+
+                  const link = `${window.location.origin}/u/${userData.username}`;
+                  navigator.clipboard.writeText(link);
+                  alert("Enlace copiado 🔗");
+              }}
+          >
+            Copiar mi enlace 🔗
+          </button>
+        </div>
       </div>
 
       {/* QUESTIONS */}
@@ -475,6 +491,18 @@ const btnAsk: React.CSSProperties = {
   fontWeight: 600,
   cursor: "pointer"
 };
+
+const btnCompartirperfil: React.CSSProperties= {
+  marginTop: 14,
+  background: "#3868ec",
+  border: "none",
+  padding: "10px 14px",
+  borderRadius: 12,
+  fontWeight: 600,
+  cursor: "pointer",
+  color: "#fff",
+ 
+}
 
 const btnAnswer: React.CSSProperties = {
   marginTop: 8,

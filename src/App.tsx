@@ -25,6 +25,7 @@ export default function App() {
     <Routes>
       {/* Perfil del usuario */}
       <Route path="/profile/:id" element={<ProfileUserWrapper />} />
+      <Route path="/u/:username" element={<ProfileUserWrapper />} />
 
       {/* Página pública */}
       <Route
