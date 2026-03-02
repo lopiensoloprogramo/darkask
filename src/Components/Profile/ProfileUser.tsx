@@ -11,7 +11,8 @@ import {
   limit,
   arrayUnion,
   arrayRemove,
-  increment
+  increment,
+  onSnapshot
 } from "firebase/firestore";
 import { getAuth, signOut } from "firebase/auth";
 import { db } from "../../services/firebase";
@@ -58,8 +59,9 @@ export default function ProfileUser({ profileUserId, authUser }: ProfileProps) {
 
   const isOwner = authUser?.uid === profileUserId;
 
-const [uploadingAvatar, setUploadingAvatar] = useState(false);
-
+  const [uploadingAvatar, setUploadingAvatar] = useState(false);
+  const [notifications, setNotifications] = useState<any[]>([]);
+  const [showNotifications, setShowNotifications] = useState(false);
 
   /* ===== RESPONSIVE ===== */
   useEffect(() => {
@@ -134,6 +136,30 @@ const [uploadingAvatar, setUploadingAvatar] = useState(false);
 
     loadData();
   }, [profileUserId, isOwner]);
+
+
+useEffect(() => {
+  if (!authUser) return;
+
+  const q = query(
+    collection(db, "notifications"),
+    where("ownerId", "==", authUser.uid),
+    orderBy("createdAt", "desc")
+  );
+
+  const unsubscribe = onSnapshot(q, (snapshot) => {
+    const data = snapshot.docs.map(doc => ({
+      id: doc.id,
+      ...doc.data()
+    }));
+    setNotifications(data);
+  });
+
+  return () => unsubscribe();
+}, [authUser]);
+
+
+  
 
   /* ===== LOGOUT ===== */
   const handleLogout = async () => {
@@ -287,6 +313,36 @@ const handleAvatarChange = async (
             Copiar mi enlace 🔗
           </button>
         </div>
+            <div style={{ position: "relative", marginBottom: 10 }}>
+              <button
+                onClick={() => setShowNotifications(true)}
+                style={{
+                  background: "white",
+                  border: "none",
+                  borderRadius: "50%",
+                  width: 45,
+                  height: 45,
+                  cursor: "pointer",
+                  fontSize: 18
+                }}
+              >
+                🔔
+              </button>
+
+              {notifications.some(n => !n.read) && (
+                <span
+                  style={{
+                    position: "absolute",
+                    top: 5,
+                    right: 5,
+                    width: 12,
+                    height: 12,
+                    background: "red",
+                    borderRadius: "50%"
+                  }}
+                />
+              )}
+            </div>
       </div>
 
       {/* QUESTIONS */}
@@ -397,6 +453,57 @@ const handleAvatarChange = async (
           onClose={() => setQuestionModalOpen(false)}
         />
       </QuestionModal>
+
+                {showNotifications && (
+            <div style={notifOverlay}>
+              <div style={notifModal}>
+                <h3>Notificaciones</h3>
+
+                {notifications.length === 0 && <p>No tienes notificaciones</p>}
+
+                {notifications.map(n => (
+                  <div
+                    key={n.id}
+                    style={{
+                      padding: 10,
+                      background: n.read ? "#f3f3f3" : "#e7f1ff",
+                      borderRadius: 8,
+                      marginBottom: 8
+                    }}
+                  >
+                    📩 Nueva pregunta recibida
+                  </div>
+                ))}
+
+                <button
+                  onClick={async () => {
+                    // marcar todas como leídas
+                    for (const n of notifications) {
+                      if (!n.read) {
+                        await updateDoc(doc(db, "notifications", n.id), {
+                          read: true
+                        });
+                      }
+                    }
+                    setShowNotifications(false);
+                  }}
+                  style={{
+                    marginTop: 10,
+                    padding: "8px 12px",
+                    borderRadius: 8,
+                    border: "none",
+                    background: "#0d6efd",
+                    color: "white",
+                    cursor: "pointer"
+                  }}
+                >
+                  Cerrar
+                </button>
+              </div>
+            </div>
+          )}
+
+
 
     </div>
   );
@@ -596,4 +703,25 @@ const avatarLoader: React.CSSProperties = {
   borderTopColor: "#ffffff",
   borderRadius: "50%",
   animation: "spin 1s linear infinite"
+};
+
+
+const notifOverlay: React.CSSProperties = {
+  position: "fixed",
+  inset: 0,
+  background: "rgba(0,0,0,0.6)",
+  display: "flex",
+  justifyContent: "center",
+  alignItems: "center",
+  zIndex: 999
+};
+
+const notifModal: React.CSSProperties = {
+  width: "90%",
+  maxWidth: 400,
+  background: "white",
+  padding: 20,
+  borderRadius: 12,
+  maxHeight: "70vh",
+  overflowY: "auto"
 };

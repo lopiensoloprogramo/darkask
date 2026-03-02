@@ -22,27 +22,39 @@ export default function Ask({ recipientUid, onClose }: QuestionFormProps) {
 
     setLoading(true);
 
-    try {
-      await addDoc(collection(db, "questions"), {
-        question,
-        answer: "",
-        answered: false,
-        timestamp: serverTimestamp(),
-        ownerId: recipientUid,
-        creatorId: auth.currentUser?.uid || null,
-      });
+        try {
+        // 1️⃣ Crear la pregunta
+        const questionRef = await addDoc(collection(db, "questions"), {
+          question,
+          answer: "",
+          answered: false,
+          timestamp: serverTimestamp(),
+          ownerId: recipientUid,
+          creatorId: auth.currentUser?.uid || null,
+        });
 
-      setSent(true); // mostrar animación
+        // 2️⃣ Crear notificación SOLO si no te preguntas a ti mismo
+        if (auth.currentUser?.uid !== recipientUid) {
+          await addDoc(collection(db, "notifications"), {
+            ownerId: recipientUid,
+            fromUserId: auth.currentUser?.uid || null,
+            questionId: questionRef.id,
+            type: "new_question",
+            read: false,
+            createdAt: serverTimestamp(),
+          });
+        }
 
-      // cerrar el modal después de 1.5s
-      setTimeout(() => {
-        setSent(false);
-        onClose();
-      }, 1500);
+        setSent(true);
 
-    } catch (error) {
-      console.error("Error creando pregunta:", error);
-    } finally {
+        setTimeout(() => {
+          setSent(false);
+          onClose();
+        }, 1500);
+
+      } catch (error) {
+        console.error("Error creando pregunta:", error);
+      } finally {
       setLoading(false);
     }
   };
