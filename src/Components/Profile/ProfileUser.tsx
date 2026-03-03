@@ -63,6 +63,9 @@ export default function ProfileUser({ profileUserId, authUser }: ProfileProps) {
   const [notifications, setNotifications] = useState<any[]>([]);
   const [showNotifications, setShowNotifications] = useState(false);
   const unreadCount = notifications.filter(n => !n.read).length;
+  const [highlightedId, setHighlightedId] = useState<string | null>(null);
+
+
 
   /* ===== RESPONSIVE ===== */
   useEffect(() => {
@@ -403,7 +406,21 @@ const handleAvatarChange = async (
         {questionsToShow.length === 0 && <p>No hay preguntas aún...</p>}
 
         {questionsToShow.map(q => (
-          <div key={q.id} style={card}>
+                <div
+                  id={q.id}
+                  key={q.id}
+                style={{
+                  ...card,
+                  border:
+                    highlightedId === q.id
+                      ? "2px solid #ff4757"
+                      : "none",
+                  boxShadow:
+                    highlightedId === q.id
+                      ? "0 0 15px rgba(255,71,87,0.5)"
+                      : card.boxShadow
+                   }}
+                >
             <p style={questionTitle}>{q.question}</p>
 
             {q.answered ? (
@@ -497,19 +514,40 @@ const handleAvatarChange = async (
 
                 {notifications.length === 0 && <p>No tienes notificaciones</p>}
 
-                {notifications.map(n => (
-                  <div
-                    key={n.id}
-                    style={{
-                      padding: 10,
-                      background: n.read ? "#f3f3f3" : "#e7f1ff",
-                      borderRadius: 8,
-                      marginBottom: 8
-                    }}
-                  >
-                    📩 Nueva pregunta recibida
-                  </div>
-                ))}
+                  {notifications.map(n => (
+                    <div
+                      key={n.id}
+                      onClick={() => {
+                        setShowNotifications(false);
+
+                        // Cambiar a pestaña correcta
+                        setActiveTab("pending");
+
+                        // Resaltar
+                        setHighlightedId(n.questionId);
+
+                        setTimeout(() => {
+                          const element = document.getElementById(n.questionId);
+                          element?.scrollIntoView({ behavior: "smooth", block: "center" });
+                        }, 100);
+
+
+                        // Quitar highlight después de 4 segundos
+                        setTimeout(() => {
+                          setHighlightedId(null);
+                        }, 4000);
+                      }}
+                      style={{
+                        padding: 10,
+                        background: n.read ? "#f3f3f3" : "#e7f1ff",
+                        borderRadius: 8,
+                        marginBottom: 8,
+                        cursor: "pointer"
+                      }}
+                    >
+                      📩 Nueva pregunta recibida
+                    </div>
+                  ))}
 
                 <button
                   onClick={async () => {
