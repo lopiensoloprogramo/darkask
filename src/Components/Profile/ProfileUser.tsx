@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   updateDoc,
   collection,
@@ -62,6 +62,7 @@ export default function ProfileUser({ profileUserId, authUser }: ProfileProps) {
   const [uploadingAvatar, setUploadingAvatar] = useState(false);
   const [notifications, setNotifications] = useState<any[]>([]);
   const [showNotifications, setShowNotifications] = useState(false);
+  const unreadCount = notifications.filter(n => !n.read).length;
 
   /* ===== RESPONSIVE ===== */
   useEffect(() => {
@@ -264,7 +265,69 @@ const handleAvatarChange = async (
               />
             )}
           </div>
-        <h1>{userData.name}</h1>
+   
+            <div style={headerRow}>
+  <h1 style={{ margin: 0 }}>{userData.name}</h1>
+
+  <div style={{ position: "relative" }}>
+    <button
+      onClick={async () => {
+        setShowNotifications(true);
+
+        for (const n of notifications) {
+          if (!n.read) {
+            await updateDoc(doc(db, "notifications", n.id), {
+              read: true
+            });
+          }
+        }
+      }}
+      style={{
+        width: 42,
+        height: 42,
+        borderRadius: "50%",
+        border: "none",
+        cursor: "pointer",
+        fontSize: 18,
+        transition: "0.3s ease",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        background: unreadCount > 0 ? "#ff4757" : "#e0e0e0",
+        color: unreadCount > 0 ? "white" : "#555",
+        boxShadow: unreadCount > 0
+          ? "0 0 12px rgba(255,71,87,0.7)"
+          : "none"
+      }}
+    >
+      🔔
+    </button>
+
+    {unreadCount > 0 && (
+      <span
+        style={{
+          position: "absolute",
+          top: -6,
+          right: -6,
+          background: "black",
+          color: "white",
+          fontSize: 11,
+          fontWeight: "bold",
+          borderRadius: "50%",
+          width: 18,
+          height: 18,
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center"
+        }}
+      >
+        {unreadCount}
+      </span>
+    )}
+  </div>
+</div>
+
+
         <p style={{ opacity: 0.85 }}>{userData.email}</p>
 
 
@@ -724,4 +787,13 @@ const notifModal: React.CSSProperties = {
   borderRadius: 12,
   maxHeight: "70vh",
   overflowY: "auto"
+  
+};
+
+const headerRow: React.CSSProperties = {
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "center",
+  gap: 12,
+  marginTop: 12
 };
