@@ -376,36 +376,7 @@ const handleAvatarChange = async (
             Copiar mi enlace 🔗
           </button>
         </div>
-            <div style={{ position: "relative", marginBottom: 10 }}>
-              <button
-                onClick={() => setShowNotifications(true)}
-                style={{
-                  background: "white",
-                  border: "none",
-                  borderRadius: "50%",
-                  width: 45,
-                  height: 45,
-                  cursor: "pointer",
-                  fontSize: 18
-                }}
-              >
-                🔔
-              </button>
-
-              {notifications.some(n => !n.read) && (
-                <span
-                  style={{
-                    position: "absolute",
-                    top: 5,
-                    right: 5,
-                    width: 12,
-                    height: 12,
-                    background: "red",
-                    borderRadius: "50%"
-                  }}
-                />
-              )}
-            </div>
+           
       </div>
 
       {/* QUESTIONS */}
