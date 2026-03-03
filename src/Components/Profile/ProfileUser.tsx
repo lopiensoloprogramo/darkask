@@ -268,63 +268,65 @@ const handleAvatarChange = async (
    
             <div style={headerRow}>
   <h1 style={{ margin: 0 }}>{userData.name}</h1>
+        {isOwner && (
+          <div style={{ position: "relative" }}>
+         <button
+           onClick={async () => {
+            setShowNotifications(true);
 
-  <div style={{ position: "relative" }}>
-    <button
-      onClick={async () => {
-        setShowNotifications(true);
+            for (const n of notifications) {
+              if (!n.read) {
+                await updateDoc(doc(db, "notifications", n.id), {
+                  read: true
+                });
+              }
+            }
+          }}
+          style={{
+            width: 42,
+            height: 42,
+            borderRadius: "50%",
+            border: "none",
+            cursor: "pointer",
+            fontSize: 18,
+            transition: "0.3s ease",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            background: unreadCount > 0 ? "#ff4757" : "#e0e0e0",
+            color: unreadCount > 0 ? "white" : "#555",
+            boxShadow: unreadCount > 0
+              ? "0 0 12px rgba(255,71,87,0.7)"
+              : "none"
+          }}
+         >
+          🔔
+          </button>
 
-        for (const n of notifications) {
-          if (!n.read) {
-            await updateDoc(doc(db, "notifications", n.id), {
-              read: true
-            });
-          }
-        }
-      }}
-      style={{
-        width: 42,
-        height: 42,
-        borderRadius: "50%",
-        border: "none",
-        cursor: "pointer",
-        fontSize: 18,
-        transition: "0.3s ease",
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-        background: unreadCount > 0 ? "#ff4757" : "#e0e0e0",
-        color: unreadCount > 0 ? "white" : "#555",
-        boxShadow: unreadCount > 0
-          ? "0 0 12px rgba(255,71,87,0.7)"
-          : "none"
-      }}
-    >
-      🔔
-    </button>
-
-    {unreadCount > 0 && (
-      <span
-        style={{
-          position: "absolute",
-          top: -6,
-          right: -6,
-          background: "black",
-          color: "white",
-          fontSize: 11,
-          fontWeight: "bold",
-          borderRadius: "50%",
-          width: 18,
-          height: 18,
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center"
-        }}
-      >
-        {unreadCount}
-      </span>
-    )}
-  </div>
+          {unreadCount > 0 && (
+          <span
+            style={{
+              position: "absolute",
+              top: -6,
+              right: -6,
+              background: "black",
+              color: "white",
+              fontSize: 11,
+              fontWeight: "bold",
+              borderRadius: "50%",
+              width: 18,
+              height: 18,
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center"
+            }}
+          >
+            {unreadCount}
+           </span>
+          )}
+        
+          </div>
+        )}
 </div>
 
 
