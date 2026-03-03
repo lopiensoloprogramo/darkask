@@ -336,37 +336,52 @@ const handleAvatarChange = async (
         <p style={{ opacity: 0.85 }}>{userData.email}</p>
 
 
-          {isOwner && (
-          <>
-            <input
-              type="file"
-              accept="image/*"
-              id="avatarInput"
-              style={{ display: "none" }}
-              onChange={handleAvatarChange}
-            />
-            <button
-              style={{ marginTop: 10 }}
-              onClick={() => document.getElementById("avatarInput")?.click()}
-            >
-              Cambiar foto
-            </button>
-          </>
-        )}
+   
+                  {isOwner && (
+            <div style={ownerActions}>
+
+              <input
+                type="file"
+                accept="image/*"
+                id="avatarInput"
+                style={{ display: "none" }}
+                onChange={handleAvatarChange}
+              />
+
+              {/* Cambiar foto */}
+              <button
+                style={btnChangePhoto}
+                onClick={() => document.getElementById("avatarInput")?.click()}
+              >
+                📷 Cambiar foto
+              </button>
+
+              {/* Copiar enlace */}
+              <button
+                style={btnCopyLink}
+                onClick={() => {
+                  if (!userData?.username) return;
+                  const link = `${window.location.origin}/u/${userData.username}`;
+                  navigator.clipboard.writeText(link);
+                  alert("Enlace copiado 🔗");
+                }}
+              >
+                🔗 Copiar mi enlace
+              </button>
+
+              {/* Cerrar sesión */}
+              <button
+                style={btnLogoutModern}
+                onClick={handleLogout}
+              >
+                🚪 Cerrar sesión
+              </button>
+
+            </div>
+          )}
 
 
 
-        {isOwner ? (
-          
-          <button style={btnLogout} onClick={handleLogout}>
-            Cerrar sesión
-          </button>
-        ) : (
-          <button style={btnAsk} onClick={() => setQuestionModalOpen(true)}>
-            Hacer pregunta
-          </button>
-          
-        )}
   
         <div>
           <button style={btnCompartirperfil} 
@@ -663,15 +678,7 @@ const pendingBox: React.CSSProperties = {
   color: "#664d03"
 };
 
-const btnAsk: React.CSSProperties = {
-  marginTop: 14,
-  background: "#fff",
-  border: "none",
-  padding: "10px 14px",
-  borderRadius: 12,
-  fontWeight: 600,
-  cursor: "pointer"
-};
+
 
 const btnCompartirperfil: React.CSSProperties= {
   marginTop: 14,
@@ -705,16 +712,7 @@ const btnShare: React.CSSProperties = {
   cursor: "pointer"
 };
 
-const btnLogout: React.CSSProperties = {
-  marginTop: 14,
-  background: "#dc3545",
-  color: "#fff",
-  border: "none",
-  padding: "10px 14px",
-  borderRadius: 12,
-  cursor: "pointer",
-  fontWeight: 600
-};
+
 
 const rankCard: React.CSSProperties = {
   display: "flex",
@@ -807,4 +805,47 @@ const headerRow: React.CSSProperties = {
   justifyContent: "center",
   gap: 12,
   marginTop: 12
+};
+
+const ownerActions: React.CSSProperties = {
+  marginTop: 18,
+  display: "flex",
+  flexDirection: "column",
+  gap: 12
+};
+
+const btnChangePhoto: React.CSSProperties = {
+  background: "rgba(255,255,255,0.15)",
+  border: "2px solid rgba(255,255,255,0.5)",
+  padding: "10px 14px",
+  borderRadius: 14,
+  fontWeight: 600,
+  cursor: "pointer",
+  color: "#fff",
+  backdropFilter: "blur(6px)",
+  transition: "all 0.2s ease"
+};
+
+const btnCopyLink: React.CSSProperties = {
+  background: "#ffffff",
+  color: "#5b3df5",
+  padding: "12px 14px",
+  borderRadius: 14,
+  border: "none",
+  fontWeight: 700,
+  cursor: "pointer",
+  boxShadow: "0 6px 18px rgba(0,0,0,0.15)",
+  transition: "all 0.2s ease"
+};
+
+const btnLogoutModern: React.CSSProperties = {
+  background: "linear-gradient(135deg,#ff4d4d,#d90429)",
+  color: "#fff",
+  border: "none",
+  padding: "10px 14px",
+  borderRadius: 14,
+  fontWeight: 600,
+  cursor: "pointer",
+  boxShadow: "0 6px 16px rgba(0,0,0,0.2)",
+  transition: "all 0.2s ease"
 };
