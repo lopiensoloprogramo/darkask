@@ -337,7 +337,7 @@ const handleAvatarChange = async (
 
 
    
-                  {isOwner && (
+                  {isOwner ? (
             <div style={ownerActions}>
 
               <input
@@ -378,7 +378,15 @@ const handleAvatarChange = async (
               </button>
 
             </div>
+            ) : (
+            <button
+              style={btnAskModern}
+              onClick={() => setQuestionModalOpen(true)}
+            >
+              💬 Hacer pregunta
+            </button>
           )}
+          
 
 
 
@@ -822,5 +830,17 @@ const btnLogoutModern: React.CSSProperties = {
   fontWeight: 600,
   cursor: "pointer",
   boxShadow: "0 6px 16px rgba(0,0,0,0.2)",
+  transition: "all 0.2s ease"
+};
+const btnAskModern: React.CSSProperties = {
+  marginTop: 18,
+  background: "#ffffff",
+  color: "#5b3df5",
+  padding: "12px 16px",
+  borderRadius: 14,
+  border: "none",
+  fontWeight: 700,
+  cursor: "pointer",
+  boxShadow: "0 6px 18px rgba(0,0,0,0.15)",
   transition: "all 0.2s ease"
 };
