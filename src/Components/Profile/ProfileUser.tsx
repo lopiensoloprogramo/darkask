@@ -383,19 +383,7 @@ const handleAvatarChange = async (
 
 
   
-        <div>
-          <button style={btnCompartirperfil} 
-              onClick={() => {
-                  if (!userData?.username) return;
 
-                  const link = `${window.location.origin}/u/${userData.username}`;
-                  navigator.clipboard.writeText(link);
-                  alert("Enlace copiado 🔗");
-              }}
-          >
-            Copiar mi enlace 🔗
-          </button>
-        </div>
            
       </div>
 
