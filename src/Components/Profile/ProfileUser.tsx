@@ -667,19 +667,6 @@ const pendingBox: React.CSSProperties = {
 };
 
 
-
-const btnCompartirperfil: React.CSSProperties= {
-  marginTop: 14,
-  background: "#3868ec",
-  border: "none",
-  padding: "10px 14px",
-  borderRadius: 12,
-  fontWeight: 600,
-  cursor: "pointer",
-  color: "#fff",
- 
-}
-
 const btnAnswer: React.CSSProperties = {
   marginTop: 8,
   background: "#198754",
