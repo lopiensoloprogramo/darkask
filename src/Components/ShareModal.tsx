@@ -9,10 +9,10 @@ interface ShareModalProps {
 export default function ShareModal({ isOpen, onClose, question }: ShareModalProps) {
   if (!isOpen || !question) return null;
 
-  const profileUrl =
-    typeof window !== "undefined"
-      ? `${window.location.origin}/profile/${question.ownerId}`
-      : "";
+const profileUrl =
+  typeof window !== "undefined" && question.ownerUsername
+    ? `${window.location.origin}/u/${question.ownerUsername}`
+    : "";
 
   const downloadImage = () => {
     const element = document.getElementById("share-image");

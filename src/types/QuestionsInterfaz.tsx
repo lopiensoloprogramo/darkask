@@ -9,6 +9,6 @@ export interface Question {
     likes: number;
     score?: number;
     likedBy: string[];
-    
+    ownerUsername?: string;
   }
   
