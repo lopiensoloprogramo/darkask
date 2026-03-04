@@ -8,23 +8,21 @@ interface ShareModalProps {
 }
 
 export default function ShareModal({ isOpen, onClose, question }: ShareModalProps) {
-  // ✅ Protección si no hay pregunta o modal está cerrado
   if (!isOpen || !question) return null;
 
-  // ✅ URL del perfil
-  const profileUrl = typeof window !== "undefined"
-    ? `${window.location.origin}/profile/${question.ownerId}`
-    : "";
+  const profileUrl =
+    typeof window !== "undefined"
+      ? `${window.location.origin}/profile/${question.ownerId}`
+      : "";
 
-  // ✅ Descargar imagen
   const downloadImage = () => {
     const element = document.getElementById("share-image");
     if (!element) return;
 
     import("html-to-image").then(({ toPng }) => {
-      toPng(element).then(dataUrl => {
+      toPng(element, { cacheBust: true }).then((dataUrl) => {
         const link = document.createElement("a");
-        link.download = "respuesta.png";
+        link.download = "darkask-respuesta.png";
         link.href = dataUrl;
         link.click();
       });
@@ -34,39 +32,62 @@ export default function ShareModal({ isOpen, onClose, question }: ShareModalProp
   return (
     <div style={overlay}>
       <div style={modal}>
-        <h2 style={{ textAlign: "center" }}>COMPARTELO EN TUS REDES ✅</h2>
+        <h2 style={title}>🔥 Comparte en tus redes</h2>
 
         {/* AREA EXPORTABLE */}
         <div id="share-image" style={card}>
-          <h4>Pregunta:</h4>
-          <p>{question.question}</p>
+          {/* Marca */}
+          <div style={brand}>darkask.vercel.app</div>
 
-          <h4>Respuesta:</h4>
-          <p>{question.answer}</p>
+          {/* Pregunta */}
+          <div style={questionContainer}>
+            <p style={questionLabel}>💬 Me preguntaron:</p>
+            <p style={questionText}>"{question.question}"</p>
+          </div>
 
-          <QRCodeCanvas value={profileUrl} size={140} />
+          {/* Respuesta */}
+          <div style={answerContainer}>
+            <p style={answerLabel}>Mi respuesta:</p>
+            <p style={answerText}>{question.answer}</p>
+          </div>
 
-          <p style={{ fontSize: 11 }}>Escanea para ver el perfil</p>
+          {/* QR */}
+          <div style={{ marginTop: 20 }}>
+            <QRCodeCanvas value={profileUrl} size={120} bgColor="#ffffff" />
+            <p style={qrText}>Escanea y hazme una pregunta anónima 👀</p>
+          </div>
+
+          {/* Gatillo psicológico */}
+          <div style={cta}>
+            🔥 ¿Te atreves a preguntarme algo?
+          </div>
         </div>
 
-        <div style={{ marginTop: 15, display: "flex", justifyContent: "space-between" }}>
-          <button onClick={onClose} style={closeBtn}>Cerrar</button>
+        <div style={buttonContainer}>
+          <button onClick={onClose} style={closeBtn}>
+            Cerrar
+          </button>
 
           <button onClick={downloadImage} style={downloadBtn}>
             Descargar imagen
           </button>
+          <button onClick={() => navigator.clipboard.writeText(profileUrl)}>
+            Copiar enlace
+          </button>
         </div>
-
       </div>
     </div>
   );
 }
 
-// ✅ ESTILOS
+/* ========================= */
+/* ESTILOS */
+/* ========================= */
+
 const overlay = {
   position: "fixed" as const,
   inset: 0,
-  background: "rgba(0,0,0,0.6)",
+  background: "rgba(0,0,0,0.7)",
   display: "flex",
   justifyContent: "center",
   alignItems: "center",
@@ -74,35 +95,103 @@ const overlay = {
 };
 
 const modal = {
-  background: "#fff",
-  padding: 20,
-  borderRadius: 12,
-  maxWidth: 400,
-  width: "90%",
+  background: "#111",
+  padding: 25,
+  borderRadius: 16,
+  maxWidth: 420,
+  width: "92%",
   textAlign: "center" as const,
+  boxShadow: "0 20px 40px rgba(0,0,0,0.4)",
+};
+
+const title = {
+  color: "white",
+  marginBottom: 15,
 };
 
 const card = {
-  background: "#f8f9fa",
+  background: "linear-gradient(135deg, #141e30, #243b55)",
+  padding: 25,
+  borderRadius: 20,
+  marginTop: 10,
+  color: "white",
+  textAlign: "center" as const,
+  boxShadow: "0 15px 35px rgba(0,0,0,0.4)",
+};
+
+const brand = {
+  fontSize: 12,
+  opacity: 0.6,
+  marginBottom: 15,
+};
+
+const questionContainer = {
+  marginBottom: 20,
+};
+
+const questionLabel = {
+  fontSize: 13,
+  opacity: 0.8,
+  marginBottom: 5,
+};
+
+const questionText = {
+  fontSize: 18,
+  fontWeight: 600,
+  lineHeight: 1.4,
+};
+
+const answerContainer = {
+  background: "rgba(255,255,255,0.08)",
   padding: 15,
-  borderRadius: 10,
+  borderRadius: 15,
   marginTop: 10,
 };
 
+const answerLabel = {
+  fontSize: 13,
+  opacity: 0.8,
+  marginBottom: 5,
+};
+
+const answerText = {
+  fontSize: 17,
+  fontWeight: 500,
+};
+
+const qrText = {
+  fontSize: 12,
+  marginTop: 8,
+  opacity: 0.8,
+};
+
+const cta = {
+  marginTop: 20,
+  fontSize: 14,
+  fontWeight: 600,
+  color: "#00ffcc",
+};
+
+const buttonContainer = {
+  marginTop: 20,
+  display: "flex",
+  justifyContent: "space-between",
+};
+
 const closeBtn = {
-  background: "#6c757d",
+  background: "#444",
   color: "white",
   border: "none",
-  padding: "6px 12px",
-  borderRadius: 6,
+  padding: "8px 14px",
+  borderRadius: 8,
   cursor: "pointer",
 };
 
 const downloadBtn = {
-  background: "#198754",
+  background: "linear-gradient(135deg, #00c6ff, #0072ff)",
   color: "white",
   border: "none",
-  padding: "6px 12px",
-  borderRadius: 6,
+  padding: "8px 14px",
+  borderRadius: 8,
   cursor: "pointer",
 };
