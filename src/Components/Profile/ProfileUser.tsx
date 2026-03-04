@@ -277,13 +277,7 @@ const handleAvatarChange = async (
            onClick={async () => {
             setShowNotifications(true);
 
-            for (const n of notifications) {
-              if (!n.read) {
-                await updateDoc(doc(db, "notifications", n.id), {
-                  read: true
-                });
-              }
-            }
+
           }}
           style={{
             width: 42,
@@ -526,38 +520,72 @@ const handleAvatarChange = async (
                 {notifications.length === 0 && <p>No tienes notificaciones</p>}
 
                   {notifications.map(n => (
-                    <div
-                      key={n.id}
-                      onClick={() => {
-                        setShowNotifications(false);
+                  <div
+                          key={n.id}
+                          onClick={async () => {
+                            setShowNotifications(false);
 
-                        // Cambiar a pestaña correcta
-                        setActiveTab("pending");
+                            // 🔹 Si la notificación NO está leída
+                            // la marcamos como leída en Firebase
+                            if (!n.read) {
+                              await updateDoc(doc(db, "notifications", n.id), {
+                                read: true
+                              });
+                            }
 
-                        // Resaltar
-                        setHighlightedId(n.questionId);
+                            // 🔹 Cambiamos a la pestaña donde está la pregunta
+                            setActiveTab("pending");
 
-                        setTimeout(() => {
-                          const element = document.getElementById(n.questionId);
-                          element?.scrollIntoView({ behavior: "smooth", block: "center" });
-                        }, 100);
+                            // 🔹 Guardamos el id para resaltarlo
+                            setHighlightedId(n.questionId);
 
+                            // 🔹 Hacemos scroll suave hacia la pregunta
+                            setTimeout(() => {
+                              const element = document.getElementById(n.questionId);
+                              element?.scrollIntoView({ behavior: "smooth", block: "center" });
+                            }, 100);
 
-                        // Quitar highlight después de 4 segundos
-                        setTimeout(() => {
-                          setHighlightedId(null);
-                        }, 4000);
-                      }}
-                      style={{
-                        padding: 10,
-                        background: n.read ? "#f3f3f3" : "#e7f1ff",
-                        borderRadius: 8,
-                        marginBottom: 8,
-                        cursor: "pointer"
-                      }}
-                    >
-                      📩 Nueva pregunta recibida
-                    </div>
+                            // 🔹 Quitamos el resaltado después de 4 segundos
+                            setTimeout(() => {
+                              setHighlightedId(null);
+                            }, 4000);
+                          }}
+                          style={{
+                            padding: 12,
+                            borderRadius: 12,
+                            marginBottom: 10,
+                            cursor: "pointer",
+                            transition: "0.2s ease",
+                            display: "flex",
+                            alignItems: "center",
+                            justifyContent: "space-between",
+
+                            // 🎨 COLOR SEGÚN ESTADO
+                            background: n.read
+                              ? "#f1f3f5" // gris claro si ya fue leída
+                              : "linear-gradient(135deg, #e7f1ff, #d0e4ff)", // azul suave si NO leída
+
+                            border: n.read
+                              ? "1px solid #e0e0e0"
+                              : "1px solid #0d6efd",
+
+                            fontWeight: n.read ? "normal" : "600" // texto más fuerte si es nueva
+                          }}
+                        >
+                          <span>📩 Nueva pregunta recibida</span>
+
+                          {/* 🔵 Puntito azul solo si NO está leída */}
+                          {!n.read && (
+                            <div
+                              style={{
+                                width: 8,
+                                height: 8,
+                                borderRadius: "50%",
+                                backgroundColor: "#0d6efd"
+                              }}
+                            />
+                          )}
+                        </div>
                   ))}
 
                 <button
