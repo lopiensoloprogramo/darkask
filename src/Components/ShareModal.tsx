@@ -1,4 +1,3 @@
-import { QRCodeCanvas } from "qrcode.react";
 import type { Question } from "../types/QuestionsInterfaz";
 
 interface ShareModalProps {
@@ -29,6 +28,15 @@ export default function ShareModal({ isOpen, onClose, question }: ShareModalProp
     });
   };
 
+  const copyLink = async () => {
+    try {
+      await navigator.clipboard.writeText(profileUrl);
+      alert("Enlace copiado 🔥");
+    } catch {
+      alert("No se pudo copiar el enlace");
+    }
+  };
+
   return (
     <div style={overlay}>
       <div style={modal}>
@@ -51,15 +59,9 @@ export default function ShareModal({ isOpen, onClose, question }: ShareModalProp
             <p style={answerText}>{question.answer}</p>
           </div>
 
-          {/* QR */}
-          <div style={{ marginTop: 20 }}>
-            <QRCodeCanvas value={profileUrl} size={120} bgColor="#ffffff" />
-            <p style={qrText}>Escanea y hazme una pregunta anónima 👀</p>
-          </div>
-
-          {/* Gatillo psicológico */}
+          {/* CTA Viral */}
           <div style={cta}>
-            🔥 ¿Te atreves a preguntarme algo?
+            👀 Hazme una pregunta anónima
           </div>
         </div>
 
@@ -68,11 +70,12 @@ export default function ShareModal({ isOpen, onClose, question }: ShareModalProp
             Cerrar
           </button>
 
+          <button onClick={copyLink} style={copyBtn}>
+            Copiar enlace
+          </button>
+
           <button onClick={downloadImage} style={downloadBtn}>
             Descargar imagen
-          </button>
-          <button onClick={() => navigator.clipboard.writeText(profileUrl)}>
-            Copiar enlace
           </button>
         </div>
       </div>
@@ -97,11 +100,11 @@ const overlay = {
 const modal = {
   background: "#111",
   padding: 25,
-  borderRadius: 16,
+  borderRadius: 18,
   maxWidth: 420,
   width: "92%",
   textAlign: "center" as const,
-  boxShadow: "0 20px 40px rgba(0,0,0,0.4)",
+  boxShadow: "0 20px 50px rgba(0,0,0,0.5)",
 };
 
 const title = {
@@ -111,64 +114,57 @@ const title = {
 
 const card = {
   background: "linear-gradient(135deg, #141e30, #243b55)",
-  padding: 25,
-  borderRadius: 20,
-  marginTop: 10,
+  padding: 30,
+  borderRadius: 22,
   color: "white",
   textAlign: "center" as const,
-  boxShadow: "0 15px 35px rgba(0,0,0,0.4)",
+  boxShadow: "0 15px 40px rgba(0,0,0,0.4)",
 };
 
 const brand = {
-  fontSize: 12,
+  fontSize: 13,
   opacity: 0.6,
-  marginBottom: 15,
-};
-
-const questionContainer = {
   marginBottom: 20,
 };
 
+const questionContainer = {
+  marginBottom: 25,
+};
+
 const questionLabel = {
-  fontSize: 13,
+  fontSize: 14,
   opacity: 0.8,
-  marginBottom: 5,
+  marginBottom: 6,
 };
 
 const questionText = {
-  fontSize: 18,
-  fontWeight: 600,
+  fontSize: 20,
+  fontWeight: 700,
   lineHeight: 1.4,
 };
 
 const answerContainer = {
   background: "rgba(255,255,255,0.08)",
-  padding: 15,
-  borderRadius: 15,
+  padding: 18,
+  borderRadius: 18,
   marginTop: 10,
 };
 
 const answerLabel = {
-  fontSize: 13,
+  fontSize: 14,
   opacity: 0.8,
-  marginBottom: 5,
+  marginBottom: 6,
 };
 
 const answerText = {
-  fontSize: 17,
-  fontWeight: 500,
-};
-
-const qrText = {
-  fontSize: 12,
-  marginTop: 8,
-  opacity: 0.8,
+  fontSize: 18,
+  fontWeight: 600,
 };
 
 const cta = {
-  marginTop: 20,
-  fontSize: 14,
-  fontWeight: 600,
+  marginTop: 25,
+  fontSize: 15,
+  fontWeight: 700,
   color: "#00ffcc",
 };
 
@@ -176,6 +172,7 @@ const buttonContainer = {
   marginTop: 20,
   display: "flex",
   justifyContent: "space-between",
+  gap: 10,
 };
 
 const closeBtn = {
@@ -183,7 +180,16 @@ const closeBtn = {
   color: "white",
   border: "none",
   padding: "8px 14px",
-  borderRadius: 8,
+  borderRadius: 10,
+  cursor: "pointer",
+};
+
+const copyBtn = {
+  background: "#6f42c1",
+  color: "white",
+  border: "none",
+  padding: "8px 14px",
+  borderRadius: 10,
   cursor: "pointer",
 };
 
@@ -192,6 +198,6 @@ const downloadBtn = {
   color: "white",
   border: "none",
   padding: "8px 14px",
-  borderRadius: 8,
+  borderRadius: 10,
   cursor: "pointer",
 };
