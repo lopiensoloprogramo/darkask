@@ -508,6 +508,7 @@ const handleAvatarChange = async (
       >
         <QuestionForm
           recipientUid={profileUserId}
+          recipientUsername={userData.username}
           onClose={() => setQuestionModalOpen(false)}
         />
       </QuestionModal>

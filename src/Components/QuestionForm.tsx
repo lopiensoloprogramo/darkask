@@ -7,10 +7,11 @@ import checkAnim from "../assets/check.json"; // <-- TU ANIMACIÓN REAL
 
 interface QuestionFormProps {
   recipientUid: string;
+  recipientUsername: string;
   onClose: () => void;
 }
 
-export default function Ask({ recipientUid, onClose }: QuestionFormProps) {
+export default function Ask({ recipientUid,recipientUsername, onClose }: QuestionFormProps) {
   const auth = getAuth();
   const [question, setQuestion] = useState("");
   const [loading, setLoading] = useState(false);
@@ -30,6 +31,7 @@ export default function Ask({ recipientUid, onClose }: QuestionFormProps) {
           answered: false,
           timestamp: serverTimestamp(),
           ownerId: recipientUid,
+          ownerUsername: recipientUsername, // 👈 GUARDAMOS ESTO
           creatorId: auth.currentUser?.uid || null,
         });
 
