@@ -266,6 +266,29 @@ const handleAvatarChange = async (
   if (!userData)
     return <p style={{ textAlign: "center", marginTop: 40 }}>Perfil no encontrado.</p>;
 
+
+useEffect(() => {
+  const style = document.createElement("style");
+  style.innerHTML = `
+    @keyframes ring {
+      0% { transform: rotate(0); }
+      20% { transform: rotate(-12deg); }
+      40% { transform: rotate(12deg); }
+      60% { transform: rotate(-8deg); }
+      80% { transform: rotate(8deg); }
+      100% { transform: rotate(0); }
+    }
+  `;
+  document.head.appendChild(style);
+
+  return () => {
+    document.head.removeChild(style);
+  };
+}, []);
+
+
+
+
   /* ===== UI ===== */
   return (
     <div style={layout(isMobile)}>
@@ -294,23 +317,26 @@ const handleAvatarChange = async (
 
 
           }}
-          style={{
-            width: 42,
-            height: 42,
-            borderRadius: "50%",
-            border: "none",
-            cursor: "pointer",
-            fontSize: 18,
-            transition: "0.3s ease",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            background: unreadCount > 0 ? "#ff4757" : "#e0e0e0",
-            color: unreadCount > 0 ? "white" : "#555",
-            boxShadow: unreadCount > 0
-              ? "0 0 12px rgba(255,71,87,0.7)"
-              : "none"
-          }}
+            style={{
+              width: 42,
+              height: 42,
+              borderRadius: "50%",
+              border: "none",
+              cursor: "pointer",
+              fontSize: 18,
+              transition: "0.3s ease",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              background: unreadCount > 0 ? "#ff4757" : "#e0e0e0",
+              color: unreadCount > 0 ? "white" : "#555",
+              boxShadow: unreadCount > 0
+                ? "0 0 12px rgba(255,71,87,0.7)"
+                : "none",
+
+              /* animación */
+              animation: unreadCount > 0 ? "ring 1s ease" : "none"
+            }}
          >
           🔔
           </button>
@@ -575,7 +601,7 @@ const handleAvatarChange = async (
                             display: "flex",
                             alignItems: "center",
                             justifyContent: "space-between",
-
+                              
                             // 🎨 COLOR SEGÚN ESTADO
                             background: n.read
                               ? "#f1f3f5" // gris claro si ya fue leída
@@ -888,3 +914,4 @@ const btnAskModern: React.CSSProperties = {
   boxShadow: "0 6px 18px rgba(0,0,0,0.15)",
   transition: "all 0.2s ease"
 };
+
