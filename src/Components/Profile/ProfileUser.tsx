@@ -202,10 +202,10 @@ useEffect(() => {
     const bell = document.getElementById("bell-icon");
 
     if (bell) {
-      bell.style.animation = "ring 0.5s";
+      bell.style.animation = "ring 0.6s 2";
       setTimeout(() => {
         bell.style.animation = "";
-      }, 500);
+      }, 1200);
     }
 
   }
