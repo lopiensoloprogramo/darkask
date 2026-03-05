@@ -74,7 +74,24 @@ export default function ProfileUser({ profileUserId, authUser }: ProfileProps) {
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
+useEffect(() => {
+  const style = document.createElement("style");
+  style.innerHTML = `
+    @keyframes ring {
+      0% { transform: rotate(0); }
+      20% { transform: rotate(-12deg); }
+      40% { transform: rotate(12deg); }
+      60% { transform: rotate(-8deg); }
+      80% { transform: rotate(8deg); }
+      100% { transform: rotate(0); }
+    }
+  `;
+  document.head.appendChild(style);
 
+  return () => {
+    document.head.removeChild(style);
+  };
+}, []);
   /* ===== PENDING QUESTIONS REALTIME ===== */
 useEffect(() => {
   if (!isOwner) return;
@@ -267,24 +284,7 @@ const handleAvatarChange = async (
     return <p style={{ textAlign: "center", marginTop: 40 }}>Perfil no encontrado.</p>;
 
 
-useEffect(() => {
-  const style = document.createElement("style");
-  style.innerHTML = `
-    @keyframes ring {
-      0% { transform: rotate(0); }
-      20% { transform: rotate(-12deg); }
-      40% { transform: rotate(12deg); }
-      60% { transform: rotate(-8deg); }
-      80% { transform: rotate(8deg); }
-      100% { transform: rotate(0); }
-    }
-  `;
-  document.head.appendChild(style);
 
-  return () => {
-    document.head.removeChild(style);
-  };
-}, []);
 
 
 
