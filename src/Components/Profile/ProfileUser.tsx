@@ -64,7 +64,7 @@ export default function ProfileUser({ profileUserId, authUser }: ProfileProps) {
   const [showNotifications, setShowNotifications] = useState(false);
   const unreadCount = notifications.filter(n => !n.read).length;
   const [highlightedId, setHighlightedId] = useState<string | null>(null);
-
+  const [prevNotifCount, setPrevNotifCount] = useState(0);
 
 
   /* ===== RESPONSIVE ===== */
@@ -78,12 +78,13 @@ useEffect(() => {
   const style = document.createElement("style");
   style.innerHTML = `
     @keyframes ring {
-      0% { transform: rotate(0); }
-      20% { transform: rotate(-12deg); }
-      40% { transform: rotate(12deg); }
-      60% { transform: rotate(-8deg); }
-      80% { transform: rotate(8deg); }
-      100% { transform: rotate(0); }
+  0% { transform: rotate(0); }
+  15% { transform: rotate(-18deg); }
+  30% { transform: rotate(18deg); }
+  45% { transform: rotate(-12deg); }
+  60% { transform: rotate(12deg); }
+  75% { transform: rotate(-6deg); }
+  100% { transform: rotate(0); }
     }
   `;
   document.head.appendChild(style);
@@ -195,6 +196,23 @@ useEffect(() => {
 }, [authUser]);
 
 
+useEffect(() => {
+  if (notifications.length > prevNotifCount) {
+
+    const bell = document.getElementById("bell-icon");
+
+    if (bell) {
+      bell.style.animation = "ring 0.5s";
+      setTimeout(() => {
+        bell.style.animation = "";
+      }, 500);
+    }
+
+  }
+
+  setPrevNotifCount(notifications.length);
+
+}, [notifications]);
   
 
   /* ===== LOGOUT ===== */
@@ -312,6 +330,7 @@ const handleAvatarChange = async (
         {isOwner && (
           <div style={{ position: "relative" }}>
          <button
+           id="bell-icon"
            onClick={async () => {
             setShowNotifications(true);
 
