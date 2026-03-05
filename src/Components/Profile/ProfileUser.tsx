@@ -74,73 +74,88 @@ export default function ProfileUser({ profileUserId, authUser }: ProfileProps) {
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
+
+  /* ===== PENDING QUESTIONS REALTIME ===== */
+useEffect(() => {
+  if (!isOwner) return;
+
+  const normalize = (d: any) => ({
+    ...d,
+    likedBy: d.likedBy || [],
+    likes: d.likes || 0,
+    score: d.score || 0
+  });
+
+  const qPending = query(
+    collection(db, "questions"),
+    where("ownerId", "==", profileUserId),
+    where("answered", "==", false),
+    orderBy("timestamp", "desc")
+  );
+
+  const unsubscribe = onSnapshot(qPending, snapshot => {
+    const data = snapshot.docs.map(doc => ({
+      id: doc.id,
+      ...normalize(doc.data())
+    })) as Question[];
+
+    setPendingQuestions(data);
+  });
+
+  return () => unsubscribe();
+
+}, [profileUserId, isOwner]);
+
   /* ===== LOAD DATA ===== */
-  useEffect(() => {
-    const normalize = (d: any) => ({
-      ...d,
-      likedBy: d.likedBy || [],
-      likes: d.likes || 0,
-      score: d.score || 0
-    });
+/* ===== LOAD DATA ===== */
+useEffect(() => {
+  const normalize = (d: any) => ({
+    ...d,
+    likedBy: d.likedBy || [],
+    likes: d.likes || 0,
+    score: d.score || 0
+  });
 
-    const loadData = async () => {
-      setLoading(true);
+  const loadData = async () => {
+    setLoading(true);
 
-      /* --- USER --- */
-      const snapUser = await getDoc(doc(db, "users", profileUserId));
-      setUserData(snapUser.exists() ? (snapUser.data() as UserData) : null);
+    /* --- USER --- */
+    const snapUser = await getDoc(doc(db, "users", profileUserId));
+    setUserData(snapUser.exists() ? (snapUser.data() as UserData) : null);
 
-      /* --- ANSWERED --- */
-      const qAnswered = query(
-        collection(db, "questions"),
-        where("ownerId", "==", profileUserId),
-        where("answered", "==", true),
-        orderBy("timestamp", "desc")
-      );
+    /* --- ANSWERED --- */
+    const qAnswered = query(
+      collection(db, "questions"),
+      where("ownerId", "==", profileUserId),
+      where("answered", "==", true),
+      orderBy("timestamp", "desc")
+    );
 
-  
-      const snapAnswered = await getDocs(qAnswered);
-      setAnsweredQuestions(
-        snapAnswered.docs.map(d => ({ id: d.id, ...normalize(d.data()) })) as Question[]
-      );
+    const snapAnswered = await getDocs(qAnswered);
+    setAnsweredQuestions(
+      snapAnswered.docs.map(d => ({ id: d.id, ...normalize(d.data()) })) as Question[]
+    );
 
-      /* --- PENDING (ONLY OWNER) --- */
-      if (isOwner) {
-        const qPending = query(
-          collection(db, "questions"),
-          where("ownerId", "==", profileUserId),
-          where("answered", "==", false),
-          orderBy("timestamp", "desc")
-        );
+    /* --- TOP --- */
+    const qTop = query(
+      collection(db, "questions"),
+      where("ownerId", "==", profileUserId),
+      where("answered", "==", true),
+      orderBy("likes", "desc"),
+      limit(5)
+    );
 
-        const snapPending = await getDocs(qPending);
-        setPendingQuestions(
-          snapPending.docs.map(d => ({ id: d.id, ...normalize(d.data()) })) as Question[]
-        );
-      } else {
-        setPendingQuestions([]);
-      }
+    const snapTop = await getDocs(qTop);
+    setTopQuestions(
+      snapTop.docs.map(d => ({ id: d.id, ...normalize(d.data()) })) as Question[]
+    );
 
-      /* --- TOP --- */
-      const qTop = query(
-        collection(db, "questions"),
-        where("ownerId", "==", profileUserId),
-        where("answered", "==", true),
-        orderBy("likes", "desc"),
-        limit(5)
-      );
+    setLoading(false);
+  };
 
-      const snapTop = await getDocs(qTop);
-      setTopQuestions(
-        snapTop.docs.map(d => ({ id: d.id, ...normalize(d.data()) })) as Question[]
-      );
+  loadData();
 
-      setLoading(false);
-    };
-
-    loadData();
-  }, [profileUserId, isOwner]);
-
+}, [profileUserId]);
 
 useEffect(() => {
   if (!authUser) return;
@@ -544,7 +559,7 @@ const handleAvatarChange = async (
                             setTimeout(() => {
                               const element = document.getElementById(n.questionId);
                               element?.scrollIntoView({ behavior: "smooth", block: "center" });
-                            }, 100);
+                            }, 300);
 
                             // 🔹 Quitamos el resaltado después de 4 segundos
                             setTimeout(() => {
