@@ -285,16 +285,7 @@ const handleAvatarChange = async (
   }
 };
 
-const closeNotifications = async () => {
-  for (const n of notifications) {
-    if (!n.read) {
-      await updateDoc(doc(db, "notifications", n.id), {
-        read: true
-      });
-    }
-  }
-  setShowNotifications(false);
-};
+
 
 
   /* ===== DATA TO SHOW ===== */
@@ -594,7 +585,7 @@ const closeNotifications = async () => {
   >
 
     <button
-      onClick={closeNotifications}
+      onClick={() => setShowNotifications(false)}
       style={closeNotifBtn}
     >
       ✕
@@ -674,20 +665,6 @@ const closeNotifications = async () => {
                         </div>
                   ))}
 
-                <button
-                  onClick={closeNotifications}
-                  style={{
-                    marginTop: 10,
-                    padding: "8px 12px",
-                    borderRadius: 8,
-                    border: "none",
-                    background: "#0d6efd",
-                    color: "white",
-                    cursor: "pointer"
-                  }}
-                >
-                  Cerrar
-                </button>
               </div>
             </div>
           )}
