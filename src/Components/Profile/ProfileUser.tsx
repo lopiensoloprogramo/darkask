@@ -574,8 +574,23 @@ const handleAvatarChange = async (
       </QuestionModal>
 
                 {showNotifications && (
-            <div style={notifOverlay}>
-              <div style={notifModal}>
+<div
+  style={notifOverlay}
+  onClick={() => setShowNotifications(false)}
+>
+  <div
+    style={notifModal}
+    onClick={(e) => e.stopPropagation()}
+  >
+
+    <button
+      onClick={() => setShowNotifications(false)}
+      style={closeNotifBtn}
+    >
+      ✕
+    </button>
+
+    <h3>Notificaciones</h3>
                 <h3>Notificaciones</h3>
 
                 {notifications.length === 0 && <p>No tienes notificaciones</p>}
@@ -867,8 +882,8 @@ const notifModal: React.CSSProperties = {
   padding: 20,
   borderRadius: 12,
   maxHeight: "70vh",
-  overflowY: "auto"
-  
+  overflowY: "auto",
+  position:"relative"
 };
 
 const headerRow: React.CSSProperties = {
@@ -934,3 +949,14 @@ const btnAskModern: React.CSSProperties = {
   transition: "all 0.2s ease"
 };
 
+const closeNotifBtn: React.CSSProperties = {
+  position: "absolute",
+  top: 10,
+  right: 12,
+  border: "none",
+  background: "none",
+  fontSize: 20,
+  cursor: "pointer",
+  color: "#666",
+  fontWeight: "bold"
+};
