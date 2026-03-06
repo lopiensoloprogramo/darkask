@@ -591,7 +591,7 @@ const handleAvatarChange = async (
     </button>
 
     <h3>Notificaciones</h3>
-                <h3>Notificaciones</h3>
+                
 
                 {notifications.length === 0 && <p>No tienes notificaciones</p>}
 
