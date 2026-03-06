@@ -30,7 +30,7 @@ export default function LatestAnsweredQuestions({ limit = 20 }: Props) {
   const navigate = useNavigate();
   const [isMobile, setIsMobile] = useState(window.innerWidth < 900);
   const [showLogin, setShowLogin] = useState(false);
-
+  const [usersMap, setUsersMap] = useState<Record<string, any>>({});
 
   useEffect(() => {
     const resize = () => setIsMobile(window.innerWidth < 900);
@@ -44,16 +44,37 @@ export default function LatestAnsweredQuestions({ limit = 20 }: Props) {
   }, []);
 
   useEffect(() => {
-    const fetchQuestions = async () => {
-      const q = query(
-        collection(db, "questions"),
-        where("answered", "==", true),
-        orderBy("timestamp", "desc"),
-        firestoreLimit(limit)
-      );
-      const snap = await getDocs(q);
-      setQuestions(snap.docs.map(d => ({ id: d.id, ...d.data() })) as Question[]);
-    };
+const fetchQuestions = async () => {
+  const q = query(
+    collection(db, "questions"),
+    where("answered", "==", true),
+    orderBy("timestamp", "desc"),
+    firestoreLimit(limit)
+  );
+
+  const snap = await getDocs(q);
+  const questionsData = snap.docs.map(d => ({ id: d.id, ...d.data() })) as Question[];
+
+  setQuestions(questionsData);
+
+  /* ==========================
+     CARGAR DATOS DE USUARIOS
+  ========================== */
+
+  const ownerIds = [...new Set(questionsData.map(q => q.ownerId))];
+
+  const usersSnap = await getDocs(collection(db, "users"));
+
+  const map: Record<string, any> = {};
+
+  usersSnap.docs.forEach(doc => {
+    if (ownerIds.includes(doc.id)) {
+      map[doc.id] = doc.data();
+    }
+  });
+
+  setUsersMap(map);
+};
 
     const fetchTopUsers = async () => {
       const q = query(
@@ -168,16 +189,41 @@ function timeAgo(timestamp: any) {
         {/* COLUMNA IZQUIERDA */}
         <div style={panel}>
           <h2 style={title}>🔥El chisme del momento</h2>
-          {questions.map(q => (
-            <div key={q.id} style={{ ...feedCard, ...fadeIn, ...hoverLift }}>
-              <p style={feedQuestion}>{q.question}</p>
-              <div style={feedAnswer}>{q.answer}</div>
-              <div style={feedMeta}>
-                <span>⏳ {timeAgo(q.timestamp)}</span>
-                <span>❤️ {q.likes || 0} | ⭐ {q.score || 0}</span>
-              </div>
-            </div>
-          ))}
+              {questions.map(q => {
+
+                const user = usersMap[q.ownerId];
+
+                return (
+                  <div key={q.id} style={{ ...feedCard, ...fadeIn, ...hoverLift }}>
+
+                    {/* HEADER USUARIO */}
+                    <div
+                      style={feedUser}
+                      onClick={() => navigate(`/profile/${q.ownerId}`)}
+                    >
+                      <img
+                        src={user?.photoURL || "https://i.pravatar.cc/40"}
+                        style={feedAvatar}
+                      />
+
+                      <div>
+                        <strong>{user?.name || "Usuario"}</strong>
+                        <p style={feedUserSub}>respondió una pregunta anónima</p>
+                      </div>
+                    </div>
+
+                    <p style={feedQuestion}>{q.question}</p>
+
+                    <div style={feedAnswer}>{q.answer}</div>
+
+                    <div style={feedMeta}>
+                      <span>⏳ {timeAgo(q.timestamp)}</span>
+                      <span>❤️ {q.likes || 0} | ⭐ {q.score || 0}</span>
+                    </div>
+
+                  </div>
+                );
+              })}
         </div>
 
         {/* COLUMNA DERECHA */}
@@ -477,4 +523,25 @@ const bannerRight: React.CSSProperties = {
 const bannerLeft: React.CSSProperties = {
   display: "flex",
   alignItems: "center"
+};
+
+const feedUser: React.CSSProperties = {
+  display: "flex",
+  alignItems: "center",
+  gap: 10,
+  marginBottom: 10,
+  cursor: "pointer"
+};
+
+const feedAvatar: React.CSSProperties = {
+  width: 36,
+  height: 36,
+  borderRadius: "50%",
+  objectFit: "cover"
+};
+
+const feedUserSub: React.CSSProperties = {
+  fontSize: 12,
+  opacity: 0.6,
+  marginTop: -2
 };
