@@ -48,7 +48,7 @@ const fetchQuestions = async () => {
   const q = query(
     collection(db, "questions"),
     where("answered", "==", true),
-    orderBy("timestamp", "desc"),
+    orderBy("answeredAt", "desc"),
     firestoreLimit(limit)
   );
 

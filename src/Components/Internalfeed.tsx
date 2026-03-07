@@ -22,7 +22,7 @@ export default function InternalFeed() {
         q = query(
           collection(db, "questions"),
           where("answered", "==", true),
-          orderBy("timestamp", "desc")
+          orderBy("answeredAt", "desc")
         );
       }
 
