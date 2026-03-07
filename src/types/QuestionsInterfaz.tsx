@@ -3,6 +3,7 @@ export interface Question {
     id: string;
     question: string;
     answered: boolean;
+    assweredAt?:any;
     timestamp?: any;   // ⭐ opcional
     answer?: string;
     ownerId: string;
@@ -10,5 +11,6 @@ export interface Question {
     score?: number;
     likedBy: string[];
     ownerUsername?: string;
+    
   }
   
