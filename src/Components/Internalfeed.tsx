@@ -77,20 +77,34 @@ export default function InternalFeed() {
 
   }, [tab]);
 
-  function timeAgo(timestamp: any) {
+function timeAgo(timestamp: any) {
 
-    if (!timestamp) return "hace un momento";
+  if (!timestamp) return "hace un momento";
 
-    const now = new Date().getTime();
-    const past = timestamp.toDate().getTime();
-    const diff = Math.floor((now - past) / 1000);
+  const now = Date.now();
 
-    if (diff < 60) return "hace segundos";
-    if (diff < 3600) return `hace ${Math.floor(diff / 60)} min`;
-    if (diff < 86400) return `hace ${Math.floor(diff / 3600)} h`;
+  let past;
 
-    return `hace ${Math.floor(diff / 86400)} días`;
+  if (timestamp?.toDate) {
+    // Timestamp de Firestore
+    past = timestamp.toDate().getTime();
+  } else if (typeof timestamp === "number") {
+    // Date.now()
+    past = timestamp;
+  } else {
+    // string o Date
+    past = new Date(timestamp).getTime();
   }
+
+  const diff = Math.floor((now - past) / 1000);
+
+  if (diff < 60) return "hace segundos";
+  if (diff < 3600) return `hace ${Math.floor(diff / 60)} min`;
+  if (diff < 86400) return `hace ${Math.floor(diff / 3600)} h`;
+
+  return `hace ${Math.floor(diff / 86400)} días`;
+}
+
 
   return (
 
