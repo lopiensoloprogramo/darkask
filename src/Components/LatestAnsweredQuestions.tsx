@@ -107,20 +107,33 @@ const handleLogin = () => {
     );
   }
 
-function timeAgo(timestamp: any) {
-  if (!timestamp) return "hace un momento";
+        function timeAgo(timestamp: any) {
 
-  const now = new Date().getTime();
-  const past = timestamp.toDate().getTime();
-  const diff = Math.floor((now - past) / 1000); // en segundos
+          if (!timestamp) return "hace un momento";
 
-  if (diff < 60) return "hace segundos";
-  if (diff < 3600) return `hace ${Math.floor(diff / 60)} min`;
-  if (diff < 86400) return `hace ${Math.floor(diff / 3600)} h`;
-  if (diff < 604800) return `hace ${Math.floor(diff / 86400)} días`;
-  if (diff < 2592000) return `hace ${Math.floor(diff / 604800)} sem`;
-  return `hace ${Math.floor(diff / 2592000)} mes(es)`;
-}
+          const now = Date.now();
+
+          let past;
+
+          if (timestamp?.toDate) {
+            // Timestamp de Firestore
+            past = timestamp.toDate().getTime();
+          } else if (typeof timestamp === "number") {
+            // Date.now()
+            past = timestamp;
+          } else {
+            // string o Date
+            past = new Date(timestamp).getTime();
+          }
+
+          const diff = Math.floor((now - past) / 1000);
+
+          if (diff < 60) return "hace segundos";
+          if (diff < 3600) return `hace ${Math.floor(diff / 60)} min`;
+          if (diff < 86400) return `hace ${Math.floor(diff / 3600)} h`;
+
+          return `hace ${Math.floor(diff / 86400)} días`;
+        }
 
 
 
