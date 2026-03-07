@@ -2,7 +2,7 @@ import { useState } from "react";
 import type { Question } from "../types/QuestionsInterfaz";
 import { doc, updateDoc } from "firebase/firestore";
 import { db } from "../services/firebase";
-
+import { serverTimestamp } from "firebase/firestore";
 
 interface AnswerModalProps {
   question: Question;
@@ -29,7 +29,7 @@ export default function AnswerModal({
       await updateDoc(ref, {
         answer: answer,
         answered: true,
-        answeredAt: Date.now(),
+        answeredAt: serverTimestamp(),
       });
 
       const updatedQuestion: Question = {
