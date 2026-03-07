@@ -230,7 +230,7 @@ const handleLogin = () => {
                     <div style={feedAnswer}>{q.answer}</div>
 
                     <div style={feedMeta}>
-                      <span>⏳ {timeAgo(q.timestamp)}</span>
+                    <span>⏳ {timeAgo(q.answeredAt || q.timestamp)}</span>
                       <span>❤️ {q.likes || 0} | ⭐ {q.score || 0}</span>
                     </div>
 
