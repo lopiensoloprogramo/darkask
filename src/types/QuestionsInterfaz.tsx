@@ -7,7 +7,7 @@ export interface Question {
     timestamp?: any;   // ⭐ opcional
     answer?: string;
     ownerId: string;
-    likes: number;
+    likesCount: number;
     score?: number;
     likedBy: string[];
     ownerUsername?: string;

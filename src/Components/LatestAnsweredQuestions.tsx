@@ -9,6 +9,7 @@ import inIcon from "../assets/inICONO.png";
 import logoBANNER from "../assets/bannernew.png"
 import ProfileSearch from "../Components/ProfileSearch";
 import LoginModal from "./LoginModal";
+import { doc, setDoc, deleteDoc, getDoc, updateDoc, increment, serverTimestamp } from "firebase/firestore";
 
 interface UserSummary {
   id: string;
@@ -31,6 +32,55 @@ export default function LatestAnsweredQuestions({ limit = 20 }: Props) {
   const [isMobile, setIsMobile] = useState(window.innerWidth < 900);
   const [showLogin, setShowLogin] = useState(false);
   const [usersMap, setUsersMap] = useState<Record<string, any>>({});
+
+
+
+
+const handleLike = async (q: Question) => {
+
+  if (!authUser) {
+    setShowLogin(true);
+    return;
+  }
+
+  const likeId = `${q.id}_${authUser.uid}`;
+
+  const likeRef = doc(db, "likes", likeId);
+  const questionRef = doc(db, "questions", q.id);
+
+  const likeSnap = await getDoc(likeRef);
+
+  try {
+
+    if (likeSnap.exists()) {
+
+      // quitar like
+      await deleteDoc(likeRef);
+
+      await updateDoc(questionRef, {
+        likesCount: increment(-1)
+      });
+
+    } else {
+
+      // dar like
+      await setDoc(likeRef, {
+        questionId: q.id,
+        userId: authUser.uid,
+        createdAt: serverTimestamp()
+      });
+
+      await updateDoc(questionRef, {
+        likesCount: increment(1)
+      });
+
+    }
+
+  } catch (err) {
+    console.error("Error toggle like", err);
+  }
+};
+
 
   useEffect(() => {
     const resize = () => setIsMobile(window.innerWidth < 900);
@@ -231,7 +281,12 @@ const handleLogin = () => {
 
                     <div style={feedMeta}>
                     <span>⏳ {timeAgo(q.answeredAt || q.timestamp)}</span>
-                      <span>❤️ {q.likes || 0} | ⭐ {q.score || 0}</span>
+                      <span
+                        onClick={() => handleLike(q)}
+                        style={{ cursor: "pointer" }}
+                      >
+                        ❤️ {q.likesCount || 0}
+                      </span>
                     </div>
 
                   </div>

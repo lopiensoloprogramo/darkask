@@ -33,7 +33,7 @@ export default function InternalFeed() {
         q = query(
           collection(db, "questions"),
           where("answered", "==", true),
-          orderBy("likes", "desc")
+          orderBy("likesCount", "desc")
         );
       }
 
@@ -179,7 +179,7 @@ function timeAgo(timestamp: any) {
 
             <div style={feedMeta}>
               <span>⏳ {timeAgo(q.answeredAt || q.timestamp)}</span>
-              <span>❤️ {q.likes || 0} | ⭐ {q.score || 0}</span>
+              <span>❤️ {q.likesCount || 0} | ⭐ {q.score || 0}</span>
             </div>
 
           </div>

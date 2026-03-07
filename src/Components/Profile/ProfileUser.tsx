@@ -240,7 +240,7 @@ useEffect(() => {
     const sync = (list: Question[]) =>
       list.map(item =>
         item.id === q.id
-          ? { ...item, likes: updated.likes, likedBy: updated.likedBy }
+          ? { ...item, likes: updated.likesCount, likedBy: updated.likedBy }
           : item
       );
 
@@ -516,7 +516,7 @@ const handleAvatarChange = async (
                     style={heart(q.likedBy?.includes(authUser?.uid ?? "") ?? false)}
                     onClick={() => handleLike(q)}
                   >
-                    ❤️ {q.likes}
+                    ❤️ {q.likesCount}
                   </button>
                 </div>
 
@@ -552,7 +552,7 @@ const handleAvatarChange = async (
             <div style={rankNumber}>#{i + 1}</div>
             <div>
               <strong>{q.question}</strong>
-              <p style={rankMeta}>❤️ {q.likes} · ⭐ {q.score}</p>
+              <p style={rankMeta}>❤️ {q.likesCount} · ⭐ {q.score}</p>
             </div>
           </div>
         ))}
