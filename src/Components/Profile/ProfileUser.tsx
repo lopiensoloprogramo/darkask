@@ -223,7 +223,7 @@ useEffect(() => {
 
   /* ===== LIKE ===== */
   const handleLike = async (q: Question) => {
-    if (!authUser) return alert("Debes iniciar sesión ❤️");
+          if (!authUser) {navigate("/");return;}
 
     const userId = authUser.uid;
     const ref = doc(db, "questions", q.id);
