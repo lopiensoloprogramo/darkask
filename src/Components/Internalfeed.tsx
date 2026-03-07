@@ -66,9 +66,21 @@ export default function InternalFeed() {
   }
 
   return (
-    <div style={{ maxWidth: 900, margin: "auto", padding: 20 }}>
+    <div style={{
+        maxWidth: 1100,
+        margin: "auto",
+        padding: "24px",
+        background: "#f3f4f6",
+        minHeight: "100vh"
+        }}>
 
-      <h2 style={{ marginBottom: 20 }}>🔥 Respuestas recientes</h2>
+                <h2 style={{
+            fontSize: 26,
+            fontWeight: 800,
+            marginBottom: 25
+            }}>
+            🔥 Lo que la gente está respondiendo
+            </h2>
 
       {questions.map(q => {
 
@@ -117,11 +129,14 @@ export default function InternalFeed() {
 
 const feedCard: React.CSSProperties = {
   background: "#ffffff",
-  borderRadius: 14,
-  padding: 18,
-  marginBottom: 14,
-  boxShadow: "0 6px 20px rgba(0,0,0,0.08)"
+  borderRadius: 16,
+  padding: 22,
+  marginBottom: 18,
+  boxShadow: "0 10px 25px rgba(0,0,0,0.08)",
+  transition: "0.25s"
 };
+
+
 
 const feedQuestion: React.CSSProperties = {
   fontSize: 15,
