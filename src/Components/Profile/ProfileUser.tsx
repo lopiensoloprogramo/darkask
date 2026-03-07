@@ -23,7 +23,7 @@ import QuestionForm from "../QuestionForm";
 import ShareModal from "../ShareModal";
 import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import type { Question } from "../../types/QuestionsInterfaz";
-
+import { useNavigate } from "react-router-dom";
 /* ===== INTERFACES ===== */
 
 interface ProfileProps {
@@ -65,7 +65,7 @@ export default function ProfileUser({ profileUserId, authUser }: ProfileProps) {
   const unreadCount = notifications.filter(n => !n.read).length;
   const [highlightedId, setHighlightedId] = useState<string | null>(null);
   const [prevNotifCount, setPrevNotifCount] = useState(0);
-
+  const navigate = useNavigate();
 
   /* ===== RESPONSIVE ===== */
   useEffect(() => {
@@ -431,6 +431,24 @@ const handleAvatarChange = async (
               >
                 🚪 Cerrar sesión
               </button>
+                  <button
+                  onClick={() => navigate("/feed")}
+                  style={{
+                    width: "100%",
+                    padding: "12px",
+                    borderRadius: "10px",
+                    background: "#ff9800",
+                    color: "white",
+                    border: "none",
+                    fontWeight: 600,
+                    cursor: "pointer",
+                    marginTop: "10px"
+                  }}
+                >
+                🔥Respuestas de Todos
+                </button>
+
+
 
             </div>
             ) : (

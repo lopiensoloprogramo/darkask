@@ -4,6 +4,8 @@ import { getAuth, onAuthStateChanged } from "firebase/auth";
 import ProfileUserWrapper from "./Pages/ProfileUserWrapper";
 import LatestAnsweredQuestions from "./Components/LatestAnsweredQuestions";
 import Login from "./Components/Login";
+import Internalfeed from "./Components/Internalfeed";
+
 
 export default function App() {
   const [userId, setUserId] = useState<string | null>(null);
@@ -38,6 +40,9 @@ export default function App() {
 
       {/* Fallback */}
       <Route path="*" element={<Navigate to="/" replace />} />
+
+      {/* Feed Interno */}
+      <Route path="/feed" element={<Internalfeed />} />
     </Routes>
   );
 }
