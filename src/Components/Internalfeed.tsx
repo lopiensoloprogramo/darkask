@@ -22,7 +22,8 @@ useEffect(() => {
   const unsub = onAuthStateChanged(auth, (user) => {
 
     if (!user) {
-      navigate("/login");
+      alert("Inicia sesión Primero")
+      navigate("/");
       return;
     }
 
