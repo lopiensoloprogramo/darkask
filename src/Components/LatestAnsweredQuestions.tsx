@@ -281,12 +281,12 @@ const handleLogin = () => {
 
                     <div style={feedMeta}>
                     <span>⏳ {timeAgo(q.answeredAt || q.timestamp)}</span>
-                      <span
-                        onClick={() => handleLike(q)}
-                        style={{ cursor: "pointer" }}
-                      >
-                        ❤️ {q.likesCount || 0}
-                      </span>
+                    <span
+                      onClick={() => handleLike(q)}
+                      style={{ cursor: "pointer" }}
+                    >
+                      ❤️ {q.likesCount || 0}
+                    </span>
                     </div>
 
                   </div>

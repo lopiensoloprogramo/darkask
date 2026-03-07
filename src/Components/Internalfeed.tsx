@@ -3,6 +3,10 @@ import { collection, query, orderBy, where, getDocs } from "firebase/firestore";
 import { db } from "../services/firebase";
 import { useNavigate } from "react-router-dom";
 import type { Question } from "../types/QuestionsInterfaz";
+import { doc, setDoc, deleteDoc, getDoc, updateDoc, increment, serverTimestamp } from "firebase/firestore";
+import { auth } from "../services/firebase";
+import { onAuthStateChanged } from "firebase/auth";
+
 
 export default function InternalFeed() {
 
@@ -10,7 +14,34 @@ export default function InternalFeed() {
   const [usersMap, setUsersMap] = useState<Record<string, any>>({});
   const [tab, setTab] = useState<"recent" | "top" | "spicy">("recent");
   const [loading, setLoading] = useState(true);
+  const [authUser, setAuthUser] = useState<any>(null);
 
+
+useEffect(() => {
+
+  const unsub = onAuthStateChanged(auth, (user) => {
+
+    if (!user) {
+      navigate("/login");
+      return;
+    }
+
+    setAuthUser(user);
+
+  });
+
+  return () => unsub();
+
+}, []);
+
+
+
+
+
+
+
+
+  
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -95,6 +126,7 @@ function timeAgo(timestamp: any) {
     // string o Date
     past = new Date(timestamp).getTime();
   }
+  
 
   const diff = Math.floor((now - past) / 1000);
 
@@ -104,6 +136,72 @@ function timeAgo(timestamp: any) {
 
   return `hace ${Math.floor(diff / 86400)} días`;
 }
+
+const handleLike = async (q: Question) => {
+
+  if (!authUser) {
+    navigate("/login");
+    return;
+  }
+
+  const likeId = `${q.id}_${authUser.uid}`;
+
+  const likeRef = doc(db, "likes", likeId);
+  const questionRef = doc(db, "questions", q.id);
+
+  const likeSnap = await getDoc(likeRef);
+
+  try {
+
+    if (likeSnap.exists()) {
+
+      // quitar like
+      await deleteDoc(likeRef);
+
+      await updateDoc(questionRef, {
+        likesCount: increment(-1)
+      });
+
+      setQuestions(prev =>
+        prev.map(item =>
+          item.id === q.id
+            ? { ...item, likesCount: (item.likesCount || 0) - 1 }
+            : item
+        )
+      );
+
+    } else {
+
+      // dar like
+      await setDoc(likeRef, {
+        questionId: q.id,
+        userId: authUser.uid,
+        createdAt: serverTimestamp()
+      });
+
+      await updateDoc(questionRef, {
+        likesCount: increment(1)
+      });
+
+      setQuestions(prev =>
+        prev.map(item =>
+          item.id === q.id
+            ? { ...item, likesCount: (item.likesCount || 0) + 1 }
+            : item
+        )
+      );
+
+    }
+
+  } catch (err) {
+    console.error("Error toggle like", err);
+  }
+
+};
+
+
+
+
 
 
   return (
@@ -179,7 +277,12 @@ function timeAgo(timestamp: any) {
 
             <div style={feedMeta}>
               <span>⏳ {timeAgo(q.answeredAt || q.timestamp)}</span>
-              <span>❤️ {q.likesCount || 0} | ⭐ {q.score || 0}</span>
+                      <span
+                        onClick={() => handleLike(q)}
+                        style={{ cursor: "pointer" }}
+                      >
+                        ❤️ {q.likesCount || 0}
+                      </span>
             </div>
 
           </div>
