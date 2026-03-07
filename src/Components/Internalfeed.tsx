@@ -23,7 +23,6 @@ useEffect(() => {
 
     if (!user) {
       navigate("/");
-      alert("Inicia sesión Primero")
       return;
     }
 
