@@ -3,7 +3,7 @@ export interface Question {
     id: string;
     question: string;
     answered: boolean;
-    assweredAt?:any;
+    answeredAt?:any;
     timestamp?: any;   // ⭐ opcional
     answer?: string;
     ownerId: string;

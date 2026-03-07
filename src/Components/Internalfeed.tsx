@@ -9,12 +9,15 @@ export default function InternalFeed() {
   const [questions, setQuestions] = useState<Question[]>([]);
   const [usersMap, setUsersMap] = useState<Record<string, any>>({});
   const [tab, setTab] = useState<"recent" | "top" | "spicy">("recent");
+  const [loading, setLoading] = useState(true);
 
   const navigate = useNavigate();
 
   useEffect(() => {
 
     const fetchQuestions = async () => {
+
+      setLoading(true);
 
       let q;
 
@@ -66,6 +69,8 @@ export default function InternalFeed() {
       });
 
       setUsersMap(map);
+
+      setLoading(false);
     };
 
     fetchQuestions();
@@ -120,9 +125,17 @@ export default function InternalFeed() {
 
       </div>
 
+      {/* SPINNER */}
+
+      {loading && (
+        <div style={spinnerContainer}>
+          <div style={spinner}></div>
+        </div>
+      )}
+
       {/* FEED */}
 
-      {questions.map(q => {
+      {!loading && questions.map(q => {
 
         const user = usersMap[q.ownerId];
 
@@ -151,7 +164,7 @@ export default function InternalFeed() {
             <div style={feedAnswer}>{q.answer}</div>
 
             <div style={feedMeta}>
-             <span>⏳ {timeAgo(q.assweredAt || q.timestamp)}</span>
+              <span>⏳ {timeAgo(q.answeredAt || q.timestamp)}</span>
               <span>❤️ {q.likes || 0} | ⭐ {q.score || 0}</span>
             </div>
 
@@ -162,14 +175,6 @@ export default function InternalFeed() {
     </div>
   );
 }
-
-
-
-
-
-
-
-
 
 
 /* ======================
@@ -259,4 +264,20 @@ const feedMeta: React.CSSProperties = {
   justifyContent: "space-between",
   fontSize: 13,
   opacity: 0.8
+};
+
+const spinnerContainer: React.CSSProperties = {
+  display: "flex",
+  justifyContent: "center",
+  alignItems: "center",
+  padding: 40
+};
+
+const spinner: React.CSSProperties = {
+  width: 40,
+  height: 40,
+  border: "4px solid #e5e7eb",
+  borderTop: "4px solid #6366f1",
+  borderRadius: "50%",
+  animation: "spin 1s linear infinite"
 };
