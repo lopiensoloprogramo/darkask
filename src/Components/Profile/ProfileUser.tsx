@@ -295,6 +295,19 @@ const handleAvatarChange = async (
       : answeredQuestions
     : answeredQuestions;
 
+/* ===== STATS ===== */
+
+const totalAnswers = answeredQuestions.length;
+
+const totalLikes = answeredQuestions.reduce(
+  (acc, q) => acc + (q.likesCount || 0),
+  0
+);
+
+const totalTop = topQuestions.length;
+
+
+
   /* ===== LOADING ===== */
   if (loading)
     return <p style={{ textAlign: "center", marginTop: 40 }}>Cargando perfil...</p>;
@@ -314,17 +327,18 @@ const handleAvatarChange = async (
 
       {/* PERFIL */}
       <div style={profileCard}>
-          <div style={avatarWrapper}>
-            {uploadingAvatar ? (
-              <div style={avatarLoader}></div>
-            ) : (
-              <img
-                src={userData.photoURL || "/default-avatar.png"}
-                alt="avatar"
-                style={avatar}
-              />
-            )}
-          </div>
+               <div style={profileCover}></div>
+                  <div style={avatarWrapper}>
+                      {uploadingAvatar ? (
+                        <div style={avatarLoader}></div>
+                      ) : (
+                        <img
+                          src={userData.photoURL || "/default-avatar.png"}
+                          alt="avatar"
+                          style={avatar}
+                        />
+                      )}
+                    </div>
    
             <div style={headerRow}>
   <h1 style={{ margin: 0 }}>{userData.name}</h1>
@@ -389,7 +403,20 @@ const handleAvatarChange = async (
 
 
         <p style={{ opacity: 0.85 }}>{userData.email}</p>
+                                {/* STATS */}
+                      <div style={statsRow}>
+                        <div style={statItem}>
+                          💬 <strong>{totalAnswers}</strong>
+                        </div>
 
+                        <div style={statItem}>
+                          ❤️ <strong>{totalLikes}</strong>
+                        </div>
+
+                        <div style={statItem}>
+                          🔥 <strong>{totalTop}</strong>
+                        </div>
+                      </div>
 
    
                   {isOwner ? (
@@ -847,8 +874,12 @@ const avatarWrapper: React.CSSProperties = {
   justifyContent: "center",
   border: "4px solid white",
   background: "#f3f4f6",
-  margin: "0 auto"
+  margin: "-60px auto 10px auto",
+  position: "relative",
+  zIndex: 2
 };
+
+
 
 const avatarLoader: React.CSSProperties = {
   width: 40,
@@ -954,4 +985,32 @@ const closeNotifBtn: React.CSSProperties = {
   cursor: "pointer",
   color: "#666",
   fontWeight: "bold"
+};
+
+/* ===== PROFILE COVER ===== */
+
+const profileCover: React.CSSProperties = {
+  height: 120,
+  background: "linear-gradient(135deg,#5b3df5,#7c4dff)",
+  borderRadius: "18px 18px 0 0",
+  margin: "-22px -22px 10px -22px"
+};
+
+/* ===== STATS ===== */
+
+const statsRow: React.CSSProperties = {
+  display: "flex",
+  justifyContent: "center",
+  gap: 18,
+  marginTop: 10,
+  marginBottom: 10,
+  fontSize: 14,
+  fontWeight: 600
+};
+
+const statItem: React.CSSProperties = {
+  background: "rgba(255,255,255,0.2)",
+  padding: "6px 12px",
+  borderRadius: 10,
+  backdropFilter: "blur(4px)"
 };
