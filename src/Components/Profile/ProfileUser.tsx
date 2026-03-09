@@ -408,38 +408,47 @@ const totalTop = topQuestions.length;
     <div style={layout(isMobile)}>
 
       {/* PERFIL */}
-      <div style={{
-        ...profileCover,
-        backgroundImage: userData.coverURL
-          ? `url(${userData.coverURL})`
-          : undefined,
-        backgroundSize: "cover",
-        backgroundPosition: `${coverPos.x}% ${coverPos.y}%`,
-        cursor: movingCover ? (dragging ? "grabbing" : "grab") : "default"
-      }}
-      
+      <div style={profileCard}>
+          <input
+            type="file"
+            accept="image/*"
+            id="coverInput"
+            style={{ display: "none" }}
+            onChange={handleCoverChange}
+          />
+<div
+            style={{
+              ...profileCover,
+              backgroundImage: userData.coverURL
+                ? `url(${userData.coverURL})`
+                : undefined,
+              backgroundSize: "cover",
+              backgroundPosition: `${coverPos.x}% ${coverPos.y}%`,
+              cursor: movingCover ? (dragging ? "grabbing" : "grab") : "default"
+            }}
+
             onMouseDown={() => {
-          if (!movingCover || !isOwner) return;
-          setDragging(true);
-        }}
+              if (!movingCover || !isOwner) return;
+              setDragging(true);
+            }}
 
             onMouseMove={(e) => {
 
-          if (!dragging || !movingCover) return;
+              if (!dragging || !movingCover) return;
 
-          const rect = e.currentTarget.getBoundingClientRect();
+              const rect = e.currentTarget.getBoundingClientRect();
 
-          const x = ((e.clientX - rect.left) / rect.width) * 100;
-          const y = ((e.clientY - rect.top) / rect.height) * 100;
+              const x = ((e.clientX - rect.left) / rect.width) * 100;
+              const y = ((e.clientY - rect.top) / rect.height) * 100;
 
-          setCoverPos({
-            x: Math.max(0, Math.min(100, x)),
-            y: Math.max(0, Math.min(100, y))
-          });
+              setCoverPos({
+                x: Math.max(0, Math.min(100, x)),
+                y: Math.max(0, Math.min(100, y))
+              });
 
-        }}
+            }}
 
-          onMouseUp={async () => {
+            onMouseUp={async () => {
 
               if (!dragging || !authUser) return;
 
@@ -455,26 +464,7 @@ const totalTop = topQuestions.length;
             }}
 
             onMouseLeave={() => setDragging(false)}
-
-
-      >
-          <input
-            type="file"
-            accept="image/*"
-            id="coverInput"
-            style={{ display: "none" }}
-            onChange={handleCoverChange}
-          />
-                  <div
-              style={{
-                ...profileCover,
-                backgroundImage: userData.coverURL
-                  ? `url(${userData.coverURL})`
-                  : undefined,
-                backgroundSize: "cover",
-                backgroundPosition: "center"
-              }}
-            >
+>
 
           {isOwner && (
           <button
@@ -484,18 +474,17 @@ const totalTop = topQuestions.length;
             {uploadingCover ? "Subiendo..." : "📷"}
           </button>
           )}
-
-          {isOwner && userData.coverURL && (
-          <button
-            style={{
-              ...coverButton,
-              top: 45
-            }}
-            onClick={() => setMovingCover(!movingCover)}
-          >
-            {movingCover ? "Guardar" : "↕ Ajustar"}
-          </button>
-        )}
+              {isOwner && userData.coverURL && (
+                <button
+                  style={{
+                    ...coverButton,
+                    top: 45
+                  }}
+                  onClick={() => setMovingCover(!movingCover)}
+                >
+                  {movingCover ? "Guardar" : "↕ Ajustar"}
+                </button>
+              )}
       </div>
                   <div style={avatarWrapper}>
                       {uploadingAvatar ? (
