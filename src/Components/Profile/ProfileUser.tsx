@@ -38,6 +38,11 @@ interface UserData {
   googlePhotoURL?: string;
   coverURL?: string;
   username: string;
+    // posición de la portada
+  coverX?: number;
+  coverY?: number;
+
+
 }
 /* ===== COMPONENT ===== */
 
@@ -61,6 +66,16 @@ export default function ProfileUser({ profileUserId, authUser }: ProfileProps) {
 
   const [uploadingAvatar, setUploadingAvatar] = useState(false);
   const [uploadingCover, setUploadingCover] = useState(false);
+
+  /* ===== COVER DRAG SYSTEM (PRO) ===== */
+
+const [movingCover, setMovingCover] = useState(false);
+const [dragging, setDragging] = useState(false);
+
+const [coverPos, setCoverPos] = useState({
+  x: 50,
+  y: 50
+});
   const [notifications, setNotifications] = useState<any[]>([]);
   const [showNotifications, setShowNotifications] = useState(false);
   const unreadCount = notifications.filter(n => !n.read).length;
@@ -140,7 +155,16 @@ useEffect(() => {
 
     /* --- USER --- */
     const snapUser = await getDoc(doc(db, "users", profileUserId));
-    setUserData(snapUser.exists() ? (snapUser.data() as UserData) : null);
+    const data = snapUser.exists() ? (snapUser.data() as UserData) : null;
+
+    setUserData(data);
+
+    if (data) {
+      setCoverPos({
+        x: data.coverX ?? 50,
+        y: data.coverY ?? 50
+      });
+    }
 
     /* --- ANSWERED --- */
     const qAnswered = query(
@@ -384,7 +408,56 @@ const totalTop = topQuestions.length;
     <div style={layout(isMobile)}>
 
       {/* PERFIL */}
-      <div style={profileCard}>
+      <div style={{
+        ...profileCover,
+        backgroundImage: userData.coverURL
+          ? `url(${userData.coverURL})`
+          : undefined,
+        backgroundSize: "cover",
+        backgroundPosition: `${coverPos.x}% ${coverPos.y}%`,
+        cursor: movingCover ? (dragging ? "grabbing" : "grab") : "default"
+      }}
+      
+            onMouseDown={(e) => {
+          if (!movingCover || !isOwner) return;
+          setDragging(true);
+        }}
+
+            onMouseMove={(e) => {
+
+          if (!dragging || !movingCover) return;
+
+          const rect = e.currentTarget.getBoundingClientRect();
+
+          const x = ((e.clientX - rect.left) / rect.width) * 100;
+          const y = ((e.clientY - rect.top) / rect.height) * 100;
+
+          setCoverPos({
+            x: Math.max(0, Math.min(100, x)),
+            y: Math.max(0, Math.min(100, y))
+          });
+
+        }}
+
+          onMouseUp={async () => {
+
+              if (!dragging || !authUser) return;
+
+              setDragging(false);
+
+              const userRef = doc(db, "users", authUser.uid);
+
+              await updateDoc(userRef, {
+                coverX: coverPos.x,
+                coverY: coverPos.y
+              });
+
+            }}
+
+            onMouseLeave={() => setDragging(false)}
+
+
+      >
           <input
             type="file"
             accept="image/*"
@@ -412,6 +485,17 @@ const totalTop = topQuestions.length;
           </button>
           )}
 
+          {isOwner && userData.coverURL && (
+          <button
+            style={{
+              ...coverButton,
+              top: 45
+            }}
+            onClick={() => setMovingCover(!movingCover)}
+          >
+            {movingCover ? "Guardar" : "↕ Ajustar"}
+          </button>
+        )}
       </div>
                   <div style={avatarWrapper}>
                       {uploadingAvatar ? (
