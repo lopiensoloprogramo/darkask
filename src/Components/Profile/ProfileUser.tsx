@@ -35,10 +35,10 @@ interface UserData {
   name: string;
   email: string;
   photoURL?: string;
-  googlePhotoURL?:string;
+  googlePhotoURL?: string;
+  coverURL?: string;
   username: string;
 }
-
 /* ===== COMPONENT ===== */
 
 export default function ProfileUser({ profileUserId, authUser }: ProfileProps) {
@@ -60,6 +60,7 @@ export default function ProfileUser({ profileUserId, authUser }: ProfileProps) {
   const isOwner = authUser?.uid === profileUserId;
 
   const [uploadingAvatar, setUploadingAvatar] = useState(false);
+  const [uploadingCover, setUploadingCover] = useState(false);
   const [notifications, setNotifications] = useState<any[]>([]);
   const [showNotifications, setShowNotifications] = useState(false);
   const unreadCount = notifications.filter(n => !n.read).length;
@@ -286,6 +287,60 @@ const handleAvatarChange = async (
 };
 
 
+const handleCoverChange = async (
+  e: React.ChangeEvent<HTMLInputElement>
+) => {
+
+  const file = e.target.files?.[0];
+  if (!file || !authUser) return;
+
+  try {
+
+    const img = new Image();
+    const objectUrl = URL.createObjectURL(file);
+
+    img.src = objectUrl;
+
+    img.onload = async () => {
+
+      if (img.height < 160) {
+        alert("La portada debe tener al menos 160px de altura");
+        return;
+      }
+
+      setUploadingCover(true);
+
+      const storage = getStorage();
+      const coverRef = ref(
+        storage,
+        `covers/${authUser.uid}/cover.jpg`
+      );
+
+      await uploadBytes(coverRef, file);
+
+      const downloadURL = await getDownloadURL(coverRef);
+
+      const userRef = doc(db, "users", authUser.uid);
+
+      await updateDoc(userRef, {
+        coverURL: downloadURL
+      });
+
+      setUserData(prev =>
+        prev ? { ...prev, coverURL: downloadURL } : prev
+      );
+
+      URL.revokeObjectURL(objectUrl);
+    };
+
+  } catch (err) {
+    console.error("Error subiendo portada:", err);
+  } finally {
+    setUploadingCover(false);
+  }
+};
+
+
 
 
   /* ===== DATA TO SHOW ===== */
@@ -327,13 +382,25 @@ const totalTop = topQuestions.length;
 
       {/* PERFIL */}
       <div style={profileCard}>
-               <div style={profileCover}>
+          <input
+            type="file"
+            accept="image/*"
+            id="coverInput"
+            style={{ display: "none" }}
+            onChange={handleCoverChange}
+          />
+        <div style={profileCover}>
 
-  <button style={coverButton}>
-    📷
-  </button>
+          {isOwner && (
+          <button
+            style={coverButton}
+            onClick={() => document.getElementById("coverInput")?.click()}
+          >
+            {uploadingCover ? "Subiendo..." : "📷"}
+          </button>
+          )}
 
-</div>
+      </div>
                   <div style={avatarWrapper}>
                       {uploadingAvatar ? (
                         <div style={avatarLoader}></div>
