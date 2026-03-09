@@ -231,7 +231,7 @@ useEffect(() => {
     const alreadyLiked = q.likedBy?.includes(userId) ?? false;
 
     await updateDoc(ref, {
-      likes: increment(alreadyLiked ? -1 : 1),
+      likesCount: increment(alreadyLiked ? -1 : 1),
       likedBy: alreadyLiked ? arrayRemove(userId) : arrayUnion(userId)
     });
 
@@ -392,7 +392,16 @@ const totalTop = topQuestions.length;
             style={{ display: "none" }}
             onChange={handleCoverChange}
           />
-        <div style={profileCover}>
+                  <div
+              style={{
+                ...profileCover,
+                backgroundImage: userData.coverURL
+                  ? `url(${userData.coverURL})`
+                  : undefined,
+                backgroundSize: "cover",
+                backgroundPosition: "center"
+              }}
+            >
 
           {isOwner && (
           <button
@@ -1066,7 +1075,7 @@ const closeNotifBtn: React.CSSProperties = {
 /* ===== PROFILE COVER ===== */
 
 const profileCover: React.CSSProperties = {
-  height: 120,
+  height: 160,
   background: "linear-gradient(135deg,#5b3df5,#7c4dff)",
   borderRadius: "18px 18px 0 0",
   margin: "-22px -22px 10px -22px",
