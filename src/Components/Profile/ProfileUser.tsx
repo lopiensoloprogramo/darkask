@@ -294,23 +294,24 @@ const handleCoverChange = async (
   const file = e.target.files?.[0];
   if (!file || !authUser) return;
 
-  try {
+  const img = new Image();
+  const objectUrl = URL.createObjectURL(file);
 
-    const img = new Image();
-    const objectUrl = URL.createObjectURL(file);
+  img.src = objectUrl;
 
-    img.src = objectUrl;
+  img.onload = async () => {
 
-    img.onload = async () => {
+    try {
 
       if (img.height < 160) {
-        alert("La portada debe tener al menos 160px de altura");
+        alert("La portada debe tener al menos 160px");
         return;
       }
 
       setUploadingCover(true);
 
       const storage = getStorage();
+
       const coverRef = ref(
         storage,
         `covers/${authUser.uid}/cover.jpg`
@@ -330,16 +331,18 @@ const handleCoverChange = async (
         prev ? { ...prev, coverURL: downloadURL } : prev
       );
 
+    } catch (err) {
+
+      console.error("Error subiendo portada:", err);
+
+    } finally {
+
+      setUploadingCover(false);
+
       URL.revokeObjectURL(objectUrl);
-    };
-
-  } catch (err) {
-    console.error("Error subiendo portada:", err);
-  } finally {
-    setUploadingCover(false);
-  }
+    }
+  };
 };
-
 
 
 
