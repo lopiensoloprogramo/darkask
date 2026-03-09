@@ -416,7 +416,7 @@ const totalTop = topQuestions.length;
             style={{ display: "none" }}
             onChange={handleCoverChange}
           />
-<div
+        <div
             style={{
               ...profileCover,
               backgroundImage: userData.coverURL
@@ -1148,7 +1148,7 @@ const closeNotifBtn: React.CSSProperties = {
 /* ===== PROFILE COVER ===== */
 
 const profileCover: React.CSSProperties = {
-  height: 160,
+  height: 170,
   background: "linear-gradient(135deg,#5b3df5,#7c4dff)",
   borderRadius: "18px 18px 0 0",
   margin: "-22px -22px 10px -22px",
