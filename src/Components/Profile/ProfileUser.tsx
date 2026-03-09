@@ -327,7 +327,13 @@ const totalTop = topQuestions.length;
 
       {/* PERFIL */}
       <div style={profileCard}>
-               <div style={profileCover}></div>
+               <div style={profileCover}>
+
+  <button style={coverButton}>
+    📷
+  </button>
+
+</div>
                   <div style={avatarWrapper}>
                       {uploadingAvatar ? (
                         <div style={avatarLoader}></div>
@@ -993,7 +999,8 @@ const profileCover: React.CSSProperties = {
   height: 120,
   background: "linear-gradient(135deg,#5b3df5,#7c4dff)",
   borderRadius: "18px 18px 0 0",
-  margin: "-22px -22px 10px -22px"
+  margin: "-22px -22px 10px -22px",
+  position: "relative"
 };
 
 /* ===== STATS ===== */
@@ -1013,4 +1020,17 @@ const statItem: React.CSSProperties = {
   padding: "6px 12px",
   borderRadius: 10,
   backdropFilter: "blur(4px)"
+};
+
+const coverButton: React.CSSProperties = {
+  position: "absolute",
+  top: 10,
+  right: 10,
+  background: "rgba(0,0,0,0.5)",
+  color: "white",
+  border: "none",
+  borderRadius: 8,
+  padding: "6px 10px",
+  cursor: "pointer",
+  fontSize: 14
 };
