@@ -418,7 +418,7 @@ const totalTop = topQuestions.length;
         cursor: movingCover ? (dragging ? "grabbing" : "grab") : "default"
       }}
       
-            onMouseDown={(e) => {
+            onMouseDown={() => {
           if (!movingCover || !isOwner) return;
           setDragging(true);
         }}
