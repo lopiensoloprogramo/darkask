@@ -427,6 +427,33 @@ const totalTop = topQuestions.length;
               cursor: movingCover ? (dragging ? "grabbing" : "grab") : "default"
             }}
 
+                onTouchStart={() => {
+                  if (!movingCover || !isOwner) return;
+                  setDragging(true);
+                }}
+
+                onTouchMove={(e) => {
+
+                        if (!dragging || !movingCover) return;
+
+                        const touch = e.touches[0];
+                        const rect = e.currentTarget.getBoundingClientRect();
+
+                        const x = ((touch.clientX - rect.left) / rect.width) * 100;
+                        const y = ((touch.clientY - rect.top) / rect.height) * 100;
+
+                        setCoverPos({
+                          x: Math.max(0, Math.min(100, x)),
+                          y: Math.max(0, Math.min(100, y))
+                        });
+
+                      }}
+
+                      onTouchEnd={() => {
+                        setDragging(false);
+                      }}
+
+
             onMouseDown={() => {
               if (!movingCover || !isOwner) return;
               setDragging(true);
@@ -1152,7 +1179,8 @@ const profileCover: React.CSSProperties = {
   background: "linear-gradient(135deg,#5b3df5,#7c4dff)",
   borderRadius: "18px 18px 0 0",
   margin: "-22px -22px 10px -22px",
-  position: "relative"
+  position: "relative",
+  touchAction: "none"
 };
 
 /* ===== STATS ===== */
