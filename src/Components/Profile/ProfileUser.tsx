@@ -25,9 +25,9 @@ import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import type { Question } from "../../types/QuestionsInterfaz";
 import { useNavigate } from "react-router-dom";
 import Header from "../Header";
-import logoBANNER from "../assets/banner.png";
-import fbIcon from "../assets/facebook.png";
-import inIcon from "../assets/instagram.png";
+import logoBANNER from "../../assets/bannernew.png";
+import fbIcon from "../../assets/fbICONO.png";
+import inIcon from "../../assets/inICONO.png";
 
 /* ===== INTERFACES ===== */
 
