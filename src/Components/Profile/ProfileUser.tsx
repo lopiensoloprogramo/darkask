@@ -1001,12 +1001,11 @@ const tab = (active: boolean): React.CSSProperties => ({
 const layout = (mobile: boolean): React.CSSProperties => ({
   display: "grid",
   gridTemplateColumns: mobile ? "1fr" : "320px 2fr 320px",
-  gap: 28,
-  padding: 28,
-  maxWidth: 1400,
-  margin: "auto"
+  gap: mobile ? 16 : 28,
+  padding: mobile ? "16px 12px" : 28,
+  maxWidth: mobile ? 500 : 1200,
+  margin: "0 auto"
 });
-
 const profileCard: React.CSSProperties = {
   background: "linear-gradient(135deg, #6366f1, #8b5cf6)",
   borderRadius: 20,
