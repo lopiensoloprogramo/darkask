@@ -404,7 +404,7 @@ const saveBio = async () => {
       : answeredQuestions
     : answeredQuestions;
 
-/* ===== STATS ===== */
+
 
 const totalAnswers = answeredQuestions.length;
 
@@ -632,12 +632,6 @@ const totalTop = topQuestions.length;
       </>
     )}
 
-    {/* stats */}
-    <div style={statsRow}>
-      <div style={statItem}>💬 <strong>{totalAnswers}</strong></div>
-      <div style={statItem}>❤️ <strong>{totalLikes}</strong></div>
-      <div style={statItem}>🔥 <strong>{totalTop}</strong></div>
-    </div>
 
   </div>
 
