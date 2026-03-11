@@ -669,38 +669,7 @@ const totalTop = topQuestions.length;
                           🔥 <strong>{totalTop}</strong>
                         </div>
                       </div>
-                      {isOwner && (
-                      <button
-                        style={btnEditBio}
-                        onClick={async () => {
-
-                          const newBio = prompt(
-                            "Escribe tu bio (máx 160 caracteres)",
-                            userData.bio || ""
-                          );
-
-                          if (!newBio) return;
-
-                          if (newBio.length > 160) {
-                            alert("La bio no puede superar 160 caracteres");
-                            return;
-                          }
-
-                          const userRef = doc(db, "users", authUser.uid);
-
-                          await updateDoc(userRef, {
-                            bio: newBio
-                          });
-
-                          setUserData(prev =>
-                            prev ? { ...prev, bio: newBio } : prev
-                          );
-
-                        }}
-                      >
-                        ✏️ Editar bio
-                      </button>
-                    )}
+                 
 
    
                   {isOwner ? (
