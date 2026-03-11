@@ -1325,11 +1325,16 @@ const coverButton: React.CSSProperties = {
 
 const bioText: React.CSSProperties = {
   fontSize: 14,
-  opacity: 0.9,
-  marginTop: 6,
-  marginBottom: 10,
-  padding: "0 10px",
-  lineHeight: 1.4
+  color: "#e2e8f0",
+  marginTop: 10,
+  marginBottom: 12,
+  padding: "10px 14px",
+  lineHeight: 1.5,
+  background: "rgba(255,255,255,0.06)",
+  borderRadius: 12,
+  maxWidth: 420,
+  marginLeft: "auto",
+  marginRight: "auto"
 };
 const btnEditBio: React.CSSProperties = {
   marginTop: 8,
