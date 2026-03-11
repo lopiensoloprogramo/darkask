@@ -1,6 +1,6 @@
 import React from "react";
 import ProfileSearch from "./ProfileSearch";
-import { useNavigate } from "react-router-dom";
+
 interface Props {
   isMobile: boolean;
   logo: string;
@@ -52,7 +52,7 @@ const Header: React.FC<Props> = ({ isMobile, logo, fbIcon, inIcon }) => {
     height: 26,
     cursor: "pointer"
   };
-const navigate = useNavigate();
+
   return (
     <div style={bannerHeader}>
 
@@ -63,16 +63,18 @@ const navigate = useNavigate();
             width: isMobile ? 140 : 200,
             height: "auto",
             objectFit: "contain",
-            display: "block"
+            display: "block",
+            cursor: "pointer"
           }}
-          onClick={() => navigate("/")}
         />
       </div>
 
       <div style={bannerRight}>
 
-        <ProfileSearch />
+        {/* BUSCADOR */}
+        {!isMobile && <ProfileSearch/>}
 
+        {/* REDES */}
         <div style={bannerSocial}>
           <img src={fbIcon} style={bannerIcon} />
           <img src={inIcon} style={bannerIcon} />
