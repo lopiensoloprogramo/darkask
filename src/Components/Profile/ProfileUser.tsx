@@ -540,17 +540,7 @@ const totalTop = topQuestions.length;
                 </button>
               )}
       </div>
-                  <div style={avatarWrapper}>
-                      {uploadingAvatar ? (
-                        <div style={avatarLoader}></div>
-                      ) : (
-                        <img
-                          src={userData.photoURL || "/default-avatar.png"}
-                          alt="avatar"
-                          style={avatar}
-                        />
-                      )}
-                    </div>
+
    
 <div style={profileHeader}>
 
@@ -570,7 +560,7 @@ const totalTop = topQuestions.length;
   {/* info */}
   <div style={profileInfo}>
     <div style={nameRow}>
-  <h1 style={{ margin: 0 }}>{userData.name}</h1>
+
 
   {isOwner && (
     <div style={{ position: "relative" }}>
@@ -638,47 +628,6 @@ const totalTop = topQuestions.length;
 </div>
 
 
-        <p style={{ opacity: 0.85 }}>{userData.email}</p>
-{editingBio ? (
-
-  <div style={{ marginTop: 10 }}>
-
-    <textarea
-      value={bioTextValue}
-      onChange={(e) => setBioTextValue(e.target.value)}
-      maxLength={160}
-      style={bioInput}
-    />
-
-    <div style={bioControls}>
-      <span>{bioTextValue.length}/160</span>
-
-      <button onClick={saveBio} style={btnSaveBio}>
-        Guardar
-      </button>
-
-      <button onClick={() => setEditingBio(false)} style={btnCancelBio}>
-        Cancelar
-      </button>
-    </div>
-
-  </div>
-
-) : (
-
-  <>
-    <p style={bioText}>
-      ✨ {userData.bio || "Este usuario aún no tiene bio"}
-    </p>
-
-    {isOwner && (
-      <button onClick={startEditingBio} style={btnEditBio}>
-        ✏️ Editar bio
-      </button>
-    )}
-  </>
-
-)}
                                 {/* STATS */}
                       <div style={statsRow}>
                         <div style={statItem}>
