@@ -644,7 +644,7 @@ const totalTop = topQuestions.length;
 
   <>
     <p style={bioText}>
-      {userData.bio || "Este usuario aún no tiene bio"}
+      ✨ {userData.bio || "Este usuario aún no tiene bio"}
     </p>
 
     {isOwner && (
