@@ -405,7 +405,7 @@ const totalTop = topQuestions.length;
 
   /* ===== UI ===== */
   return (
-    <div style={layout(isMobile)}>
+    <div style={{...layout(isMobile),    background: "#f8fafc",minHeight: "100vh"}}>
 
       {/* PERFIL */}
       <div style={profileCard}>
@@ -928,19 +928,20 @@ const tab = (active: boolean): React.CSSProperties => ({
 
 const layout = (mobile: boolean): React.CSSProperties => ({
   display: "grid",
-  gridTemplateColumns: mobile ? "1fr" : "300px 2fr 1fr",
-  gap: 24,
-  padding: 24,
+  gridTemplateColumns: mobile ? "1fr" : "320px 2fr 320px",
+  gap: 28,
+  padding: 28,
   maxWidth: 1400,
   margin: "auto"
 });
 
 const profileCard: React.CSSProperties = {
-  background: "linear-gradient(135deg, #667eea, #764ba2)",
+  background: "linear-gradient(135deg, #6366f1, #8b5cf6)",
   borderRadius: 20,
   padding: 22,
   color: "#fff",
-  textAlign: "center"
+  textAlign: "center",
+  boxShadow: "0 10px 30px rgba(0,0,0,0.15)"
 };
 
 const avatar: React.CSSProperties = {
@@ -956,25 +957,28 @@ const sectionTitle: React.CSSProperties = {
 };
 
 const card: React.CSSProperties = {
-  background: "#fff",
-  padding: 18,
+  background: "#ffffff",
+  padding: 20,
   borderRadius: 18,
-  boxShadow: "0 8px 20px rgba(0,0,0,.08)",
-  marginBottom: 16
+  boxShadow: "0 10px 30px rgba(0,0,0,0.08)",
+  marginBottom: 18,
+  transition: "all .25s ease"
 };
 
 const questionTitle: React.CSSProperties = {
-  fontWeight: 600,
-  fontSize: 15,
-  marginBottom: 6
+  fontWeight: 700,
+  fontSize: 16,
+  marginBottom: 8,
+  color: "#222"
 };
 
 const answerBox: React.CSSProperties = {
-  background: "#E3FCEF",
-  padding: 10,
-  borderRadius: 10,
-  color: "#0f5132",
-  marginTop: 6
+  background: "#f1f5f9",
+  padding: 12,
+  borderRadius: 12,
+  color: "#334155",
+  marginTop: 8,
+  lineHeight: 1.5
 };
 
 const pendingBox: React.CSSProperties = {
@@ -1011,17 +1015,19 @@ const btnShare: React.CSSProperties = {
 const rankCard: React.CSSProperties = {
   display: "flex",
   gap: 12,
-  padding: 14,
-  background: "#f9f9f9",
-  borderRadius: 14,
-  marginBottom: 10
+  padding: 16,
+  background: "#ffffff",
+  borderRadius: 16,
+  marginBottom: 12,
+  boxShadow: "0 6px 18px rgba(0,0,0,0.06)",
+  alignItems: "center"
 };
 
 const rankNumber: React.CSSProperties = {
-  width: 34,
-  height: 34,
+  width: 36,
+  height: 36,
   borderRadius: "50%",
-  background: "#000",
+  background: "linear-gradient(135deg,#6366f1,#8b5cf6)",
   color: "#fff",
   fontWeight: "bold",
   display: "flex",
@@ -1041,12 +1047,14 @@ const likeRow: React.CSSProperties = {
 };
 
 const heart = (active: boolean): React.CSSProperties => ({
-  background: "none",
+  background: "#f8fafc",
   border: "none",
-  fontSize: 16,
+  fontSize: 14,
   cursor: "pointer",
   fontWeight: "bold",
-  color: active ? "crimson" : "#aaa"
+  color: active ? "#e11d48" : "#64748b",
+  padding: "6px 10px",
+  borderRadius: 10
 });
 
 const avatarWrapper: React.CSSProperties = {
