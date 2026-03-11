@@ -250,31 +250,35 @@ useEffect(() => {
   };
 
   /* ===== LIKE ===== */
-  const handleLike = async (q: Question) => {
-          if (!authUser) {navigate("/");return;}
+ const handleLike = async (q: Question) => {
 
-    const userId = authUser.uid;
-    const ref = doc(db, "questions", q.id);
-    const alreadyLiked = q.likedBy?.includes(userId) ?? false;
+  if (!authUser) {
+    navigate("/");
+    return;
+  }
 
-    await updateDoc(ref, {
-      likesCount: increment(alreadyLiked ? -1 : 1),
-      likedBy: alreadyLiked ? arrayRemove(userId) : arrayUnion(userId)
-    });
+  const userId = authUser.uid;
+  const ref = doc(db, "questions", q.id);
+  const alreadyLiked = q.likedBy?.includes(userId) ?? false;
 
-    const snap = await getDoc(ref);
-    const updated = { id: ref.id, ...snap.data() } as Question;
+  await updateDoc(ref, {
+    likesCount: increment(alreadyLiked ? -1 : 1),
+    likedBy: alreadyLiked ? arrayRemove(userId) : arrayUnion(userId)
+  });
 
-    const sync = (list: Question[]) =>
-      list.map(item =>
-        item.id === q.id
-          ? { ...item, likes: updated.likesCount, likedBy: updated.likedBy }
-          : item
-      );
+  const snap = await getDoc(ref);
+  const updated = { id: ref.id, ...snap.data() } as Question;
 
-    setAnsweredQuestions(sync);
-    setTopQuestions(sync);
-  };
+  const sync = (list: Question[]) =>
+    list.map(item =>
+      item.id === q.id
+        ? { ...item, likesCount: updated.likesCount, likedBy: updated.likedBy }
+        : item
+    );
+
+  setAnsweredQuestions(sync);
+  setTopQuestions(sync);
+};
 
   /*Subir imagen de perfil */
 
@@ -1294,7 +1298,7 @@ const coverButton: React.CSSProperties = {
 
 const bioText: React.CSSProperties = {
   fontSize: 14,
-  color: "#e2e8f0",
+  color: "#000000",
   marginTop: 10,
   marginBottom: 12,
   padding: "10px 14px",
