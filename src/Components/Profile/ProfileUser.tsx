@@ -253,7 +253,7 @@ useEffect(() => {
  const handleLike = async (q: Question) => {
 
   if (!authUser) {
-    navigate("/");
+    navigate("/login");
     return;
   }
 
