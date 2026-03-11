@@ -441,14 +441,16 @@ const totalTop = topQuestions.length;
 
   /* ===== UI ===== */
   return (
-    
+
+<>
+<Header
+  isMobile={isMobile}
+  logo={logoBANNER}
+  fbIcon={fbIcon}
+  inIcon={inIcon}
+/>
     <div style={{...layout(isMobile),    background: "#f8fafc",minHeight: "100vh"}}>
-      <Header
-      isMobile={isMobile}
-      logo={logoBANNER}
-      fbIcon={fbIcon}
-      inIcon={inIcon}
-    />
+    
 
       {/* PERFIL */}
       <div style={profileCard}>
@@ -986,6 +988,7 @@ const totalTop = topQuestions.length;
 
 
     </div>
+</>
   );
 }
 
