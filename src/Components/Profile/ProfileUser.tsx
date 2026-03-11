@@ -552,65 +552,95 @@ const totalTop = topQuestions.length;
                       )}
                     </div>
    
-            <div style={headerRow}>
+<div style={profileHeader}>
+
+  {/* avatar */}
+  <div style={avatarWrapper}>
+    {uploadingAvatar ? (
+      <div style={avatarLoader}></div>
+    ) : (
+      <img
+        src={userData.photoURL || "/default-avatar.png"}
+        alt="avatar"
+        style={avatar}
+      />
+    )}
+  </div>
+
+  {/* info */}
+  <div style={profileInfo}>
+    <div style={nameRow}>
   <h1 style={{ margin: 0 }}>{userData.name}</h1>
-        {isOwner && (
-          <div style={{ position: "relative" }}>
-         <button
-           id="bell-icon"
-           onClick={async () => {
-            setShowNotifications(true);
 
+  {isOwner && (
+    <div style={{ position: "relative" }}>
+      <button
+        id="bell-icon"
+        onClick={() => setShowNotifications(true)}
+        style={bellButton(unreadCount)}
+      >
+        🔔
+      </button>
 
-          }}
-            style={{
-              width: 42,
-              height: 42,
-              borderRadius: "50%",
-              border: "none",
-              cursor: "pointer",
-              fontSize: 18,
-              transition: "0.3s ease",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              background: unreadCount > 0 ? "#ff4757" : "#e0e0e0",
-              color: unreadCount > 0 ? "white" : "#555",
-              boxShadow: unreadCount > 0
-                ? "0 0 12px rgba(255,71,87,0.7)"
-                : "none",
+      {unreadCount > 0 && (
+        <span style={bellBadge}>
+          {unreadCount}
+        </span>
+      )}
+    </div>
+  )}
+</div>
 
-              /* animación */
-              animation: unreadCount > 0 ? "ring 1s ease" : "none"
-            }}
-         >
-          🔔
+    <h1 style={{ margin: 0 }}>{userData.name}</h1>
+
+    <p style={{ opacity: 0.85, margin: 0 }}>
+      {userData.email}
+    </p>
+
+    {editingBio ? (
+      <div style={{ marginTop: 10 }}>
+        <textarea
+          value={bioTextValue}
+          onChange={(e) => setBioTextValue(e.target.value)}
+          maxLength={160}
+          style={bioInput}
+        />
+
+        <div style={bioControls}>
+          <span>{bioTextValue.length}/160</span>
+
+          <button onClick={saveBio} style={btnSaveBio}>
+            Guardar
           </button>
 
-          {unreadCount > 0 && (
-          <span
-            style={{
-              position: "absolute",
-              top: -6,
-              right: -6,
-              background: "black",
-              color: "white",
-              fontSize: 11,
-              fontWeight: "bold",
-              borderRadius: "50%",
-              width: 18,
-              height: 18,
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center"
-            }}
-          >
-            {unreadCount}
-           </span>
-          )}
-        
-          </div>
+          <button onClick={() => setEditingBio(false)} style={btnCancelBio}>
+            Cancelar
+          </button>
+        </div>
+      </div>
+    ) : (
+      <>
+        <p style={bioText}>
+          ✨ {userData.bio || "Este usuario aún no tiene bio"}
+        </p>
+
+        {isOwner && (
+          <button onClick={startEditingBio} style={btnEditBio}>
+            ✏️ Editar bio
+          </button>
         )}
+      </>
+    )}
+
+    {/* stats */}
+    <div style={statsRow}>
+      <div style={statItem}>💬 <strong>{totalAnswers}</strong></div>
+      <div style={statItem}>❤️ <strong>{totalLikes}</strong></div>
+      <div style={statItem}>🔥 <strong>{totalTop}</strong></div>
+    </div>
+
+  </div>
+
 </div>
 
 
@@ -1205,13 +1235,7 @@ const notifModal: React.CSSProperties = {
   position:"relative"
 };
 
-const headerRow: React.CSSProperties = {
-  display: "flex",
-  alignItems: "center",
-  justifyContent: "center",
-  gap: 12,
-  marginTop: 12
-};
+
 
 const ownerActions: React.CSSProperties = {
   marginTop: 18,
@@ -1377,4 +1401,55 @@ const btnCancelBio: React.CSSProperties = {
   padding: "6px 10px",
   borderRadius: 8,
   cursor: "pointer"
+};
+
+const profileHeader: React.CSSProperties = {
+  display: "flex",
+  alignItems: "center",
+  gap: 20,
+  marginTop: 20,
+  padding: "0 20px"
+};
+const profileInfo: React.CSSProperties = {
+  display: "flex",
+  flexDirection: "column",
+  gap: 6
+};
+const nameRow: React.CSSProperties = {
+  display: "flex",
+  alignItems: "center",
+  gap: 10
+};
+const bellButton = (unread: number): React.CSSProperties => ({
+  width: 42,
+  height: 42,
+  borderRadius: "50%",
+  border: "none",
+  cursor: "pointer",
+  fontSize: 18,
+  transition: "0.3s ease",
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "center",
+  background: unread > 0 ? "#ff4757" : "#e0e0e0",
+  color: unread > 0 ? "white" : "#555",
+  boxShadow: unread > 0
+    ? "0 0 12px rgba(255,71,87,0.7)"
+    : "none",
+  animation: unread > 0 ? "ring 1s ease" : "none"
+});
+const bellBadge: React.CSSProperties = {
+  position: "absolute",
+  top: -6,
+  right: -6,
+  background: "black",
+  color: "white",
+  fontSize: 11,
+  fontWeight: "bold",
+  borderRadius: "50%",
+  width: 18,
+  height: 18,
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "center"
 };
