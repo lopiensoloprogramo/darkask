@@ -67,16 +67,18 @@ export default function ProfileUser({ profileUserId, authUser }: ProfileProps) {
 
   const [uploadingAvatar, setUploadingAvatar] = useState(false);
   const [uploadingCover, setUploadingCover] = useState(false);
+  const [editingBio, setEditingBio] = useState(false);
+  const [bioTextValue, setBioTextValue] = useState("");
 
   /* ===== COVER DRAG SYSTEM (PRO) ===== */
 
-const [movingCover, setMovingCover] = useState(false);
-const [dragging, setDragging] = useState(false);
+  const [movingCover, setMovingCover] = useState(false);
+  const [dragging, setDragging] = useState(false);
 
-const [coverPos, setCoverPos] = useState({
-  x: 50,
-  y: 50
-});
+  const [coverPos, setCoverPos] = useState({
+    x: 50,
+    y: 50
+  });
   const [notifications, setNotifications] = useState<any[]>([]);
   const [showNotifications, setShowNotifications] = useState(false);
   const unreadCount = notifications.filter(n => !n.read).length;
@@ -369,7 +371,31 @@ const handleCoverChange = async (
   };
 };
 
+const startEditingBio = () => {
+  setBioTextValue(userData?.bio || "");
+  setEditingBio(true);
+};
+const saveBio = async () => {
 
+  if (!authUser) return;
+
+  if (bioTextValue.length > 160) {
+    alert("Máximo 160 caracteres");
+    return;
+  }
+
+  const userRef = doc(db, "users", authUser.uid);
+
+  await updateDoc(userRef, {
+    bio: bioTextValue
+  });
+
+  setUserData(prev =>
+    prev ? { ...prev, bio: bioTextValue } : prev
+  );
+
+  setEditingBio(false);
+};
 
   /* ===== DATA TO SHOW ===== */
   const questionsToShow = isOwner
@@ -589,9 +615,46 @@ const totalTop = topQuestions.length;
 
 
         <p style={{ opacity: 0.85 }}>{userData.email}</p>
-        <p style={bioText}>
-          {userData.bio || "Este usuario aún no tiene bio"}
-        </p>
+{editingBio ? (
+
+  <div style={{ marginTop: 10 }}>
+
+    <textarea
+      value={bioTextValue}
+      onChange={(e) => setBioTextValue(e.target.value)}
+      maxLength={160}
+      style={bioInput}
+    />
+
+    <div style={bioControls}>
+      <span>{bioTextValue.length}/160</span>
+
+      <button onClick={saveBio} style={btnSaveBio}>
+        Guardar
+      </button>
+
+      <button onClick={() => setEditingBio(false)} style={btnCancelBio}>
+        Cancelar
+      </button>
+    </div>
+
+  </div>
+
+) : (
+
+  <>
+    <p style={bioText}>
+      {userData.bio || "Este usuario aún no tiene bio"}
+    </p>
+
+    {isOwner && (
+      <button onClick={startEditingBio} style={btnEditBio}>
+        ✏️ Editar bio
+      </button>
+    )}
+  </>
+
+)}
                                 {/* STATS */}
                       <div style={statsRow}>
                         <div style={statItem}>
@@ -1277,4 +1340,36 @@ const btnEditBio: React.CSSProperties = {
   color: "#fff",
   cursor: "pointer",
   fontWeight: 600
+};
+const bioInput: React.CSSProperties = {
+  width: "100%",
+  minHeight: 70,
+  borderRadius: 12,
+  border: "none",
+  padding: 10,
+  resize: "none",
+  outline: "none",
+  fontSize: 14
+};
+const bioControls: React.CSSProperties = {
+  display: "flex",
+  justifyContent: "space-between",
+  alignItems: "center",
+  marginTop: 6
+};
+const btnSaveBio: React.CSSProperties = {
+  background: "#22c55e",
+  border: "none",
+  color: "white",
+  padding: "6px 10px",
+  borderRadius: 8,
+  cursor: "pointer"
+};
+const btnCancelBio: React.CSSProperties = {
+  background: "#ef4444",
+  border: "none",
+  color: "white",
+  padding: "6px 10px",
+  borderRadius: 8,
+  cursor: "pointer"
 };
