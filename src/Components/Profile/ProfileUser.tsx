@@ -38,6 +38,7 @@ interface UserData {
   googlePhotoURL?: string;
   coverURL?: string;
   username: string;
+  bio?: string;
     // posición de la portada
   coverX?: number;
   coverY?: number;
@@ -113,12 +114,12 @@ useEffect(() => {
 useEffect(() => {
   if (!isOwner) return;
 
-  const normalize = (d: any) => ({
-    ...d,
-    likedBy: d.likedBy || [],
-    likes: d.likes || 0,
-    score: d.score || 0
-  });
+ const normalize = (d: any) => ({
+  ...d,
+  likedBy: d.likedBy || [],
+  likesCount: d.likesCount || 0,
+  score: d.score || 0
+});
 
   const qPending = query(
     collection(db, "questions"),
@@ -588,6 +589,9 @@ const totalTop = topQuestions.length;
 
 
         <p style={{ opacity: 0.85 }}>{userData.email}</p>
+        <p style={bioText}>
+          {userData.bio || "Este usuario aún no tiene bio"}
+        </p>
                                 {/* STATS */}
                       <div style={statsRow}>
                         <div style={statItem}>
@@ -602,6 +606,38 @@ const totalTop = topQuestions.length;
                           🔥 <strong>{totalTop}</strong>
                         </div>
                       </div>
+                      {isOwner && (
+                      <button
+                        style={btnEditBio}
+                        onClick={async () => {
+
+                          const newBio = prompt(
+                            "Escribe tu bio (máx 160 caracteres)",
+                            userData.bio || ""
+                          );
+
+                          if (!newBio) return;
+
+                          if (newBio.length > 160) {
+                            alert("La bio no puede superar 160 caracteres");
+                            return;
+                          }
+
+                          const userRef = doc(db, "users", authUser.uid);
+
+                          await updateDoc(userRef, {
+                            bio: newBio
+                          });
+
+                          setUserData(prev =>
+                            prev ? { ...prev, bio: newBio } : prev
+                          );
+
+                        }}
+                      >
+                        ✏️ Editar bio
+                      </button>
+                    )}
 
    
                   {isOwner ? (
@@ -728,7 +764,7 @@ const totalTop = topQuestions.length;
                     style={heart(q.likedBy?.includes(authUser?.uid ?? "") ?? false)}
                     onClick={() => handleLike(q)}
                   >
-                    ❤️ {q.likesCount}
+                    ❤️ {q.likesCount} Me gusta
                   </button>
                 </div>
 
@@ -1047,14 +1083,15 @@ const likeRow: React.CSSProperties = {
 };
 
 const heart = (active: boolean): React.CSSProperties => ({
-  background: "#f8fafc",
+  background: active ? "#ffe4e6" : "#f8fafc",
   border: "none",
   fontSize: 14,
   cursor: "pointer",
   fontWeight: "bold",
   color: active ? "#e11d48" : "#64748b",
   padding: "6px 10px",
-  borderRadius: 10
+  borderRadius: 10,
+  transition: "all .2s ease"
 });
 
 const avatarWrapper: React.CSSProperties = {
@@ -1221,4 +1258,23 @@ const coverButton: React.CSSProperties = {
   padding: "6px 10px",
   cursor: "pointer",
   fontSize: 14
+};
+
+const bioText: React.CSSProperties = {
+  fontSize: 14,
+  opacity: 0.9,
+  marginTop: 6,
+  marginBottom: 10,
+  padding: "0 10px",
+  lineHeight: 1.4
+};
+const btnEditBio: React.CSSProperties = {
+  marginTop: 8,
+  background: "rgba(255,255,255,0.15)",
+  border: "2px solid rgba(255,255,255,0.4)",
+  padding: "8px 12px",
+  borderRadius: 12,
+  color: "#fff",
+  cursor: "pointer",
+  fontWeight: 600
 };
