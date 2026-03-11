@@ -24,6 +24,11 @@ import ShareModal from "../ShareModal";
 import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import type { Question } from "../../types/QuestionsInterfaz";
 import { useNavigate } from "react-router-dom";
+import Header from "../Header";
+import logoBANNER from "../assets/banner.png";
+import fbIcon from "../assets/facebook.png";
+import inIcon from "../assets/instagram.png";
+
 /* ===== INTERFACES ===== */
 
 interface ProfileProps {
@@ -436,7 +441,14 @@ const totalTop = topQuestions.length;
 
   /* ===== UI ===== */
   return (
+    
     <div style={{...layout(isMobile),    background: "#f8fafc",minHeight: "100vh"}}>
+      <Header
+      isMobile={isMobile}
+      logo={logoBANNER}
+      fbIcon={fbIcon}
+      inIcon={inIcon}
+    />
 
       {/* PERFIL */}
       <div style={profileCard}>
