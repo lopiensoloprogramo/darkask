@@ -73,7 +73,18 @@ const Header: React.FC<Props> = ({ isMobile, logo, fbIcon, inIcon }) => {
 
         {/* BUSCADOR */}
         {!isMobile && <ProfileSearch/>}
-
+            {isMobile && (
+            <button
+                style={{
+                fontSize: 20,
+                border: "none",
+                background: "transparent",
+                cursor: "pointer"
+                }}
+            >
+                🔍
+            </button>
+            )}
         {/* REDES */}
         <div style={bannerSocial}>
           <img src={fbIcon} style={bannerIcon} />
