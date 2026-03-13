@@ -8,9 +8,9 @@ import React, { useState } from "react";
 import ProfileSearch from "./ProfileSearch";
 
 
-const [showSearch, setShowSearch] = useState(false);
-const Header: React.FC<Props> = ({ isMobile, logo, fbIcon, inIcon }) => {
 
+const Header: React.FC<Props> = ({ isMobile, logo, fbIcon, inIcon }) => {
+const [showSearch, setShowSearch] = useState(false);
   const bannerHeader: React.CSSProperties = {
     position: "sticky",
     top: 0,
