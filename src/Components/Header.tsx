@@ -1,6 +1,6 @@
-import React from "react";
+
 import ProfileSearch from "./ProfileSearch";
-import { useState } from "react";
+import React, { useState } from "react";
 
 
 interface Props {
