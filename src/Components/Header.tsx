@@ -1,7 +1,7 @@
 import React from "react";
 import ProfileSearch from "./ProfileSearch";
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+
 
 interface Props {
   isMobile: boolean;
@@ -9,7 +9,7 @@ interface Props {
   fbIcon: string;
   inIcon: string;
 }
-  const navigate = useNavigate();
+
 const [showSearch, setShowSearch] = useState(false);
 const Header: React.FC<Props> = ({ isMobile, logo, fbIcon, inIcon }) => {
 
@@ -69,7 +69,7 @@ const Header: React.FC<Props> = ({ isMobile, logo, fbIcon, inIcon }) => {
             display: "block",
             cursor: "pointer"
           }}
-                  onClick={() => navigate(`/`)}
+     
         />
       </div>
 
