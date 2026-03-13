@@ -85,7 +85,7 @@ const [showSearch, setShowSearch] = useState(false);
             >
             {showSearch ? "✖" : "🔍"}
             </button>
-            {(!isMobile || showSearch) && <ProfileSearch />}
+            {showSearch && <ProfileSearch />}
         {/* REDES */}
         <div style={bannerSocial}>
           <img src={fbIcon} style={bannerIcon} />
