@@ -11,10 +11,6 @@ import ProfileSearch from "../Components/ProfileSearch";
 import LoginModal from "./LoginModal";
 import { 
   doc, 
-  setDoc, 
-  deleteDoc, 
-  getDoc, 
-  updateDoc, 
   increment, 
   serverTimestamp,
   runTransaction
@@ -42,7 +38,8 @@ export default function LatestAnsweredQuestions({ limit = 20 }: Props) {
   const [isMobile, setIsMobile] = useState(window.innerWidth < 900);
   const [showLogin, setShowLogin] = useState(false);
   const [usersMap, setUsersMap] = useState<Record<string, any>>({});
-
+// guarda qué preguntas ya le gustaron al usuario
+const [userLikes, setUserLikes] = useState<Record<string, boolean>>({});
 
 
 
@@ -55,13 +52,35 @@ const handleLike = async (q: Question) => {
     setShowLogin(true);
     return;
   }
-
+const alreadyLiked = userLikes[q.id];
   try {
 
     const likeId = `${q.id}_${authUser.uid}`;
 
     const likeRef = doc(db, "likes", likeId);
     const questionRef = doc(db, "questions", q.id);
+
+    // ==========================
+// ACTUALIZACIÓN INSTANTÁNEA
+// ==========================
+
+// actualizar contador visual inmediatamente
+setQuestions(prev =>
+  prev.map(item =>
+    item.id === q.id
+      ? {
+          ...item,
+          likesCount: (item.likesCount || 0) + (alreadyLiked ? -1 : 1)
+        }
+      : item
+  )
+);
+
+// actualizar corazón
+setUserLikes(prev => ({
+  ...prev,
+  [q.id]: !alreadyLiked
+}));
 
     await runTransaction(db, async (transaction) => {
 
@@ -96,6 +115,26 @@ const handleLike = async (q: Question) => {
   } catch (err) {
 
     console.error("Error toggle like", err);
+
+  // ==========================
+  // REVERTIR CAMBIOS VISUALES
+  // ==========================
+
+  setQuestions(prev =>
+    prev.map(item =>
+      item.id === q.id
+        ? {
+            ...item,
+            likesCount: (item.likesCount || 0) + (alreadyLiked ? 1 : -1)
+          }
+        : item
+    )
+  );
+
+  setUserLikes(prev => ({
+    ...prev,
+    [q.id]: alreadyLiked
+  }));
 
   }
 
@@ -144,6 +183,29 @@ const fetchQuestions = async () => {
   });
 
   setUsersMap(map);
+
+  // ==========================
+// CARGAR LIKES DEL USUARIO
+// ==========================
+
+if (authUser) {
+
+  const likesQuery = query(
+    collection(db, "likes"),
+    where("userId", "==", authUser.uid)
+  );
+
+  const likesSnap = await getDocs(likesQuery);
+
+  const likesMap: Record<string, boolean> = {};
+
+  likesSnap.docs.forEach(doc => {
+    const data = doc.data();
+    likesMap[data.questionId] = true;
+  });
+
+  setUserLikes(likesMap);
+}
 };
 
     const fetchTopUsers = async () => {
@@ -303,7 +365,11 @@ const handleLogin = () => {
                     <span>⏳ {timeAgo(q.answeredAt || q.timestamp)}</span>
                     <span
                       onClick={() => handleLike(q)}
-                      style={{ cursor: "pointer" }}
+                      style={{
+                        cursor: "pointer",
+                        color: userLikes[q.id] ? "#ef4444" : "#9ca3af",
+                        fontWeight: "bold"
+                      }}
                     >
                       ❤️ {q.likesCount || 0}
                     </span>
