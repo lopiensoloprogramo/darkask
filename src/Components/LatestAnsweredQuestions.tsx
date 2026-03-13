@@ -9,7 +9,17 @@ import inIcon from "../assets/inICONO.png";
 import logoBANNER from "../assets/bannernew.png"
 import ProfileSearch from "../Components/ProfileSearch";
 import LoginModal from "./LoginModal";
-import { doc, setDoc, deleteDoc, getDoc, updateDoc, increment, serverTimestamp } from "firebase/firestore";
+import { 
+  doc, 
+  setDoc, 
+  deleteDoc, 
+  getDoc, 
+  updateDoc, 
+  increment, 
+  serverTimestamp,
+  runTransaction
+} from "firebase/firestore";
+
 
 interface UserSummary {
   id: string;
@@ -36,6 +46,9 @@ export default function LatestAnsweredQuestions({ limit = 20 }: Props) {
 
 
 
+// ======================================
+// LIKE CON TRANSACCIÓN (EVITA ERRORES)
+// ======================================
 const handleLike = async (q: Question) => {
 
   if (!authUser) {
@@ -43,42 +56,49 @@ const handleLike = async (q: Question) => {
     return;
   }
 
-  const likeId = `${q.id}_${authUser.uid}`;
-
-  const likeRef = doc(db, "likes", likeId);
-  const questionRef = doc(db, "questions", q.id);
-
-  const likeSnap = await getDoc(likeRef);
-
   try {
 
-    if (likeSnap.exists()) {
+    const likeId = `${q.id}_${authUser.uid}`;
 
-      // quitar like
-      await deleteDoc(likeRef);
+    const likeRef = doc(db, "likes", likeId);
+    const questionRef = doc(db, "questions", q.id);
 
-      await updateDoc(questionRef, {
-        likesCount: increment(-1)
-      });
+    await runTransaction(db, async (transaction) => {
 
-    } else {
+      const likeSnap = await transaction.get(likeRef);
 
-      // dar like
-      await setDoc(likeRef, {
-        questionId: q.id,
-        userId: authUser.uid,
-        createdAt: serverTimestamp()
-      });
+      if (likeSnap.exists()) {
 
-      await updateDoc(questionRef, {
-        likesCount: increment(1)
-      });
+        // quitar like
+        transaction.delete(likeRef);
 
-    }
+        transaction.update(questionRef, {
+          likesCount: increment(-1)
+        });
+
+      } else {
+
+        // dar like
+        transaction.set(likeRef, {
+          questionId: q.id,
+          userId: authUser.uid,
+          createdAt: serverTimestamp()
+        });
+
+        transaction.update(questionRef, {
+          likesCount: increment(1)
+        });
+
+      }
+
+    });
 
   } catch (err) {
+
     console.error("Error toggle like", err);
+
   }
+
 };
 
 
