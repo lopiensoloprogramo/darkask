@@ -69,7 +69,7 @@ const Header: React.FC<Props> = ({ isMobile, logo, fbIcon, inIcon }) => {
             display: "block",
             cursor: "pointer"
           }}
-          onClick={()=>  navigate("/")}
+                  onClick={() => navigate(`/`)}
         />
       </div>
 
