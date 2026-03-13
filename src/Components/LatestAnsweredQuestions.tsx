@@ -295,7 +295,12 @@ const handleLogin = () => {
               <div style={bannerSocial}>
                 
               <img src={fbIcon} style={bannerIcon} />
-              <img src={inIcon} style={bannerIcon} />
+              <a href="https://www.instagram.com/ladarkask?igsh=NjE4ZGpncGdoN2Uy" target="_blank" 
+              rel="noopener noreferrer"
+              style={{ display: "flex" }}
+              >
+                <img src={inIcon} style={bannerIcon} />
+              </a>
               </div>
             </div>
 
