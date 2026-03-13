@@ -1,5 +1,6 @@
 import React from "react";
 import ProfileSearch from "./ProfileSearch";
+import { useState } from "react";
 
 interface Props {
   isMobile: boolean;
@@ -7,7 +8,7 @@ interface Props {
   fbIcon: string;
   inIcon: string;
 }
-
+const [showSearch, setShowSearch] = useState(false);
 const Header: React.FC<Props> = ({ isMobile, logo, fbIcon, inIcon }) => {
 
   const bannerHeader: React.CSSProperties = {
@@ -71,20 +72,18 @@ const Header: React.FC<Props> = ({ isMobile, logo, fbIcon, inIcon }) => {
 
       <div style={bannerRight}>
 
-        {/* BUSCADOR */}
-        {!isMobile && <ProfileSearch/>}
-            {isMobile && (
             <button
-                style={{
+            onClick={() => setShowSearch(!showSearch)}
+            style={{
                 fontSize: 20,
                 border: "none",
                 background: "transparent",
                 cursor: "pointer"
-                }}
+            }}
             >
-                🔍
+            {showSearch ? "✖" : "🔍"}
             </button>
-            )}
+            {(!isMobile || showSearch) && <ProfileSearch />}
         {/* REDES */}
         <div style={bannerSocial}>
           <img src={fbIcon} style={bannerIcon} />
