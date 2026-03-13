@@ -6,11 +6,12 @@ interface Props {
 }
 import React, { useState } from "react";
 import ProfileSearch from "./ProfileSearch";
-
+import { useNavigate } from "react-router-dom";
 
 
 const Header: React.FC<Props> = ({ isMobile, logo, fbIcon, inIcon }) => {
 const [showSearch, setShowSearch] = useState(false);
+  const navigate = useNavigate();
   const bannerHeader: React.CSSProperties = {
     position: "sticky",
     top: 0,
@@ -67,7 +68,7 @@ const [showSearch, setShowSearch] = useState(false);
             display: "block",
             cursor: "pointer"
           }}
-     
+          onClick={()=>{navigate("/")}}
         />
       </div>
 
