@@ -89,7 +89,9 @@ const [showSearch, setShowSearch] = useState(false);
         {/* REDES */}
         <div style={bannerSocial}>
           <img src={fbIcon} style={bannerIcon} />
-          <img src={inIcon} style={bannerIcon} />
+            <a href="https://www.instagram.com/ladarkask?igsh=NjE4ZGpncGdoN2Uy" target="_blank">
+              <img src={inIcon} style={bannerIcon} />
+            </a>
         </div>
 
       </div>
