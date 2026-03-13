@@ -1,14 +1,12 @@
-
-import ProfileSearch from "./ProfileSearch";
-import React, { useState } from "react";
-
-
 interface Props {
   isMobile: boolean;
   logo: string;
   fbIcon: string;
   inIcon: string;
 }
+import React, { useState } from "react";
+import ProfileSearch from "./ProfileSearch";
+
 
 const [showSearch, setShowSearch] = useState(false);
 const Header: React.FC<Props> = ({ isMobile, logo, fbIcon, inIcon }) => {
