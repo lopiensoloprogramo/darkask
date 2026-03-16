@@ -28,7 +28,7 @@ import Header from "../Header";
 import logoBANNER from "../../assets/bannernew.png";
 import fbIcon from "../../assets/fbICONO.png";
 import inIcon from "../../assets/inICONO.png";
-import coverdefault1 from "../../assets/defecto1.jpg";
+import coverdefault1 from "../../assets/defecto1.png";
 import coverdefault2 from "../../assets/defecto2.jpg";
 import coverdefault3 from "../../assets/defecto3.jpg";
 import coverdefault4 from "../../assets/defecto4.jpg";
