@@ -28,6 +28,13 @@ import Header from "../Header";
 import logoBANNER from "../../assets/bannernew.png";
 import fbIcon from "../../assets/fbICONO.png";
 import inIcon from "../../assets/inICONO.png";
+import coverdefault1 from "../../assets/defecto1.jpg";
+import coverdefault2 from "../../assets/defecto2.jpg";
+import coverdefault3 from "../../assets/defecto3.jpg";
+import coverdefault4 from "../../assets/defecto4.jpg";
+
+
+
 
 /* ===== INTERFACES ===== */
 
@@ -90,6 +97,36 @@ export default function ProfileUser({ profileUserId, authUser }: ProfileProps) {
   const [highlightedId, setHighlightedId] = useState<string | null>(null);
   const [prevNotifCount, setPrevNotifCount] = useState(0);
   const navigate = useNavigate();
+
+const defaultCovers = [coverdefault1,coverdefault2,coverdefault3,coverdefault4];
+const [coverIndex, setCoverIndex] = useState(0);
+const [fade, setFade] = useState(true);
+
+useEffect(() => {
+
+  if (userData?.coverURL) return; // si tiene portada no rotar
+
+  const interval = setInterval(() => {
+
+    setFade(false);
+
+    setTimeout(() => {
+
+      setCoverIndex(prev => (prev + 1) % defaultCovers.length);
+      setFade(true);
+
+    }, 600);
+
+  }, 5000);
+
+  return () => clearInterval(interval);
+
+}, [userData]);
+
+
+
+
+
 
   /* ===== RESPONSIVE ===== */
   useEffect(() => {
@@ -462,15 +499,24 @@ const totalTop = topQuestions.length;
             onChange={handleCoverChange}
           />
         <div
-            style={{
-              ...profileCover,
-              backgroundImage: userData.coverURL
-                ? `url(${userData.coverURL})`
-                : undefined,
-              backgroundSize: "cover",
-              backgroundPosition: `${coverPos.x}% ${coverPos.y}%`,
-              cursor: movingCover ? (dragging ? "grabbing" : "grab") : "default"
-            }}
+              style={{
+                  ...profileCover,
+
+                  // si el usuario tiene portada → usar esa
+                  // si NO → usar las portadas automáticas
+                  backgroundImage: `url(${
+                    userData.coverURL || defaultCovers[coverIndex]
+                  })`,
+
+                  backgroundSize: "cover",
+                  backgroundPosition: `${coverPos.x}% ${coverPos.y}%`,
+
+                  // efecto fade
+                  opacity: fade ? 1 : 0,
+                  transition: "opacity 0.6s ease",
+
+                  cursor: movingCover ? (dragging ? "grabbing" : "grab") : "default"
+                }}
 
                 onTouchStart={() => {
                   if (!movingCover || !isOwner) return;
