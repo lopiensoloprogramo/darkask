@@ -54,7 +54,8 @@ interface UserData {
     // posición de la portada
   coverX?: number;
   coverY?: number;
-
+  //Visitas al perfil
+    profileViews?: number;
 
 }
 /* ===== COMPONENT ===== */
@@ -229,10 +230,21 @@ useEffect(() => {
     setLoading(true);
 
     /* --- USER --- */
-    const snapUser = await getDoc(doc(db, "users", profileUserId));
-    const data = snapUser.exists() ? (snapUser.data() as UserData) : null;
+  const userRef = doc(db, "users", profileUserId);
+const snapUser = await getDoc(userRef);
 
-    setUserData(data);
+let data = snapUser.exists() ? (snapUser.data() as UserData) : null;
+
+// 🔥 si no existe profileViews, lo creamos
+if (data && data.profileViews === undefined) {
+  await updateDoc(userRef, {
+    profileViews: 0
+  });
+
+  data.profileViews = 0;
+}
+
+setUserData(data);
 
     if (data) {
       setCoverPos({
