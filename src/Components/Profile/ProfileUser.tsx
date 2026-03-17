@@ -241,7 +241,7 @@ if (data && data.profileViews === undefined) {
     profileViews: 0
   });
 
-  data.profileViews = 0;
+  data.profileViews = 1;
 }
 
 setUserData(data);
