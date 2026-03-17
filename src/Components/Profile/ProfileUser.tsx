@@ -657,15 +657,27 @@ const totalTop = topQuestions.length;
                     </div>
    
             <div style={headerRow}>
-  <h1 style={{ margin: 0 }}>{userData.name}</h1>
-          <p style={{
-            margin: "4px 0",
-            fontSize: 14,
-            opacity: 0.85,
-            fontWeight: 600
-          }}>
-          👁️ {formatViews((userData as any).profileViews || 0)} visitas
-          </p>
+              <h1 style={{
+                  margin: 0,
+                  display: "flex",
+                  alignItems: "center",
+                  gap: 8,
+                  justifyContent: "center",
+                  flexWrap: "wrap"
+                }}>
+                  {userData.name}
+
+                  <span style={{
+                    fontSize: 14,
+                    fontWeight: 600,
+                    opacity: 0.85,
+                    display: "flex",
+                    alignItems: "center",
+                    gap: 4
+                  }}>
+                    👁️ {formatViews((userData as any).profileViews || 0)}
+                  </span>
+              </h1>
         {isOwner && (
           <div style={{ position: "relative" }}>
          <button
