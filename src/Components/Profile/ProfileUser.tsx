@@ -123,6 +123,36 @@ useEffect(() => {
 
 }, [userData]);
 
+useEffect(() => {
+  if (!profileUserId) return;
+
+  // ❌ no contar si es el dueño
+  if (authUser?.uid === profileUserId) return;
+
+  // 🔐 evitar duplicados (por sesión)
+  const key = `viewed_${profileUserId}`;
+
+  if (sessionStorage.getItem(key)) return;
+
+  const addView = async () => {
+    try {
+      const userRef = doc(db, "users", profileUserId);
+
+      await updateDoc(userRef, {
+        profileViews: increment(1)
+      });
+
+      // marcar como visto
+      sessionStorage.setItem(key, "true");
+
+    } catch (err) {
+      console.error("Error contando vista:", err);
+    }
+  };
+
+  addView();
+
+}, [profileUserId, authUser]);
 
 
 
@@ -450,6 +480,16 @@ const saveBio = async () => {
       : answeredQuestions
     : answeredQuestions;
 
+
+// 🔥 Formatear visitas (1K, 1.2K, etc)
+const formatViews = (num: number) => {
+  if (num >= 1000000) return (num / 1000000).toFixed(1) + "M";
+  if (num >= 1000) return (num / 1000).toFixed(1) + "K";
+  return num;
+};
+
+
+
 /* ===== STATS ===== */
 
 const totalAnswers = answeredQuestions.length;
@@ -618,6 +658,14 @@ const totalTop = topQuestions.length;
    
             <div style={headerRow}>
   <h1 style={{ margin: 0 }}>{userData.name}</h1>
+          <p style={{
+            margin: "4px 0",
+            fontSize: 14,
+            opacity: 0.85,
+            fontWeight: 600
+          }}>
+          👁️ {formatViews((userData as any).profileViews || 0)} visitas
+          </p>
         {isOwner && (
           <div style={{ position: "relative" }}>
          <button
