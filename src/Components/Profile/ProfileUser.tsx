@@ -191,7 +191,7 @@ function getActivityStatus(lastActive: number) {
   if (hours < 24) return "🟡 Activo hoy";
   if (days < 2) return "🟠 Activo ayer";
 
-  return "⚪ Hace dos días";
+  return "⚪ Activo Hace 2 días";
 }
 
 
