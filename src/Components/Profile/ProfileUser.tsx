@@ -782,6 +782,7 @@ const totalTop = topQuestions.length;
 
       <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
         <span style={{
+          margin:"auto",
           alignItems: "center",
           width: 8,
           height: 8,
