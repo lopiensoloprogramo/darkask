@@ -7,9 +7,9 @@ import { doc, setDoc, deleteDoc, getDoc, updateDoc, increment, serverTimestamp }
 import { auth } from "../services/firebase";
 import { onAuthStateChanged } from "firebase/auth";
 import Header from "./Header";
-import logoBANNER from "../../assets/bannernew.png";
-import fbIcon from "../../assets/fbICONO.png";
-import inIcon from "../../assets/inICONO.png";
+import logoBANNER from "../assets/bannernew.png";
+import fbIcon from "../assets/fbICONO.png";
+import inIcon from "../assets/inICONO.png";
 
 export default function InternalFeed() {
 
@@ -25,7 +25,7 @@ export default function InternalFeed() {
       window.addEventListener("resize", handleResize);
       return () => window.removeEventListener("resize", handleResize);
     }, []);
-    
+
 useEffect(() => {
 
   const unsub = onAuthStateChanged(auth, (user) => {
