@@ -781,17 +781,7 @@ const totalTop = topQuestions.length;
 </div>
 
       <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
-        <span style={{
-          margin:"auto",
-          alignItems: "center",
-          width: 8,
-          height: 8,
-          borderRadius: "50%",
-          background:
-            Date.now() - (userData.lastActive ?? 0) < 5 * 60 * 1000
-              ? "#22c55e"
-              : "#9ca3af"
-        }} />
+     
         <span>{getActivityStatus(userData.lastActive ?? 0)}</span>
       </div>
 
