@@ -780,7 +780,7 @@ const totalTop = topQuestions.length;
         )}
 </div>
 
-      <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
+      <div style={{ display: "flex", alignItems: "center", gap: 6 ,justifyContent: "center"}}>
      
         <span>{getActivityStatus(userData.lastActive ?? 0)}</span>
       </div>
