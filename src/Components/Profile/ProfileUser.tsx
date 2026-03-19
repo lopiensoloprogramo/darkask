@@ -182,9 +182,14 @@ function getActivityStatus(lastActive: number) {
 
   const diff = Date.now() - lastActive;
 
-  if (diff < 5 * 60 * 1000) return "🟢 Activo ahora";
-  if (diff < 60 * 60 * 1000) return "🟢 Activo hace poco";
-  if (diff < 24 * 60 * 60 * 1000) return "🟡 Activo hoy";
+  const minutes = diff / (60 * 1000);
+  const hours = diff / (60 * 60 * 1000);
+  const days = diff / (24 * 60 * 60 * 1000);
+
+  if (minutes < 5) return "🟢 Activo ahora";
+  if (minutes < 60) return "🟢 Activo hace poco";
+  if (hours < 24) return "🟡 Activo hoy";
+  if (days < 2) return "🟠 Activo ayer";
 
   return "⚫ Inactivo";
 }
