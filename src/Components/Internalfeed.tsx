@@ -320,9 +320,8 @@ ESTILOS
 
 
 const container: React.CSSProperties = {
-  maxWidth: 1000,
+  maxWidth: 1200,
   margin: "auto",
-  padding: 24,
   background: "#f3f4f6",
   minHeight: "100vh"
 };
