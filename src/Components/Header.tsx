@@ -25,7 +25,7 @@ const [showSearch, setShowSearch] = useState(false);
     justifyContent: "space-between",
     alignItems: "center",
 
-    padding: isMobile ? "8px 14px" : "0px",
+    padding: isMobile ? "8px 14px" : "8px",
     height: isMobile ? 56 : 64,
 
    maxWidth: isMobile ? 500 : 1200,
