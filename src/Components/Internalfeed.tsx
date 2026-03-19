@@ -214,7 +214,7 @@ const handleLike = async (q: Question) => {
 
 
   return (
-    <>
+    <div style={cajaMayor}>
   
    <Header
      isMobile={isMobile}
@@ -311,7 +311,7 @@ const handleLike = async (q: Question) => {
 
     </div>
   
-    </>
+    </div>
   );
   
 }
@@ -322,13 +322,17 @@ ESTILOS
 ====================== */
 
 
-
-
-
-const container: React.CSSProperties = {
+const cajaMayor: React.CSSProperties={
   maxWidth: 1000,
   margin: "auto",
   padding: 24,
+}
+
+
+const container: React.CSSProperties = {
+ 
+ 
+ 
   background: "#f3f4f6",
   minHeight: "100vh"
 };
