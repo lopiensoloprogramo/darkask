@@ -214,7 +214,8 @@ const handleLike = async (q: Question) => {
 
 
   return (
-   <div style={contenedorMayor}>
+    <>
+ 
    <Header
      isMobile={isMobile}
      logo={logoBANNER}
@@ -305,7 +306,8 @@ const handleLike = async (q: Question) => {
       })}
 
     </div>
-    </div>
+  
+    </>
   );
   
 }
@@ -317,8 +319,9 @@ ESTILOS
 
 const contenedorMayor:React.CSSProperties={
 
-  maxWidth: 1000,
+
   margin: "auto",
+   padding: 24
 }
 
 const container: React.CSSProperties = {
