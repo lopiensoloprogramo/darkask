@@ -325,14 +325,14 @@ ESTILOS
 const cajaMayor: React.CSSProperties={
   maxWidth: 1000,
   margin: "auto",
-  padding: 24,
+
 }
 
 
 const container: React.CSSProperties = {
  
  
- 
+  padding: 24,
   background: "#f3f4f6",
   minHeight: "100vh"
 };
