@@ -6,7 +6,10 @@ import type { Question } from "../types/QuestionsInterfaz";
 import { doc, setDoc, deleteDoc, getDoc, updateDoc, increment, serverTimestamp } from "firebase/firestore";
 import { auth } from "../services/firebase";
 import { onAuthStateChanged } from "firebase/auth";
-
+import Header from "./Header";
+import logoBANNER from "../../assets/bannernew.png";
+import fbIcon from "../../assets/fbICONO.png";
+import inIcon from "../../assets/inICONO.png";
 
 export default function InternalFeed() {
 
@@ -15,8 +18,14 @@ export default function InternalFeed() {
   const [tab, setTab] = useState<"recent" | "top" | "spicy">("recent");
   const [loading, setLoading] = useState(true);
   const [authUser, setAuthUser] = useState<any>(null);
+  const [isMobile, setIsMobile] = useState(window.innerWidth < 900);
 
-
+    useEffect(() => {
+      const handleResize = () => setIsMobile(window.innerWidth < 900);
+      window.addEventListener("resize", handleResize);
+      return () => window.removeEventListener("resize", handleResize);
+    }, []);
+    
 useEffect(() => {
 
   const unsub = onAuthStateChanged(auth, (user) => {
@@ -205,9 +214,15 @@ const handleLike = async (q: Question) => {
 
 
   return (
-
+   <>
+   <Header
+     isMobile={isMobile}
+     logo={logoBANNER}
+     fbIcon={fbIcon}
+     inIcon={inIcon}
+   />
     <div style={container}>
-
+      
       <h2 style={title}>🔥 Chismes del momento</h2>
 
       {/* TABS */}
@@ -290,7 +305,9 @@ const handleLike = async (q: Question) => {
       })}
 
     </div>
+    </>
   );
+  
 }
 
 
