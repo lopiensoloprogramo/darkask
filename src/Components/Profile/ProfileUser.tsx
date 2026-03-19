@@ -178,7 +178,7 @@ useEffect(() => {
 }, [authUser]);
 
 function getActivityStatus(lastActive: number) {
-  if (!lastActive) return "⚫ Inactivo";
+  if (!lastActive) return "⚪ Hace dos días";
 
   const diff = Date.now() - lastActive;
 
@@ -191,7 +191,7 @@ function getActivityStatus(lastActive: number) {
   if (hours < 24) return "🟡 Activo hoy";
   if (days < 2) return "🟠 Activo ayer";
 
-  return "⚫ Inactivo";
+  return "⚪ Hace dos días";
 }
 
 
