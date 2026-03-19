@@ -324,6 +324,7 @@ ESTILOS
 
 const cajaMayor: React.CSSProperties={
   maxWidth: 1000,
+  width:"100%",
   margin: "auto",
   boxSizing: "border-box"
 }
