@@ -317,12 +317,7 @@ const handleLike = async (q: Question) => {
 ESTILOS
 ====================== */
 
-const contenedorMayor:React.CSSProperties={
 
-
-  margin: "auto",
-   padding: 24
-}
 
 const container: React.CSSProperties = {
   maxWidth: 1000,
