@@ -56,7 +56,7 @@ interface UserData {
   coverY?: number;
   //Visitas al perfil
     profileViews?: number;
-
+    lastActive?: number;
 }
 /* ===== COMPONENT ===== */
 
@@ -156,7 +156,38 @@ useEffect(() => {
 }, [profileUserId, authUser]);
 
 
+useEffect(() => {
+  if (!authUser) return;
 
+  const userRef = doc(db, "users", authUser.uid);
+
+  const updateActivity = () => {
+    updateDoc(userRef, {
+      lastActive: Date.now()
+    });
+  };
+
+  // al entrar
+  updateActivity();
+
+  // cada 60 segundos
+  const interval = setInterval(updateActivity, 60000);
+
+  return () => clearInterval(interval);
+
+}, [authUser]);
+
+function getActivityStatus(lastActive: number) {
+  if (!lastActive) return "⚫ Inactivo";
+
+  const diff = Date.now() - lastActive;
+
+  if (diff < 5 * 60 * 1000) return "🟢 Activo ahora";
+  if (diff < 60 * 60 * 1000) return "🟢 Activo hace poco";
+  if (diff < 24 * 60 * 60 * 1000) return "🟡 Activo hoy";
+
+  return "⚫ Inactivo";
+}
 
 
   /* ===== RESPONSIVE ===== */
@@ -749,6 +780,18 @@ const totalTop = topQuestions.length;
         )}
 </div>
 
+      <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
+        <span style={{
+          width: 8,
+          height: 8,
+          borderRadius: "50%",
+          background:
+            Date.now() - (userData.lastActive ?? 0) < 5 * 60 * 1000
+              ? "#22c55e"
+              : "#9ca3af"
+        }} />
+        <span>Activo hace {getActivityStatus(userData.lastActive ?? 0)}</span>
+      </div>
 
         <p style={{ opacity: 0.85 }}>{userData.email}</p>
 {editingBio ? (
