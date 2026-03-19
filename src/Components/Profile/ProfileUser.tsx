@@ -790,7 +790,7 @@ const totalTop = topQuestions.length;
               ? "#22c55e"
               : "#9ca3af"
         }} />
-        <span>Activo hace {getActivityStatus(userData.lastActive ?? 0)}</span>
+        <span>{getActivityStatus(userData.lastActive ?? 0)}</span>
       </div>
 
         <p style={{ opacity: 0.85 }}>{userData.email}</p>
