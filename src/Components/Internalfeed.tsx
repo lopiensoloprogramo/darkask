@@ -6,7 +6,7 @@ import type { Question } from "../types/QuestionsInterfaz";
 import { doc, setDoc, deleteDoc, getDoc, updateDoc, increment, serverTimestamp } from "firebase/firestore";
 import { auth } from "../services/firebase";
 import { onAuthStateChanged } from "firebase/auth";
-import Header from "./Header";
+import InternalHeader from "./InternalHeader";
 import logoBANNER from "../assets/bannernew.png";
 import fbIcon from "../assets/fbICONO.png";
 import inIcon from "../assets/inICONO.png";
@@ -216,7 +216,7 @@ const handleLike = async (q: Question) => {
   return (
     <div style={cajaMayor}>
   
-   <Header
+   <InternalHeader
      isMobile={isMobile}
      logo={logoBANNER}
      fbIcon={fbIcon}
@@ -323,7 +323,7 @@ ESTILOS
 
 
 const cajaMayor: React.CSSProperties={
-  maxWidth: 1200,
+  maxWidth: 1000,
   width:"100%",
   margin: "auto",
   boxSizing: "border-box"
