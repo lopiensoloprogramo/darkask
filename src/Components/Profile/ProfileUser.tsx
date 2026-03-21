@@ -610,21 +610,33 @@ const sendAutoQuestion = async (userId: string, usedQuestions: number[]) => {
 
   if (!q) return;
 
-  await addDoc(collection(db, "questions"), {
+  // 1️⃣ Crear pregunta
+  const docRef = await addDoc(collection(db, "questions"), {
     question: q.text,
     ownerId: userId,
     answered: false,
     timestamp: Date.now(),
     likesCount: 0,
     likedBy: [],
-
-     isAuto: true
+    isAuto: true
   });
 
+  // 2️⃣ Guardar que ya fue usada
   const userRef = doc(db, "users", userId);
 
   await updateDoc(userRef, {
     usedQuestions: arrayUnion(q.id)
+  });
+
+  // 3️⃣ 🔥 CREAR NOTIFICACIÓN
+  await addDoc(collection(db, "notifications"), {
+    ownerId: userId,
+    questionId: docRef.id,
+    read: false,
+    createdAt: Date.now(),
+
+    // opcional (pro)
+    type: "auto_question"
   });
 };
 
