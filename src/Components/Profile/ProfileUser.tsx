@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import {
+  addDoc,
   updateDoc,
   collection,
   query,
@@ -32,7 +33,7 @@ import coverdefault1 from "../../assets/defecto1.png";
 import coverdefault2 from "../../assets/defecto2.jpg";
 import coverdefault3 from "../../assets/defecto3.jpg";
 import coverdefault4 from "../../assets/defecto4.jpg";
-
+import { questions } from "../../data/questions";
 
 
 
@@ -57,6 +58,7 @@ interface UserData {
   //Visitas al perfil
     profileViews?: number;
     lastActive?: number;
+    usedQuestions: number[]
 }
 /* ===== COMPONENT ===== */
 
@@ -188,8 +190,8 @@ function getActivityStatus(lastActive: number) {
 
   if (minutes < 5) return "🟢 Activo ahora";
   if (minutes < 60) return "🟢 Activo hace poco";
-  if (hours < 24) return "🟡 Activo hoy";
-  if (days < 2) return "🟠 Activo ayer";
+  if (hours < 24) return "🌙 Activo hoy";
+  if (days < 2) return "🕒 Activo ayer";
 
   return "⚪ Activo Hace 2 días";
 }
@@ -229,7 +231,8 @@ useEffect(() => {
   ...d,
   likedBy: d.likedBy || [],
   likesCount: d.likesCount || 0,
-  score: d.score || 0
+  score: d.score || 0.,
+  isAuto: d.isAuto || false // 🔥
 });
 
   const qPending = query(
@@ -238,6 +241,49 @@ useEffect(() => {
     where("answered", "==", false),
     orderBy("timestamp", "desc")
   );
+
+useEffect(() => {
+  if (!isOwner) return;
+  if (!userData) return;
+
+  // 🔥 evitar spam (máx 3 automáticas)
+  const autoCount = pendingQuestions.filter(q => q.isAuto).length;
+
+  if (autoCount >= 3) return;
+
+  // 🔥 controlar tiempo (cada 6 horas)
+  const last = (userData as any).lastAutoQuestion || 0;
+
+ const sixHours = 10 * 1000; // 10 segundos
+
+  if (Date.now() - last < sixHours) return;
+
+  // 🔥 si no hay preguntas o hay pocas
+  if (pendingQuestions.length === 0 || pendingQuestions.length < 2) {
+    
+    sendAutoQuestion(profileUserId, userData.usedQuestions || []);
+
+    // guardar tiempo
+    updateDoc(doc(db, "users", profileUserId), {
+      lastAutoQuestion: Date.now()
+    });
+  }
+
+}, [pendingQuestions, userData, isOwner]);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
   const unsubscribe = onSnapshot(qPending, snapshot => {
     const data = snapshot.docs.map(doc => ({
@@ -548,6 +594,41 @@ const totalLikes = answeredQuestions.reduce(
 );
 
 const totalTop = topQuestions.length;
+
+
+function getRandomQuestion(allQuestions: any[], usedQuestions: number[]) {
+  const available = allQuestions.filter(
+    q => !usedQuestions.includes(q.id)
+  );
+
+  if (available.length === 0) return null;
+
+  const random = available[Math.floor(Math.random() * available.length)];
+  return random;
+}
+
+const sendAutoQuestion = async (userId: string, usedQuestions: number[]) => {
+  const q = getRandomQuestion(questions, usedQuestions);
+
+  if (!q) return;
+
+  await addDoc(collection(db, "questions"), {
+    question: q.text,
+    ownerId: userId,
+    answered: false,
+    timestamp: Date.now(),
+    likesCount: 0,
+    likedBy: [],
+
+     isAuto: true
+  });
+
+  const userRef = doc(db, "users", userId);
+
+  await updateDoc(userRef, {
+    usedQuestions: arrayUnion(q.id)
+  });
+};
 
 
 

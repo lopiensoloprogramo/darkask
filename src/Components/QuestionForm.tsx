@@ -33,6 +33,7 @@ export default function Ask({ recipientUid,recipientUsername, onClose }: Questio
           ownerId: recipientUid,
           ownerUsername: recipientUsername, // 👈 GUARDAMOS ESTO
           creatorId: auth.currentUser?.uid || null,
+          isAuto: false
         });
 
         // 2️⃣ Crear notificación SOLO si no te preguntas a ti mismo

@@ -11,6 +11,6 @@ export interface Question {
     score?: number;
     likedBy: string[];
     ownerUsername?: string;
-    
+    isAuto?: boolean;
   }
   
