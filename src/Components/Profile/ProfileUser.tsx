@@ -278,7 +278,7 @@ useEffect(() => {
   if (autoCount >= 3) return;
 
   const last = (userData as any).lastAutoQuestion || 0;
-  const sixHours = 10 * 1000; // temporal para test
+const sixHours = 3 * 60 * 60 * 1000; // 3 horas
 
   if (Date.now() - last < sixHours) return;
 
