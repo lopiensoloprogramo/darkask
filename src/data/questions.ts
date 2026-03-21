@@ -13,7 +13,7 @@ export const questions = [
   { id: 11, text: "¿Te han sido infiel?" },
   { id: 12, text: "¿A quién extrañas?" },
   { id: 13, text: "¿Te consideras atractivo/a?" },
-  { id: 14, text: "¿Te han rechazado fuerte?" },
+  { id: 14, text: "¿Te han rechazado de forma cruel?" },
   { id: 15, text: "¿Te gusta alguien prohibido?" },
   { id: 16, text: "¿Volverías con tu ex?" },
   { id: 17, text: "¿Has hablado mal de alguien cercano?" },
