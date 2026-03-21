@@ -243,7 +243,31 @@ useEffect(() => {
     orderBy("timestamp", "desc")
   );
 
-  
+
+
+
+
+
+
+
+
+
+
+
+
+  const unsubscribe = onSnapshot(qPending, snapshot => {
+    const data = snapshot.docs.map(doc => ({
+      id: doc.id,
+      ...normalize(doc.data())
+    })) as Question[];
+
+    setPendingQuestions(data);
+  });
+
+  return () => unsubscribe();
+
+}, [profileUserId, isOwner]);
+
 useEffect(() => {
   if (!isOwner) return;
   if (!userData) return;
@@ -271,28 +295,6 @@ useEffect(() => {
 
 }, [pendingQuestions, userData, isOwner]);
 
-
-
-
-
-
-
-
-
-
-
-  const unsubscribe = onSnapshot(qPending, snapshot => {
-    const data = snapshot.docs.map(doc => ({
-      id: doc.id,
-      ...normalize(doc.data())
-    })) as Question[];
-
-    setPendingQuestions(data);
-  });
-
-  return () => unsubscribe();
-
-}, [profileUserId, isOwner]);
 
   /* ===== LOAD DATA ===== */
 /* ===== LOAD DATA ===== */
