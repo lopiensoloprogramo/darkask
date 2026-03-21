@@ -232,7 +232,7 @@ useEffect(() => {
   ...d,
   likedBy: d.likedBy || [],
   likesCount: d.likesCount || 0,
-  score: d.score || 0.,
+  score: d.score || 0,
   isAuto: d.isAuto || false // 🔥
 });
 
@@ -282,7 +282,7 @@ useEffect(() => {
 
   if (Date.now() - last < sixHours) return;
 
-  if (pendingQuestions.length === 0 || pendingQuestions.length < 2) {
+  if (pendingQuestions.length === 0 || pendingQuestions.length <100) {
 
     setAutoTriggered(true); // 🔥 bloquea siguientes ejecuciones
 
