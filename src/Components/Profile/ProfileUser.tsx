@@ -104,6 +104,7 @@ export default function ProfileUser({ profileUserId, authUser }: ProfileProps) {
 const defaultCovers = [coverdefault1,coverdefault2,coverdefault3,coverdefault4];
 const [coverIndex, setCoverIndex] = useState(0);
 const [fade, setFade] = useState(true);
+const [autoTriggered, setAutoTriggered] = useState(false);
 
 useEffect(() => {
 
@@ -242,38 +243,33 @@ useEffect(() => {
     orderBy("timestamp", "desc")
   );
 
+  
 useEffect(() => {
   if (!isOwner) return;
   if (!userData) return;
+  if (autoTriggered) return; // 🔥 evita loop
 
-  // 🔥 evitar spam (máx 3 automáticas)
   const autoCount = pendingQuestions.filter(q => q.isAuto).length;
 
   if (autoCount >= 3) return;
 
-  // 🔥 controlar tiempo (cada 6 horas)
   const last = (userData as any).lastAutoQuestion || 0;
-
- const sixHours = 10 * 1000; // 10 segundos
+  const sixHours = 10 * 1000; // temporal para test
 
   if (Date.now() - last < sixHours) return;
 
-  // 🔥 si no hay preguntas o hay pocas
   if (pendingQuestions.length === 0 || pendingQuestions.length < 2) {
-    
+
+    setAutoTriggered(true); // 🔥 bloquea siguientes ejecuciones
+
     sendAutoQuestion(profileUserId, userData.usedQuestions || []);
 
-    // guardar tiempo
     updateDoc(doc(db, "users", profileUserId), {
       lastAutoQuestion: Date.now()
     });
   }
 
 }, [pendingQuestions, userData, isOwner]);
-
-
-
-
 
 
 
