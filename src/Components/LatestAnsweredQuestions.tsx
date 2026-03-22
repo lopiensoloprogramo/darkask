@@ -1,22 +1,29 @@
 import { useEffect, useState } from "react";
-import { collection, query, orderBy, limit as firestoreLimit, getDocs, where } from "firebase/firestore";
-import { db } from "../services/firebase";
-import { useNavigate } from "react-router-dom";
-import { getAuth } from "firebase/auth";
-import type { Question } from "../types/QuestionsInterfaz";
-import fbIcon from "../assets/fbICONO.png"
-import inIcon from "../assets/inICONO.png";
-import logoBANNER from "../assets/bannernew.png"
-import ProfileSearch from "../Components/ProfileSearch";
-import LoginModal from "./LoginModal";
 import { 
-  doc, 
-  increment, 
+  collection, 
+  query, 
+  orderBy, 
+  limit as firestoreLimit, 
+  getDocs, 
+  where,
+  startAfter,
+  doc,
+  increment,
   serverTimestamp,
   runTransaction
 } from "firebase/firestore";
 
-import { startAfter } from "firebase/firestore";
+import { db } from "../services/firebase";
+import { useNavigate } from "react-router-dom";
+import { getAuth } from "firebase/auth";
+import type { Question } from "../types/QuestionsInterfaz";
+
+import fbIcon from "../assets/fbICONO.png"
+import inIcon from "../assets/inICONO.png";
+import logoBANNER from "../assets/bannernew.png"
+
+import ProfileSearch from "../Components/ProfileSearch";
+import LoginModal from "./LoginModal";
 
 interface UserSummary {
   id: string;
@@ -24,8 +31,6 @@ interface UserSummary {
   photoURL?: string;
   score: number;
 }
-
-
 
 export default function LatestAnsweredQuestions() {
   const [questions, setQuestions] = useState<Question[]>([]);
