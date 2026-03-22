@@ -32,6 +32,7 @@ interface UserSummary {
   score: number;
 }
 
+
 export default function LatestAnsweredQuestions() {
   const [questions, setQuestions] = useState<Question[]>([]);
   const [topUsers, setTopUsers] = useState<UserSummary[]>([]);
