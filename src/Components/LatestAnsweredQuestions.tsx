@@ -746,5 +746,5 @@ const btnVermas: React.CSSProperties={
   border:0,
   background: "#ff0000",
   color:"#fff",
-  fontSize:20
+  fontSize:14
 }
