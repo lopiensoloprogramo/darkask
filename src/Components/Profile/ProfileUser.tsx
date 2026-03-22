@@ -432,6 +432,7 @@ const handleLike = async (q: Question) => {
   const userId = authUser.uid;
 
   const questionRef = doc(db, "questions", q.id);
+  
   const userRef = doc(db, "users", q.ownerId);
 
   // 🔥 ID ÚNICO (evita duplicados)
@@ -439,42 +440,42 @@ const handleLike = async (q: Question) => {
   const likeRef = doc(db, "likes", likeId);
 
   try {
-    await runTransaction(db, async (transaction) => {
+await runTransaction(db, async (transaction) => {
 
-      const likeSnap = await transaction.get(likeRef);
+  const likeSnap = await transaction.get(likeRef);
 
-      const alreadyLiked = likeSnap.exists();
+  await transaction.get(questionRef); // 🔥 necesario, sin variable
+  await transaction.get(userRef);     // 🔥 necesario, sin variable
 
-      if (alreadyLiked) {
-        // ❌ QUITAR LIKE
-        transaction.delete(likeRef);
+  const alreadyLiked = likeSnap.exists();
 
-        transaction.update(questionRef, {
-          likesCount: increment(-1)
-        });
+  if (alreadyLiked) {
+    transaction.delete(likeRef);
 
-        transaction.update(userRef, {
-          score: increment(-1)
-        });
-
-      } else {
-        // ❤️ DAR LIKE
-        transaction.set(likeRef, {
-          userId,
-          questionId: q.id,
-          createdAt: Date.now()
-        });
-
-        transaction.update(questionRef, {
-          likesCount: increment(1)
-        });
-
-        transaction.update(userRef, {
-          score: increment(1)
-        });
-      }
-
+    transaction.update(questionRef, {
+      likesCount: increment(-1)
     });
+
+    transaction.update(userRef, {
+      score: increment(-1)
+    });
+
+  } else {
+    transaction.set(likeRef, {
+      userId,
+      questionId: q.id,
+      createdAt: Date.now()
+    });
+
+    transaction.update(questionRef, {
+      likesCount: increment(1)
+    });
+
+    transaction.update(userRef, {
+      score: increment(1)
+    });
+  }
+});
 
   } catch (error) {
     console.error("Error en like:", error);
