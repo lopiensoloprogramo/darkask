@@ -32,7 +32,7 @@ export default function App() {
       {/* Página pública */}
       <Route
         path="/"
-        element={userId ? <Navigate to={`/profile/${userId}`} replace /> : <LatestAnsweredQuestions limit={20} />}
+        element={userId ? <Navigate to={`/profile/${userId}`} replace /> : <LatestAnsweredQuestions />}
       />
 
       {/* Página de login opcional */}
