@@ -59,6 +59,8 @@ interface UserData {
     profileViews?: number;
     lastActive?: number;
     usedQuestions: number[]
+    //score de usuario
+   score?:number
 }
 /* ===== COMPONENT ===== */
 
@@ -309,30 +311,6 @@ useEffect(() => {
   const loadData = async () => {
     setLoading(true);
 
-    /* --- USER --- */
-  const userRef = doc(db, "users", profileUserId);
-const snapUser = await getDoc(userRef);
-
-let data = snapUser.exists() ? (snapUser.data() as UserData) : null;
-
-// 🔥 si no existe profileViews, lo creamos
-if (data && data.profileViews === undefined) {
-  await updateDoc(userRef, {
-    profileViews: 0
-  });
-
-  data.profileViews = 1;
-}
-
-setUserData(data);
-
-    if (data) {
-      setCoverPos({
-        x: data.coverX ?? 50,
-        y: data.coverY ?? 50
-      });
-    }
-
     /* --- ANSWERED --- */
     const qAnswered = query(
       collection(db, "questions"),
@@ -343,7 +321,10 @@ setUserData(data);
 
     const snapAnswered = await getDocs(qAnswered);
     setAnsweredQuestions(
-      snapAnswered.docs.map(d => ({ id: d.id, ...normalize(d.data()) })) as Question[]
+      snapAnswered.docs.map(d => ({
+        id: d.id,
+        ...normalize(d.data())
+      })) as Question[]
     );
 
     /* --- TOP --- */
@@ -357,14 +338,35 @@ setUserData(data);
 
     const snapTop = await getDocs(qTop);
     setTopQuestions(
-      snapTop.docs.map(d => ({ id: d.id, ...normalize(d.data()) })) as Question[]
+      snapTop.docs.map(d => ({
+        id: d.id,
+        ...normalize(d.data())
+      })) as Question[]
     );
 
     setLoading(false);
   };
 
   loadData();
+}, [profileUserId]);
 
+useEffect(() => {
+  if (!profileUserId) return;
+
+  const userRef = doc(db, "users", profileUserId);
+
+  const unsubscribe = onSnapshot(userRef, (snap) => {
+    if (snap.exists()) {
+      const data = snap.data() as UserData;
+
+      setUserData({
+        ...data,
+        score: data.score || 0
+      });
+    }
+  });
+
+  return () => unsubscribe();
 }, [profileUserId]);
 
 useEffect(() => {
@@ -429,6 +431,14 @@ useEffect(() => {
     likesCount: increment(alreadyLiked ? -1 : 1),
     likedBy: alreadyLiked ? arrayRemove(userId) : arrayUnion(userId)
   });
+
+   // 🔥 SCORE
+  const ownerRef = doc(db, "users", q.ownerId);
+
+  await updateDoc(ownerRef, {
+    score: increment(alreadyLiked ? -1 : 1)
+  });
+
 
   const snap = await getDoc(ref);
   const updated = { id: ref.id, ...snap.data() } as Question;
@@ -591,7 +601,7 @@ const totalLikes = answeredQuestions.reduce(
   0
 );
 
-const totalTop = topQuestions.length;
+
 
 
 function getRandomQuestion(allQuestions: any[], usedQuestions: number[]) {
@@ -933,7 +943,7 @@ const sendAutoQuestion = async (userId: string, usedQuestions: number[]) => {
                         </div>
 
                         <div style={statItem}>
-                          ⭐ <strong>{totalTop}</strong>
+                          ⭐ <strong>{userData.score || 0}</strong>
                         </div>
                       </div>
                  
