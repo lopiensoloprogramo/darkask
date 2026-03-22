@@ -107,6 +107,8 @@ const defaultCovers = [coverdefault1,coverdefault2,coverdefault3,coverdefault4];
 const [coverIndex, setCoverIndex] = useState(0);
 const [fade, setFade] = useState(true);
 const [autoTriggered, setAutoTriggered] = useState(false);
+const [myLikes, setMyLikes] = useState<string[]>([]);
+
 
 useEffect(() => {
 
@@ -419,6 +421,8 @@ useEffect(() => {
 
 
 
+
+
 const handleLike = async (q: Question) => {
   if (!authUser) {
     navigate("/login");
@@ -430,40 +434,45 @@ const handleLike = async (q: Question) => {
   const questionRef = doc(db, "questions", q.id);
   const userRef = doc(db, "users", q.ownerId);
 
+  // 🔥 ID ÚNICO (evita duplicados)
+  const likeId = `${userId}_${q.id}`;
+  const likeRef = doc(db, "likes", likeId);
+
   try {
     await runTransaction(db, async (transaction) => {
 
-      const questionSnap = await transaction.get(questionRef);
-      const userSnap = await transaction.get(userRef);
+      const likeSnap = await transaction.get(likeRef);
 
-      if (!questionSnap.exists()) return;
+      const alreadyLiked = likeSnap.exists();
 
-      const qData = questionSnap.data();
-      const uData = userSnap.data() || {};
+      if (alreadyLiked) {
+        // ❌ QUITAR LIKE
+        transaction.delete(likeRef);
 
-      const likedBy = qData.likedBy || [];
-      const alreadyLiked = likedBy.includes(userId);
+        transaction.update(questionRef, {
+          likesCount: increment(-1)
+        });
 
-      // ❤️ likes
-      const newLikedBy = alreadyLiked
-        ? likedBy.filter((id: string) => id !== userId)
-        : [...likedBy, userId];
+        transaction.update(userRef, {
+          score: increment(-1)
+        });
 
-      const newLikesCount = alreadyLiked
-        ? (qData.likesCount || 0) - 1
-        : (qData.likesCount || 0) + 1;
+      } else {
+        // ❤️ DAR LIKE
+        transaction.set(likeRef, {
+          userId,
+          questionId: q.id,
+          createdAt: Date.now()
+        });
 
-      transaction.update(questionRef, {
-        likedBy: newLikedBy,
-        likesCount: newLikesCount
-      });
+        transaction.update(questionRef, {
+          likesCount: increment(1)
+        });
 
-      // ⭐ score
-      const currentScore = uData.score || 0;
-
-      transaction.update(userRef, {
-        score: currentScore + (alreadyLiked ? -1 : 1)
-      });
+        transaction.update(userRef, {
+          score: increment(1)
+        });
+      }
 
     });
 
@@ -666,6 +675,22 @@ const sendAutoQuestion = async (userId: string, usedQuestions: number[]) => {
     type: "auto_question"
   });
 };
+
+useEffect(() => {
+  if (!authUser) return;
+
+  const q = query(
+    collection(db, "likes"),
+    where("userId", "==", authUser.uid)
+  );
+
+  const unsubscribe = onSnapshot(q, (snap) => {
+    const likedQuestions = snap.docs.map(d => d.data().questionId);
+    setMyLikes(likedQuestions);
+  });
+
+  return () => unsubscribe();
+}, [authUser]);
 
 
 
@@ -1082,12 +1107,15 @@ const sendAutoQuestion = async (userId: string, usedQuestions: number[]) => {
             <p style={questionTitle}>{q.question}</p>
 
             {q.answered ? (
+              
               <>
                 <div style={answerBox}>{q.answer}</div>
 
                 <div style={likeRow}>
+                 
+
                   <button
-                    style={heart(q.likedBy?.includes(authUser?.uid ?? "") ?? false)}
+                    style={heart(myLikes.includes(q.id))}
                     onClick={() => handleLike(q)}
                   >
                     ❤️ {q.likesCount} Me gusta
