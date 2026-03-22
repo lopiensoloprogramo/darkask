@@ -25,9 +25,7 @@ interface UserSummary {
   score: number;
 }
 
-interface Props {
-  limit?: number;
-}
+
 
 export default function LatestAnsweredQuestions() {
   const [questions, setQuestions] = useState<Question[]>([]);
