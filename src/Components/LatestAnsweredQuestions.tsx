@@ -417,7 +417,7 @@ const handleLogin = () => {
               })}
                     {/* 🔥 BOTÓN PAGINACIÓN */}
               {hasMore && (
-                <button onClick={() => fetchQuestions(true)}>
+                <button style={{border:"0"}} onClick={() => fetchQuestions(true)}>
                   {loadingMore ? "Cargando..." : "Ver más 🔥"}
                 </button>
         )}
