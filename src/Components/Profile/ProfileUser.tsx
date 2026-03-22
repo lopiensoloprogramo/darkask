@@ -11,7 +11,7 @@ import {
 
   limit,
   arrayUnion,
-  arrayRemove,
+
   increment,
   onSnapshot,runTransaction
 } from "firebase/firestore";
@@ -417,6 +417,8 @@ useEffect(() => {
 
   /* ===== LIKE ===== */
 
+
+
 const handleLike = async (q: Question) => {
   if (!authUser) {
     navigate("/login");
@@ -424,32 +426,49 @@ const handleLike = async (q: Question) => {
   }
 
   const userId = authUser.uid;
-  const ref = doc(db, "questions", q.id);
-  const ownerRef = doc(db, "users", q.ownerId);
+
+  const questionRef = doc(db, "questions", q.id);
+  const userRef = doc(db, "users", q.ownerId);
 
   try {
     await runTransaction(db, async (transaction) => {
-      const snap = await transaction.get(ref);
 
-      if (!snap.exists()) return;
+      const questionSnap = await transaction.get(questionRef);
+      const userSnap = await transaction.get(userRef);
 
-      const data = snap.data();
-      const alreadyLiked = data.likedBy?.includes(userId);
+      if (!questionSnap.exists()) return;
 
-      transaction.update(ref, {
-        likesCount: increment(alreadyLiked ? -1 : 1),
-        likedBy: alreadyLiked
-          ? arrayRemove(userId)
-          : arrayUnion(userId)
+      const qData = questionSnap.data();
+      const uData = userSnap.data() || {};
+
+      const likedBy = qData.likedBy || [];
+      const alreadyLiked = likedBy.includes(userId);
+
+      // ❤️ likes
+      const newLikedBy = alreadyLiked
+        ? likedBy.filter((id: string) => id !== userId)
+        : [...likedBy, userId];
+
+      const newLikesCount = alreadyLiked
+        ? (qData.likesCount || 0) - 1
+        : (qData.likesCount || 0) + 1;
+
+      transaction.update(questionRef, {
+        likedBy: newLikedBy,
+        likesCount: newLikesCount
       });
 
-      transaction.update(ownerRef, {
-        score: increment(alreadyLiked ? -1 : 1)
+      // ⭐ score
+      const currentScore = uData.score || 0;
+
+      transaction.update(userRef, {
+        score: currentScore + (alreadyLiked ? -1 : 1)
       });
+
     });
 
-  } catch (err) {
-    console.error("Error en like:", err);
+  } catch (error) {
+    console.error("Error en like:", error);
   }
 };
   /*Subir imagen de perfil */
