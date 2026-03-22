@@ -452,6 +452,16 @@ useEffect(() => {
 
   setAnsweredQuestions(sync);
   setTopQuestions(sync);
+
+try {
+  await updateDoc(ownerRef, {
+    score: increment(alreadyLiked ? -1 : 1)
+  });
+  console.log("SCORE actualizado");
+} catch (err) {
+  console.error("ERROR SCORE:", err);
+}
+
 };
 
   /*Subir imagen de perfil */
