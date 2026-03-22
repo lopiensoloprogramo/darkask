@@ -5,7 +5,7 @@ import ProfileUserWrapper from "./Pages/ProfileUserWrapper";
 import LatestAnsweredQuestions from "./Components/LatestAnsweredQuestions";
 import Login from "./Components/Login";
 import Internalfeed from "./Components/Internalfeed";
-
+import Contador from "./data/Contador"
 
 export default function App() {
   const [userId, setUserId] = useState<string | null>(null);
@@ -43,6 +43,7 @@ export default function App() {
 
       {/* Feed Interno */}
       <Route path="/feed" element={<Internalfeed />} />
+      <Route path="/estadisticas" element={<Contador />} />
     </Routes>
   );
 }
