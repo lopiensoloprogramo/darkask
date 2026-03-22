@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useCallback } from "react";
 import { 
   collection, 
   query, 
@@ -67,65 +68,65 @@ const [userLikes, setUserLikes] = useState<Record<string, boolean>>({});
 // ======================================
 
 
- const fetchQuestions = async (isLoadMore = false) => {
+ const fetchQuestions = useCallback(async (isLoadMore = false) => {
 
-    if (isLoadMore) setLoadingMore(true);
+  if (isLoadMore) setLoadingMore(true);
 
-    let q;
+  let q;
 
-    if (isLoadMore && lastDoc) {
-      q = query(
-        collection(db, "questions"),
-        where("answered", "==", true),
-        orderBy("answeredAt", "desc"),
-        startAfter(lastDoc),
-        firestoreLimit(PAGE_SIZE)
-      );
-    } else {
-      q = query(
-        collection(db, "questions"),
-        where("answered", "==", true),
-        orderBy("answeredAt", "desc"),
-        firestoreLimit(PAGE_SIZE)
-      );
-    }
-
-    const snap = await getDocs(q);
-
-    const newQuestions = snap.docs.map(d => ({
-      id: d.id,
-      ...d.data()
-    })) as Question[];
-
-    setQuestions(prev =>
-      isLoadMore ? [...prev, ...newQuestions] : newQuestions
+  if (isLoadMore && lastDoc) {
+    q = query(
+      collection(db, "questions"),
+      where("answered", "==", true),
+      orderBy("answeredAt", "desc"),
+      startAfter(lastDoc),
+      firestoreLimit(PAGE_SIZE)
     );
+  } else {
+    q = query(
+      collection(db, "questions"),
+      where("answered", "==", true),
+      orderBy("answeredAt", "desc"),
+      firestoreLimit(PAGE_SIZE)
+    );
+  }
 
-    // 🔥 usersMap (solo nuevos)
-    const ownerIds = [...new Set(newQuestions.map(q => q.ownerId))];
+  const snap = await getDocs(q);
 
-    const usersSnap = await getDocs(collection(db, "users"));
+  const newQuestions = snap.docs.map(d => ({
+    id: d.id,
+    ...d.data()
+  })) as Question[];
 
-    setUsersMap(prev => {
-      const map = { ...prev };
-      usersSnap.docs.forEach(doc => {
-        if (ownerIds.includes(doc.id)) {
-          map[doc.id] = doc.data();
-        }
-      });
-      return map;
+  setQuestions(prev =>
+    isLoadMore ? [...prev, ...newQuestions] : newQuestions
+  );
+
+  // usuarios
+  const ownerIds = [...new Set(newQuestions.map(q => q.ownerId))];
+  const usersSnap = await getDocs(collection(db, "users"));
+
+  setUsersMap(prev => {
+    const map = { ...prev };
+    usersSnap.docs.forEach(doc => {
+      if (ownerIds.includes(doc.id)) {
+        map[doc.id] = doc.data();
+      }
     });
+    return map;
+  });
 
-    // 🔥 paginación
-    const lastVisible = snap.docs[snap.docs.length - 1];
-    setLastDoc(lastVisible);
+  // paginación
+  const lastVisible = snap.docs[snap.docs.length - 1];
+  setLastDoc(lastVisible);
 
-    if (snap.docs.length < PAGE_SIZE) {
-      setHasMore(false);
-    }
+  if (snap.docs.length < PAGE_SIZE) {
+    setHasMore(false);
+  }
 
-    if (isLoadMore) setLoadingMore(false);
-  };
+  if (isLoadMore) setLoadingMore(false);
+
+}, [lastDoc]); // 👈 clave
 
 const handleLike = async (q: Question) => {
 
@@ -233,7 +234,7 @@ setUserLikes(prev => ({
     return auth.onAuthStateChanged(user => setAuthUser(user));
   }, []);
 
-  useEffect(() => {
+useEffect(() => {
 
   const fetchTopUsers = async () => {
     const q = query(
@@ -252,7 +253,8 @@ setUserLikes(prev => ({
 
   load();
 
-}, []);
+}, [fetchQuestions]); // 👈 IMPORTANTE
+
 
 const handleLogin = () => {
   navigate("/login");
