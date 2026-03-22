@@ -417,7 +417,7 @@ const handleLogin = () => {
               })}
                     {/* 🔥 BOTÓN PAGINACIÓN */}
               {hasMore && (
-                <button style={{border:"0"}} onClick={() => fetchQuestions(true)}>
+                <button style={btnVermas} onClick={() => fetchQuestions(true)}>
                   {loadingMore ? "Cargando..." : "Ver más 🔥"}
                 </button>
         )}
@@ -742,3 +742,8 @@ const feedUserSub: React.CSSProperties = {
   opacity: 0.6,
   marginTop: -2
 };
+const btnVermas: React.CSSProperties={
+  border:0,
+  background: "#ff0000",
+  color:"#fff"
+}
