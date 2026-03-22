@@ -8,12 +8,12 @@ import {
   getDocs,
   orderBy,
   doc,
-  getDoc,
+
   limit,
   arrayUnion,
   arrayRemove,
   increment,
-  onSnapshot
+  onSnapshot,runTransaction
 } from "firebase/firestore";
 import { getAuth, signOut } from "firebase/auth";
 import { db } from "../../services/firebase";
@@ -416,8 +416,8 @@ useEffect(() => {
   };
 
   /* ===== LIKE ===== */
- const handleLike = async (q: Question) => {
 
+const handleLike = async (q: Question) => {
   if (!authUser) {
     navigate("/login");
     return;
@@ -425,45 +425,33 @@ useEffect(() => {
 
   const userId = authUser.uid;
   const ref = doc(db, "questions", q.id);
-  const alreadyLiked = q.likedBy?.includes(userId) ?? false;
-
-  await updateDoc(ref, {
-    likesCount: increment(alreadyLiked ? -1 : 1),
-    likedBy: alreadyLiked ? arrayRemove(userId) : arrayUnion(userId)
-  });
-
-   // 🔥 SCORE
   const ownerRef = doc(db, "users", q.ownerId);
 
-  await updateDoc(ownerRef, {
-    score: increment(alreadyLiked ? -1 : 1)
-  });
+  try {
+    await runTransaction(db, async (transaction) => {
+      const snap = await transaction.get(ref);
 
+      if (!snap.exists()) return;
 
-  const snap = await getDoc(ref);
-  const updated = { id: ref.id, ...snap.data() } as Question;
+      const data = snap.data();
+      const alreadyLiked = data.likedBy?.includes(userId);
 
-  const sync = (list: Question[]) =>
-    list.map(item =>
-      item.id === q.id
-        ? { ...item, likesCount: updated.likesCount, likedBy: updated.likedBy }
-        : item
-    );
+      transaction.update(ref, {
+        likesCount: increment(alreadyLiked ? -1 : 1),
+        likedBy: alreadyLiked
+          ? arrayRemove(userId)
+          : arrayUnion(userId)
+      });
 
-  setAnsweredQuestions(sync);
-  setTopQuestions(sync);
+      transaction.update(ownerRef, {
+        score: increment(alreadyLiked ? -1 : 1)
+      });
+    });
 
-try {
-  await updateDoc(ownerRef, {
-    score: increment(alreadyLiked ? -1 : 1)
-  });
-  console.log("SCORE actualizado");
-} catch (err) {
-  console.error("ERROR SCORE:", err);
-}
-
+  } catch (err) {
+    console.error("Error en like:", err);
+  }
 };
-
   /*Subir imagen de perfil */
 
 const handleAvatarChange = async (
