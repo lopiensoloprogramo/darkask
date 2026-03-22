@@ -745,5 +745,6 @@ const feedUserSub: React.CSSProperties = {
 const btnVermas: React.CSSProperties={
   border:0,
   background: "#ff0000",
-  color:"#fff"
+  color:"#fff",
+  fontSize:20
 }
