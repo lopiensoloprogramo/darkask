@@ -28,7 +28,7 @@ interface Props {
   limit?: number;
 }
 
-export default function LatestAnsweredQuestions({ limit = 20 }: Props) {
+export default function LatestAnsweredQuestions({ limit = 100}: Props) {
   const [questions, setQuestions] = useState<Question[]>([]);
   const [topUsers, setTopUsers] = useState<UserSummary[]>([]);
   const [authUser, setAuthUser] = useState<any>(null);
