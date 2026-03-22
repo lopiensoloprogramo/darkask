@@ -236,6 +236,8 @@ setUserLikes(prev => ({
 
 useEffect(() => {
 
+  if (questions.length > 0) return; // 🔥 evita recargar y borrar paginación
+
   const fetchTopUsers = async () => {
     const q = query(
       collection(db, "users"),
@@ -253,7 +255,7 @@ useEffect(() => {
 
   load();
 
-}, [fetchQuestions]); // 👈 IMPORTANTE
+}, [fetchQuestions, questions.length]);
 
 
 const handleLogin = () => {
