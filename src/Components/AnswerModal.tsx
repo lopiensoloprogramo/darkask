@@ -2,7 +2,7 @@ import { useState } from "react";
 import type { Question } from "../types/QuestionsInterfaz";
 import { doc, updateDoc } from "firebase/firestore";
 import { db } from "../services/firebase";
-import { serverTimestamp } from "firebase/firestore";
+import { serverTimestamp,increment } from "firebase/firestore";
 
 interface AnswerModalProps {
   question: Question;
@@ -29,7 +29,9 @@ export default function AnswerModal({
       await updateDoc(ref, {
         answer: answer,
         answered: true,
+        score: increment(5),
         answeredAt: serverTimestamp(),
+
       });
 
       const updatedQuestion: Question = {

@@ -933,7 +933,7 @@ const sendAutoQuestion = async (userId: string, usedQuestions: number[]) => {
                         </div>
 
                         <div style={statItem}>
-                          🔥 <strong>{totalTop}</strong>
+                          ⭐ <strong>{totalTop}</strong>
                         </div>
                       </div>
                  

@@ -190,6 +190,12 @@ setUserLikes(prev => ({
           likesCount: increment(1)
         });
 
+  // 🔥 SUMAR SCORE SOLO AQUÍ
+      const userRef = doc(db, "users", q.ownerId);
+
+      transaction.update(userRef, {
+        score: increment(2)
+      });
       }
 
     });

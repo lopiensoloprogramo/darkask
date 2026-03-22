@@ -12,5 +12,6 @@ export interface Question {
     likedBy: string[];
     ownerUsername?: string;
     isAuto?: boolean;
+
   }
   
