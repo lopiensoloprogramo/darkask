@@ -5,7 +5,7 @@ import {
   collection,
   query,
   where,
-  getDocs,
+  
   orderBy,
   doc,
 
@@ -303,53 +303,53 @@ const sixHours = 3 * 60 * 60 * 1000; // 3 horas
   /* ===== LOAD DATA ===== */
 /* ===== LOAD DATA ===== */
 useEffect(() => {
+  if (!profileUserId) return;
+
   const normalize = (d: any) => ({
     ...d,
     likedBy: d.likedBy || [],
-    likes: d.likes || 0,
+    likesCount: d.likesCount || 0,
     score: d.score || 0
   });
 
-  const loadData = async () => {
-    setLoading(true);
+  const qAnswered = query(
+    collection(db, "questions"),
+    where("ownerId", "==", profileUserId),
+    where("answered", "==", true),
+    orderBy("timestamp", "desc")
+  );
 
-    /* --- ANSWERED --- */
-    const qAnswered = query(
-      collection(db, "questions"),
-      where("ownerId", "==", profileUserId),
-      where("answered", "==", true),
-      orderBy("timestamp", "desc")
-    );
+  const unsubscribeAnswered = onSnapshot(qAnswered, (snapshot) => {
+    const data = snapshot.docs.map(doc => ({
+      id: doc.id,
+      ...normalize(doc.data())
+    })) as Question[];
 
-    const snapAnswered = await getDocs(qAnswered);
-    setAnsweredQuestions(
-      snapAnswered.docs.map(d => ({
-        id: d.id,
-        ...normalize(d.data())
-      })) as Question[]
-    );
-
-    /* --- TOP --- */
-    const qTop = query(
-      collection(db, "questions"),
-      where("ownerId", "==", profileUserId),
-      where("answered", "==", true),
-      orderBy("likes", "desc"),
-      limit(5)
-    );
-
-    const snapTop = await getDocs(qTop);
-    setTopQuestions(
-      snapTop.docs.map(d => ({
-        id: d.id,
-        ...normalize(d.data())
-      })) as Question[]
-    );
-
+    setAnsweredQuestions(data);
     setLoading(false);
-  };
+  });
 
-  loadData();
+  const qTop = query(
+    collection(db, "questions"),
+    where("ownerId", "==", profileUserId),
+    where("answered", "==", true),
+    orderBy("likesCount", "desc"),
+    limit(5)
+  );
+
+  const unsubscribeTop = onSnapshot(qTop, (snapshot) => {
+    const data = snapshot.docs.map(doc => ({
+      id: doc.id,
+      ...normalize(doc.data())
+    })) as Question[];
+
+    setTopQuestions(data);
+  });
+
+  return () => {
+    unsubscribeAnswered();
+    unsubscribeTop();
+  };
 }, [profileUserId]);
 
 useEffect(() => {
