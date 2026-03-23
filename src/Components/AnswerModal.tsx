@@ -1,8 +1,7 @@
 import { useState } from "react";
 import type { Question } from "../types/QuestionsInterfaz";
-import { doc, updateDoc } from "firebase/firestore";
 import { db } from "../services/firebase";
-import { serverTimestamp,increment } from "firebase/firestore";
+import { serverTimestamp,increment,doc,runTransaction} from "firebase/firestore";
 
 interface AnswerModalProps {
   question: Question;
@@ -19,42 +18,57 @@ export default function AnswerModal({
   const [answer, setAnswer] = useState("");
   const [sending, setSending] = useState(false);
 
-  const handleSubmit = async () => {
-    if (!answer.trim()) return alert("Escribe una respuesta");
-    setSending(true);
+const handleSubmit = async () => {
+  if (!answer.trim()) return alert("Escribe una respuesta");
+  setSending(true);
 
-    try {
-      const ref = doc(db, "questions", question.id);
+  try {
+    const questionRef = doc(db, "questions", question.id);
+    const userRef = doc(db, "users", question.ownerId);
 
-      await updateDoc(ref, {
+    await runTransaction(db, async (transaction) => {
+      const qSnap = await transaction.get(questionRef);
+
+      if (!qSnap.exists()) return;
+
+      const data = qSnap.data();
+
+      // 🔥 Evita duplicar puntos
+      if (data.answered) {
+        throw new Error("Esta pregunta ya fue respondida");
+      }
+
+      // 🔥 Guardar respuesta
+      transaction.update(questionRef, {
         answer: answer,
         answered: true,
-        score: increment(5),
         answeredAt: serverTimestamp(),
-
       });
 
-      const updatedQuestion: Question = {
-        ...question,
-        answer,
-        answered: true,
-      };
+      // 🔥 SUMAR +5 AL USUARIO
+      transaction.update(userRef, {
+        score: increment(5),
+      });
+    });
 
-      console.log("✅ RESPUESTA GUARDADA → ABRIENDO SHARE MODAL");
+    const updatedQuestion: Question = {
+      ...question,
+      answer,
+      answered: true,
+    };
 
-      // ✅ Enviamos la pregunta actualizada al padre
-      onAnswered(updatedQuestion);
+    console.log("✅ RESPUESTA GUARDADA → ABRIENDO SHARE MODAL");
 
-      // ✅ Cerramos modal de responder
-      onClose();
+    onAnswered(updatedQuestion);
+    onClose();
 
-    } catch (error) {
-      console.error("🔥 ERROR GUARDANDO RESPUESTA:", error);
-      alert("No se pudo guardar la respuesta");
-    } finally {
-      setSending(false);
-    }
-  };
+  } catch (error: any) {
+    console.error("🔥 ERROR GUARDANDO RESPUESTA:", error);
+    alert(error.message || "No se pudo guardar la respuesta");
+  } finally {
+    setSending(false);
+  }
+};
 
   return (
     <div style={overlayStyle}>
