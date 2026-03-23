@@ -439,19 +439,44 @@ const handleLogin = () => {
           <h3 style={avisoAnonimo}>🕵️Nadie sabrá que fuiste tú.</h3>
           <h3 style={sidebarTitle}>👀Los más mencionados hoy</h3>
          
-          {topUsers.map((user, i) => (
-            <div
-              key={user.id}
-              style={{ ...userCard, ...fadeIn, ...hoverLift }}
-              onClick={() => navigate(`/profile/${user.id}`)}
-            >
-             
-              <div>
-                <strong>🏆 #{i + 1} {user.name}</strong>
-                <p style={userScore}>⭐ {user.score}</p>
-              </div>
-            </div>
-          ))}
+              {topUsers.map((user, i) => (
+                <div
+                  key={user.id}
+                  onClick={() => navigate(`/profile/${user.id}`)}
+                  style={{
+                    ...userCard,
+                    ...fadeIn,
+                    ...hoverLift,
+                    flexDirection: "column",
+                    alignItems: "center",
+                    textAlign: "center",
+                    cursor: "pointer"
+                  }}
+                >
+                  {/* FOTO */}
+                  <img
+                    src={user.photoURL || "https://i.pravatar.cc/150"}
+                    alt={user.name}
+                    style={{
+                      width: i === 0 ? 80 : 50,
+                      height: i === 0 ? 80 : 50,
+                      borderRadius: "50%",
+                      objectFit: "cover",
+                      border: i === 0 ? "3px solid gold" : "2px solid #ccc",
+                      transition: "0.3s"
+                    }}
+                  />
+
+                  {/* INFO */}
+                  <div style={{ marginTop: 8 }}>
+                    <strong style={{ fontSize: i === 0 ? 16 : 14 }}>
+                      🏆 #{i + 1} {user.name}
+                    </strong>
+
+                    <p style={userScore}>⭐ {user.score}</p>
+                  </div>
+                </div>
+              ))}
         </div>
       </div>
       {showLogin && <LoginModal onClose={() => setShowLogin(false)} />}
