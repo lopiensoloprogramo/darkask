@@ -11,7 +11,7 @@ import {
 
   limit,
   arrayUnion,
-
+ serverTimestamp,
   increment,
   onSnapshot,runTransaction
 } from "firebase/firestore";
@@ -652,7 +652,7 @@ const sendAutoQuestion = async (userId: string, usedQuestions: number[]) => {
     question: q.text,
     ownerId: userId,
     answered: false,
-    timestamp: Date.now(),
+    timestamp: serverTimestamp(),
     likesCount: 0,
     likedBy: [],
     isAuto: true
