@@ -458,12 +458,13 @@ const handleLogin = () => {
                     src={user.photoURL || "https://i.pravatar.cc/150"}
                     alt={user.name}
                     style={{
-                      width: i === 0 ? 80 : 50,
-                      height: i === 0 ? 80 : 50,
+                      width: i === 0 ? 90 : 60,
+                      height: i === 0 ? 90 : 60,
                       borderRadius: "50%",
                       objectFit: "cover",
                       border: i === 0 ? "3px solid gold" : "2px solid #ccc",
-                      transition: "0.3s"
+                      transition: "0.3s",
+                      boxShadow: i === 0 ? "0 0 15px gold" : "none"
                     }}
                   />
 
