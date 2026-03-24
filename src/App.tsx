@@ -14,20 +14,35 @@ export default function App() {
   const [userId, setUserId] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
  
-  useEffect(() => {
-
-  // 🚫 evitar doble ejecución (React StrictMode)
-  if (sessionStorage.getItem("visit_counted")) return;
-
-  sessionStorage.setItem("visit_counted", "true");
+useEffect(() => {
 
   const today = new Date().toISOString().slice(0, 10);
 
+  // 🔥 claves distintas
+  const globalKey = "counted_global";
+  const dailyKey = `counted_${today}`;
+
+  // 🔥 refs
   const globalRef = doc(db, "stats", "global");
   const dailyRef = doc(db, "stats", today);
 
-  setDoc(globalRef, { visits: increment(1) }, { merge: true });
-  setDoc(dailyRef, { visits: increment(1) }, { merge: true });
+  // ✅ GLOBAL (una vez por sesión)
+  if (!sessionStorage.getItem(globalKey)) {
+    sessionStorage.setItem(globalKey, "true");
+
+    setDoc(globalRef, {
+      visits: increment(1)
+    }, { merge: true });
+  }
+
+  // ✅ DIARIO (una vez por día por sesión)
+  if (!sessionStorage.getItem(dailyKey)) {
+    sessionStorage.setItem(dailyKey, "true");
+
+    setDoc(dailyRef, {
+      visits: increment(1)
+    }, { merge: true });
+  }
 
 }, []);
 
