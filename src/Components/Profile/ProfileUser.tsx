@@ -1040,7 +1040,7 @@ useEffect(() => {
                     background: "#ff9800",
                     color: "white",
                     border: "none",
-                    fontWeight: 600,
+                    fontWeight: 700,
                     cursor: "pointer",
                     marginTop: "10px"
                   }}
