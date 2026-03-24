@@ -47,6 +47,7 @@ const spicyWords = [
   "placer",
   "arrecho",
   "arrech",
+  "ahorcame"
   
 ];
 const spicyPhrases = [
@@ -57,7 +58,8 @@ const spicyPhrases = [
   "sin ropa",
   "nos calentamos",
   "una noche juntos",
-  "hicimos de todo"
+  "hicimos de todo",
+  "pero tú ahórcame"
 ];
 
 
