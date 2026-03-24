@@ -7,44 +7,11 @@ import Login from "./Components/Login";
 import Internalfeed from "./Components/Internalfeed";
 import Estadisticas from "./data/Estadisticas";
 
-import { doc, setDoc, increment } from "firebase/firestore";
-import { db } from "./services/firebase";
-
 export default function App() {
   const [userId, setUserId] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
  
-useEffect(() => {
 
-  const today = new Date().toISOString().slice(0, 10);
-
-  // 🔥 claves distintas
-  const globalKey = "counted_global";
-  const dailyKey = `counted_${today}`;
-
-  // 🔥 refs
-  const globalRef = doc(db, "stats", "global");
-  const dailyRef = doc(db, "stats", today);
-
-  // ✅ GLOBAL (una vez por sesión)
-  if (!sessionStorage.getItem(globalKey)) {
-    sessionStorage.setItem(globalKey, "true");
-
-    setDoc(globalRef, {
-      visits: increment(1)
-    }, { merge: true });
-  }
-
-  // ✅ DIARIO (una vez por día por sesión)
-  if (!sessionStorage.getItem(dailyKey)) {
-    sessionStorage.setItem(dailyKey, "true");
-
-    setDoc(dailyRef, {
-      visits: increment(1)
-    }, { merge: true });
-  }
-
-}, []);
 
   useEffect(() => {
     const unsub = onAuthStateChanged(getAuth(), (user) => {
