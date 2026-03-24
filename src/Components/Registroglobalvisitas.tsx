@@ -12,21 +12,20 @@ export default function RegistroGlobalVisitas() {
 
     const now = Date.now();
 
-    // 🚫 evitar doble ejecución (StrictMode)
     if (now - lastExecution.current < 1000) return;
-
     lastExecution.current = now;
 
-    const ref = doc(db, "stats", "global");
+    // 🔥 fecha dinámica
+    const today = new Date().toISOString().slice(0, 10);
+
+    const ref = doc(db, "stats", today);
 
     const updateVisits = async () => {
       const snap = await getDoc(ref);
 
       if (!snap.exists()) {
-        // 🔥 crear doc si no existe
         await setDoc(ref, { visits: 1 });
       } else {
-        // 🔥 incrementar si ya existe
         await updateDoc(ref, {
           visits: increment(1)
         });
