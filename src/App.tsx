@@ -6,14 +6,30 @@ import LatestAnsweredQuestions from "./Components/LatestAnsweredQuestions";
 import Login from "./Components/Login";
 import Internalfeed from "./Components/Internalfeed";
 import Estadisticas from "./data/Estadisticas";
-import Registroglobalvisitas from "./Components/Registroglobalvisitas";
 
+import { doc, setDoc, increment } from "firebase/firestore";
+import { db } from "./services/firebase";
 
 export default function App() {
   const [userId, setUserId] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
  
-  
+  useEffect(() => {
+
+  // 🚫 evitar doble ejecución (React StrictMode)
+  if (sessionStorage.getItem("visit_counted")) return;
+
+  sessionStorage.setItem("visit_counted", "true");
+
+  const today = new Date().toISOString().slice(0, 10);
+
+  const globalRef = doc(db, "stats", "global");
+  const dailyRef = doc(db, "stats", today);
+
+  setDoc(globalRef, { visits: increment(1) }, { merge: true });
+  setDoc(dailyRef, { visits: increment(1) }, { merge: true });
+
+}, []);
 
   useEffect(() => {
     const unsub = onAuthStateChanged(getAuth(), (user) => {
@@ -28,7 +44,7 @@ export default function App() {
 
   return (
     <>  
-<Registroglobalvisitas/>
+
     <Routes>
       {/* Perfil del usuario */}
       <Route path="/profile/:id" element={<ProfileUserWrapper />} />
