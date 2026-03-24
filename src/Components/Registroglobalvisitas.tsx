@@ -12,12 +12,9 @@ export default function RegistroGlobalVisitas() {
     // 🚫 no contar estadísticas
     if (location.pathname === "/estadisticas") return;
 
-    const today = new Date().toISOString().slice(0, 10);
+    const ref = doc(db, "stats", "global");
 
-    const ref = doc(db, "stats", today);
-
-    // 🔥 ESTO ES LA CLAVE
-    setDoc(ref, {  
+    setDoc(ref, {
       visits: increment(1)
     }, { merge: true });
 
