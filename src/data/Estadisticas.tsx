@@ -26,7 +26,7 @@ export default function Estadisticas() {
 
     const pendingSnap = await getDocs(pendingQ);
 
-// 🔥 visitas totales (global)
+// 🔥 visitas totales (global) desde el 24/03/2026
 const visitRef = doc(db, "stats", "global");
 const visitSnap = await getDoc(visitRef);
 
