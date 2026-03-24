@@ -6,14 +6,16 @@ import { useLocation } from "react-router-dom";
 export default function RegistroGlobalVisitas() {
 
   const location = useLocation();
-  const lastPath = useRef<string | null>(null);
+  const lastExecution = useRef(0);
 
   useEffect(() => {
 
-    // evitar duplicado misma ruta
-    if (lastPath.current === location.pathname) return;
+    const now = Date.now();
 
-    lastPath.current = location.pathname;
+    // 🚫 evita doble ejecución inmediata (StrictMode)
+    if (now - lastExecution.current < 1000) return;
+
+    lastExecution.current = now;
 
     const ref = doc(db, "stats", "global");
 
