@@ -1,27 +1,27 @@
-import { useEffect } from "react";
-import { doc, setDoc, increment } from "firebase/firestore";
+import { useEffect, useRef } from "react";
+import { doc, updateDoc, increment } from "firebase/firestore";
 import { db } from "../services/firebase";
+import { useLocation } from "react-router-dom";
 
-export default function Registroglobalvisitas() {
+export default function RegistroGlobalVisitas() {
 
-  const registerGlobalVisit = async () => {
-    const today = new Date().toISOString().split("T")[0];
-
-    const ref = doc(db, "stats", today);
-
-    await setDoc(
-      ref,
-      { visits: increment(1) },
-      { merge: true }
-    );
-  };
+  const location = useLocation();
+  const lastPath = useRef<string | null>(null);
 
   useEffect(() => {
-    if (!sessionStorage.getItem("visited")) {
-      registerGlobalVisit();
-      sessionStorage.setItem("visited", "true");
-    }
-  }, []);
 
-  return null; // 👈 importante, no renderiza nada
+    // evitar duplicado misma ruta
+    if (lastPath.current === location.pathname) return;
+
+    lastPath.current = location.pathname;
+
+    const ref = doc(db, "stats", "global");
+
+    updateDoc(ref, {
+      visits: increment(1)
+    });
+
+  }, [location.pathname]);
+
+  return null;
 }
