@@ -38,8 +38,13 @@ const spicyWords = [
   "placer",
   "arrecho",
   "arrecha",
-  "ahorcame"
-  
+  "ahorcame",
+  "pose",
+  "tirando",
+  "hotel",
+  "telo",
+  "hospedaje",
+  "chongo"
 ];
 const spicyPhrases = [
   "lo hicimos",
@@ -50,7 +55,12 @@ const spicyPhrases = [
   "nos calentamos",
   "una noche juntos",
   "hicimos de todo",
-  "pero tú ahórcame"
+  "pero tú ahórcame",
+  "para coger",
+  "has cogido",
+  "has tirado",
+  "en el telo",
+  "en el hotel"
 ];
 
 
