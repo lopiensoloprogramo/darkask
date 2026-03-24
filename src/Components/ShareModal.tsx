@@ -4,14 +4,15 @@ interface ShareModalProps {
   isOpen: boolean;
   onClose: () => void;
   question: Question | null;
+  username?: string;
 }
 
-export default function ShareModal({ isOpen, onClose, question }: ShareModalProps) {
+export default function ShareModal({ isOpen, onClose, question,username }: ShareModalProps) {
   if (!isOpen || !question) return null;
 
 const profileUrl =
-  typeof window !== "undefined" && question.ownerUsername
-    ? `${window.location.origin}/u/${question.ownerUsername}`
+  typeof window !== "undefined" && username
+    ? `${window.location.origin}/u/${username}`
     : "";
 
   const downloadImage = () => {

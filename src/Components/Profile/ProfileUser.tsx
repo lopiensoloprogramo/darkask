@@ -1181,6 +1181,7 @@ useEffect(() => {
           isOpen
           onClose={() => setSharedQuestion(null)}
           question={sharedQuestion}
+          username={userData.username}
         />
       )}
 
