@@ -123,7 +123,7 @@ useEffect(() => {
         q = query(
           collection(db, "questions"),
           where("answered", "==", true),
-          orderBy("score", "desc")
+          orderBy("answeredAt", "desc")
         );
       }
 
