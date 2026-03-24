@@ -6,7 +6,7 @@ import LatestAnsweredQuestions from "./Components/LatestAnsweredQuestions";
 import Login from "./Components/Login";
 import Internalfeed from "./Components/Internalfeed";
 import Estadisticas from "./data/Estadisticas";
-import Registroglobalvisitas from "./Components/Registroglobalvisitas";
+
 
 
 export default function App() {
@@ -28,7 +28,7 @@ export default function App() {
 
   return (
     <>  
-    <Registroglobalvisitas />
+
     <Routes>
       {/* Perfil del usuario */}
       <Route path="/profile/:id" element={<ProfileUserWrapper />} />
