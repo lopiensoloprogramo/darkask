@@ -25,10 +25,10 @@ export default function App() {
 
   if (loading)
     return <p style={{ textAlign: "center", marginTop: 40 }}>Cargando sesión...</p>;
-<Registroglobalvisitas/>
+
   return (
     <>  
-
+<Registroglobalvisitas/>
     <Routes>
       {/* Perfil del usuario */}
       <Route path="/profile/:id" element={<ProfileUserWrapper />} />
