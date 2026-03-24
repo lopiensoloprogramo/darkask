@@ -1,46 +1,48 @@
 import { useEffect, useState } from "react";
-import { collection, query, where, getDocs,doc, getDoc  } from "firebase/firestore";
+import { collection, query, where, getDocs, doc, getDoc } from "firebase/firestore";
 import { db } from "../services/firebase";
 
 export default function Estadisticas() {
   const [autoCount, setAutoCount] = useState<number | null>(null);
   const [pendingCount, setPendingCount] = useState<number | null>(null);
- const [visits, setVisits] = useState<number | null>(null);
+  const [totalVisits, setTotalVisits] = useState<number | null>(null);
+  const [todayVisits, setTodayVisits] = useState<number | null>(null);
 
   useEffect(() => {
-  const fetchStats = async () => {
+    const fetchStats = async () => {
 
-    // 🔥 preguntas automáticas
-    const autoQ = query(
-      collection(db, "questions"),
-      where("isAuto", "==", true)
-    );
+      // 🔥 preguntas automáticas
+      const autoQ = query(
+        collection(db, "questions"),
+        where("isAuto", "==", true)
+      );
+      const autoSnap = await getDocs(autoQ);
 
-    const autoSnap = await getDocs(autoQ);
+      // 🔥 preguntas pendientes
+      const pendingQ = query(
+        collection(db, "questions"),
+        where("answered", "==", false)
+      );
+      const pendingSnap = await getDocs(pendingQ);
 
-    // 🔥 preguntas sin responder
-    const pendingQ = query(
-      collection(db, "questions"),
-      where("answered", "==", false)
-    );
+      // 🔥 GLOBAL
+      const globalRef = doc(db, "stats", "global");
+      const globalSnap = await getDoc(globalRef);
 
-    const pendingSnap = await getDocs(pendingQ);
+      // 🔥 HOY
+      const today = new Date().toISOString().slice(0, 10);
+      const todayRef = doc(db, "stats", today);
+      const todaySnap = await getDoc(todayRef);
 
-// 🔥 visitas totales (global) desde el 24/03/2026
-const visitRef = doc(db, "stats", "global");
-const visitSnap = await getDoc(visitRef);
+      setAutoCount(autoSnap.size);
+      setPendingCount(pendingSnap.size);
 
-const totalVisits = visitSnap.exists()
-  ? visitSnap.data().visits || 0
-  : 0;
+      setTotalVisits(globalSnap.exists() ? globalSnap.data().visits || 0 : 0);
+      setTodayVisits(todaySnap.exists() ? todaySnap.data().visits || 0 : 0);
+    };
 
-    setAutoCount(autoSnap.size);
-    setPendingCount(pendingSnap.size);
-    setVisits(totalVisits);
-  };
-
-  fetchStats();
-}, []);
+    fetchStats();
+  }, []);
 
   return (
     <div style={{ padding: 30 }}>
@@ -48,7 +50,9 @@ const totalVisits = visitSnap.exists()
 
       <p>🤖 Preguntas automáticas: {autoCount ?? "..."}</p>
       <p>⏳ Preguntas pendientes: {pendingCount ?? "..."}</p>
-      <p>👀 Visitas totales: {visits ?? "..."}</p>
+
+      <p>👀 Visitas totales: {totalVisits ?? "..."}</p>
+      <p>📅 Visitas hoy: {todayVisits ?? "..."}</p>
     </div>
   );
 }
