@@ -8,18 +8,21 @@ export default function RegistroGlobalVisitas() {
 
   useEffect(() => {
 
-    // 🚫 NO contar estadísticas
+    // 🚫 no contar estadísticas
     if (location.pathname === "/estadisticas") return;
+
+    const key = `visited_${location.pathname}`;
+
+    // 🔥 evitar duplicado en la misma sesión
+    if (sessionStorage.getItem(key)) return;
+
+    sessionStorage.setItem(key, "true");
 
     const today = new Date().toISOString().slice(0, 10);
 
-    // 🔥 GLOBAL
     const globalRef = doc(db, "stats", "global");
-
-    // 🔥 POR DÍA
     const dailyRef = doc(db, "stats", today);
 
-    // guardar ambos
     setDoc(globalRef, { visits: increment(1) }, { merge: true });
     setDoc(dailyRef, { visits: increment(1) }, { merge: true });
 
