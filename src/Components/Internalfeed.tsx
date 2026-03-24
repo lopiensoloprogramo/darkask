@@ -20,6 +20,48 @@ export default function InternalFeed() {
   const [authUser, setAuthUser] = useState<any>(null);
   const [isMobile, setIsMobile] = useState(window.innerWidth < 900);
 
+const spicyWords = [
+  "sexo",
+  "sexual",
+  "intimo",
+  "intimidad",
+  "coger",
+  "tirar",
+  "hacerlo",
+  "desnuda",
+  "desnudo",
+  "placer",
+  "orgasmo",
+  "caliente",
+  "infiel",
+  "cuernos",
+    "sex",
+  "intim",
+  "cog",
+  "tir",
+  "desnud",
+  "orgasm",
+  "calient",
+  "infiel",
+  "cuern",
+  "placer",
+  "arrecho",
+  "arrech",
+  
+];
+const spicyPhrases = [
+  "lo hicimos",
+  "pasó algo",
+  "terminamos en",
+  "en la cama",
+  "sin ropa",
+  "nos calentamos",
+  "una noche juntos",
+  "hicimos de todo"
+];
+
+
+
     useEffect(() => {
       const handleResize = () => setIsMobile(window.innerWidth < 900);
       window.addEventListener("resize", handleResize);
@@ -92,8 +134,19 @@ useEffect(() => {
         ...d.data()
       })) as Question[];
 
-      setQuestions(questionsData);
+     let filtered = questionsData;
 
+    if (tab === "spicy") {
+      filtered = questionsData.filter(q =>
+        isSpicy(q.question) || isSpicy(q.answer)
+      );
+    }
+
+    setQuestions(filtered);
+
+
+
+      
       /* cargar usuarios */
 
       const ownerIds = [...new Set(questionsData.map(q => q.ownerId))];
@@ -208,8 +261,16 @@ const handleLike = async (q: Question) => {
 
 };
 
+function isSpicy(text?: string) {
+  if (!text) return false;
 
+  const lower = text.toLowerCase();
 
+  const wordMatch = spicyWords.some(word => lower.includes(word));
+  const phraseMatch = spicyPhrases.some(p => lower.includes(p));
+
+  return wordMatch || phraseMatch;
+}
 
 
 
