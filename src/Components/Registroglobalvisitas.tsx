@@ -17,7 +17,7 @@ export default function RegistroGlobalVisitas() {
     const ref = doc(db, "stats", today);
 
     // 🔥 ESTO ES LA CLAVE
-    setDoc(ref, { 
+    setDoc(ref, {  
       visits: increment(1)
     }, { merge: true });
 
