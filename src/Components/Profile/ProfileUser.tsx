@@ -670,7 +670,7 @@ const sendAutoQuestion = async (userId: string, usedQuestions: number[]) => {
     ownerId: userId,
     questionId: docRef.id,
     read: false,
-    createdAt: Date.now(),
+    createdAt: serverTimestamp(),
 
     // opcional (pro)
     type: "auto_question"
