@@ -6,11 +6,17 @@ import LatestAnsweredQuestions from "./Components/LatestAnsweredQuestions";
 import Login from "./Components/Login";
 import Internalfeed from "./Components/Internalfeed";
 import Estadisticas from "./data/Estadisticas";
+import Registroglobalvisitas from "./Components/Registroglobalvisitas";
+
 
 export default function App() {
   const [userId, setUserId] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
  
+    useEffect(() => {
+      Registroglobalvisitas();
+    }, []);
+
 
   useEffect(() => {
     const unsub = onAuthStateChanged(getAuth(), (user) => {
