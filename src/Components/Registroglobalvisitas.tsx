@@ -8,15 +8,17 @@ export default function RegistroGlobalVisitas() {
 
   useEffect(() => {
 
-    // 🚫 no contar estadísticas
-    if (location.pathname === "/estadisticas") return;
+    const path = location.pathname;
 
-    const key = `visited_${location.pathname}`;
+    // 🚫 NO contar estas rutas
+    if (path === "/" || path === "/estadisticas") return;
 
-    // 🔥 evitar duplicado en la misma sesión
-    if (sessionStorage.getItem(key)) return;
+    // 🔥 evitar duplicados por navegación rápida / redirect
+    const lastPath = sessionStorage.getItem("last_path");
 
-    sessionStorage.setItem(key, "true");
+    if (lastPath === path) return;
+
+    sessionStorage.setItem("last_path", path);
 
     const today = new Date().toISOString().slice(0, 10);
 
