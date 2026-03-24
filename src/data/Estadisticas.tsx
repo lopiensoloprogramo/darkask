@@ -50,7 +50,7 @@ export default function Estadisticas() {
 
       <p>🤖 Preguntas automáticas: {autoCount ?? "..."}</p>
       <p>⏳ Preguntas pendientes: {pendingCount ?? "..."}</p>
-      <p>👀 Visitas hoy: {visits ?? "..."}</p>
+      <p>👀 Visitas totales: {visits ?? "..."}</p>
     </div>
   );
 }
