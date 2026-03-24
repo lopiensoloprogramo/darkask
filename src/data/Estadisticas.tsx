@@ -26,19 +26,17 @@ export default function Estadisticas() {
 
     const pendingSnap = await getDocs(pendingQ);
 
-    // 🔥 visitas de hoy
-    const today = new Date().toISOString().split("T")[0];
+// 🔥 visitas totales (global)
+const visitRef = doc(db, "stats", "global");
+const visitSnap = await getDoc(visitRef);
 
-    const visitRef = doc(db, "stats", today);
-    const visitSnap = await getDoc(visitRef);
-
-    const todayVisits = visitSnap.exists()
-      ? visitSnap.data().visits || 0
-      : 0;
+const totalVisits = visitSnap.exists()
+  ? visitSnap.data().visits || 0
+  : 0;
 
     setAutoCount(autoSnap.size);
     setPendingCount(pendingSnap.size);
-    setVisits(todayVisits);
+    setVisits(totalVisits);
   };
 
   fetchStats();
