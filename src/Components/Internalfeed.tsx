@@ -35,18 +35,9 @@ const spicyWords = [
   "caliente",
   "infiel",
   "cuernos",
-    "sex",
-  "intim",
-  "cog",
-  "tir",
-  "desnud",
-  "orgasm",
-  "calient",
-  "infiel",
-  "cuern",
   "placer",
   "arrecho",
-  "arrech",
+  "arrecha",
   "ahorcame"
   
 ];
@@ -268,8 +259,13 @@ function isSpicy(text?: string) {
 
   const lower = text.toLowerCase();
 
-  const wordMatch = spicyWords.some(word => lower.includes(word));
-  const phraseMatch = spicyPhrases.some(p => lower.includes(p));
+  const wordMatch = spicyWords.some(word =>
+    new RegExp(`\\b${word}\\b`, "i").test(lower)
+  );
+
+  const phraseMatch = spicyPhrases.some(p =>
+    lower.includes(p)
+  );
 
   return wordMatch || phraseMatch;
 }
