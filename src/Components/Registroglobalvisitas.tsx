@@ -7,17 +7,19 @@ export default function RegistroGlobalVisitas() {
 
   const location = useLocation();
   const lastExecution = useRef(0);
-
+const excludedRoutes = ["/estadisticas"];
   useEffect(() => {
+
+    // 🚫 NO contar stats
+    if (excludedRoutes.includes(location.pathname)) return;
 
     const now = Date.now();
 
+    // 🚫 evitar doble ejecución
     if (now - lastExecution.current < 1000) return;
     lastExecution.current = now;
 
-    // 🔥 fecha dinámica
     const today = new Date().toISOString().slice(0, 10);
-
     const ref = doc(db, "stats", today);
 
     const updateVisits = async () => {
