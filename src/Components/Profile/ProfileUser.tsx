@@ -739,7 +739,7 @@ useEffect(() => {
                   backgroundImage: `url(${
                     userData.coverURL || defaultCovers[coverIndex]
                   })`,
-
+                  position: "relative",
                   backgroundSize: "cover",
                   backgroundPosition: `${coverPos.x}% ${coverPos.y}%`,
 
@@ -748,6 +748,7 @@ useEffect(() => {
                   transition: "opacity 0.6s ease",
 
                   cursor: movingCover ? (dragging ? "grabbing" : "grab") : "default"
+                  
                 }}
 
                 onTouchStart={() => {
@@ -835,6 +836,11 @@ useEffect(() => {
                   {movingCover ? "Guardar" : "↕ Ajustar"}
                 </button>
               )}
+                  <div style={{
+                    position: "absolute",
+                    inset: 0,
+                    background: "rgba(0,0,0,0.35)"
+                  }} />
       </div>
                   <div style={avatarWrapper}>
                       {uploadingAvatar ? (
@@ -964,7 +970,7 @@ useEffect(() => {
 
   <>
     <p style={bioText}>
-      ✨ {userData.bio || "Este usuario aún no tiene bio"}
+      ✨ {userData.bio || "🤫 Este usuario es misterioso... hazle una pregunta 👇"}
     </p>
 
     {isOwner && (
@@ -1104,6 +1110,13 @@ useEffect(() => {
                       ? "0 0 15px rgba(255,71,87,0.5)"
                       : card.boxShadow
                    }}
+                   onMouseEnter={(e) => {
+                        (e.currentTarget as HTMLElement).style.transform = "scale(1.03)";
+                      }}
+
+                      onMouseLeave={(e) => {
+                        (e.currentTarget as HTMLElement).style.transform = "scale(1)";
+                      }}
                 >
             <p style={questionTitle}>{q.question}</p>
 
@@ -1140,6 +1153,7 @@ useEffect(() => {
                 )}
               </>
             )}
+            
           </div>
         ))}
       </div>
@@ -1328,12 +1342,13 @@ const layout = (mobile: boolean): React.CSSProperties => ({
   margin: "0 auto"
 });
 const profileCard: React.CSSProperties = {
-  background: "linear-gradient(135deg, #6366f1, #8b5cf6)",
-  borderRadius: 20,
-  padding: 22,
+  background: "linear-gradient(135deg, #667eea, #764ba2)",
+  borderRadius: 24,
+  padding: 0, // 🔥 importante
+  overflow: "hidden",
   color: "#fff",
   textAlign: "center",
-  boxShadow: "0 10px 30px rgba(0,0,0,0.15)"
+  boxShadow: "0 20px 50px rgba(0,0,0,0.25)"
 };
 
 const avatar: React.CSSProperties = {
@@ -1351,8 +1366,8 @@ const sectionTitle: React.CSSProperties = {
 const card: React.CSSProperties = {
   background: "#ffffff",
   padding: 20,
-  borderRadius: 18,
-  boxShadow: "0 10px 30px rgba(0,0,0,0.08)",
+  borderRadius: 20,
+  boxShadow: "0 15px 40px rgba(0,0,0,0.12)",
   marginBottom: 18,
   transition: "all .25s ease"
 };
@@ -1549,18 +1564,18 @@ const btnLogoutModern: React.CSSProperties = {
   transition: "all 0.2s ease"
 };
 const btnAskModern: React.CSSProperties = {
-  marginTop: 18,
-  background: "#ffffff",
-  color: "#5b3df5",
-  padding: "12px 16px",
-  borderRadius: 14,
+  marginTop: 20,
+  background: "linear-gradient(135deg,#ff4d6d,#ff758f)",
+  color: "#fff",
+  padding: "16px",
+  borderRadius: 16,
   border: "none",
-  fontWeight: 700,
+  fontWeight: 800,
   cursor: "pointer",
-  boxShadow: "0 6px 18px rgba(0,0,0,0.15)",
+  fontSize: 16,
+  boxShadow: "0 10px 30px rgba(255,77,109,0.5)",
   transition: "all 0.2s ease"
 };
-
 const closeNotifBtn: React.CSSProperties = {
   position: "absolute",
   top: 10,
@@ -1597,10 +1612,11 @@ const statsRow: React.CSSProperties = {
 };
 
 const statItem: React.CSSProperties = {
-  background: "rgba(255,255,255,0.2)",
-  padding: "6px 12px",
-  borderRadius: 10,
-  backdropFilter: "blur(4px)"
+  background: "rgba(255,255,255,0.15)",
+  backdropFilter: "blur(10px)",
+  padding: "8px 14px",
+  borderRadius: 14,
+  fontWeight: 700
 };
 
 const coverButton: React.CSSProperties = {
