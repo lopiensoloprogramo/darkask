@@ -732,7 +732,7 @@ useEffect(() => {
           />
         <div
               style={{
-                  ...profileCover,
+                  ...profileCover(isMobile),
 
                   // si el usuario tiene portada → usar esa
                   // si NO → usar las portadas automáticas
@@ -1336,8 +1336,8 @@ const tab = (active: boolean): React.CSSProperties => ({
 const layout = (mobile: boolean): React.CSSProperties => ({
   display: "grid",
   gridTemplateColumns: mobile ? "1fr" : "320px 2fr 320px",
-  gap: mobile ? 16 : 28,
-  padding: mobile ? "16px 12px" : 28,
+  gap: mobile ? 12 : 28,
+  padding: mobile ? "10px 8px" : 28, // 🔥 menos padding en celular
   maxWidth: mobile ? 500 : 1200,
   margin: "0 auto"
 });
@@ -1590,14 +1590,14 @@ const closeNotifBtn: React.CSSProperties = {
 
 /* ===== PROFILE COVER ===== */
 
-const profileCover: React.CSSProperties = {
-  height: 170,
+const profileCover=(isMobile: boolean): React.CSSProperties => ({
+  height: isMobile ? 140 : 170,
   background: "linear-gradient(135deg,#5b3df5,#7c4dff)",
   borderRadius: "18px 18px 0 0",
   margin: "-22px -22px 10px -22px",
   position: "relative",
   touchAction: "none"
-};
+});
 
 /* ===== STATS ===== */
 
