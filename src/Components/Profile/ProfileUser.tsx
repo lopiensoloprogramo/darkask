@@ -1623,8 +1623,8 @@ const statItem: React.CSSProperties = {
 
 const coverButton: React.CSSProperties = {
   position: "absolute",
-  top: 10,
-  right: 10,
+  top: 12,
+  right: 12,
   background: "rgba(0,0,0,0.5)",
   color: "white",
   border: "none",
