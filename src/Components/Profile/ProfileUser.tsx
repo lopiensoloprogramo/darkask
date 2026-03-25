@@ -839,7 +839,8 @@ useEffect(() => {
                   <div style={{
                     position: "absolute",
                     inset: 0,
-                    background: "rgba(0,0,0,0.35)"
+                    background: "rgba(0,0,0,0.2)",
+                    pointerEvents: "none"
                   }} />
       </div>
                   <div style={avatarWrapper}>
