@@ -1349,8 +1349,10 @@ const profileCard: React.CSSProperties = {
   // ❌ quita overflow
   color: "#fff",
   textAlign: "center",
-  boxShadow: "0 20px 50px rgba(0,0,0,0.25)"
+  boxShadow: "0 20px 50px rgba(0,0,0,0.25)",
+
 };
+
 const avatar: React.CSSProperties = {
   width: 110,
   height: 110,
@@ -1565,6 +1567,7 @@ const btnLogoutModern: React.CSSProperties = {
 };
 const btnAskModern: React.CSSProperties = {
   marginTop: 20,
+  marginBottom:4,
   background: "linear-gradient(135deg,#ff4d6d,#ff758f)",
   color: "#fff",
   padding: "16px",
