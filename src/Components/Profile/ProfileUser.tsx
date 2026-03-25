@@ -1345,13 +1345,12 @@ const layout = (mobile: boolean): React.CSSProperties => ({
 const profileCard: React.CSSProperties = {
   background: "linear-gradient(135deg, #667eea, #764ba2)",
   borderRadius: 24,
-  padding: 0, // 🔥 importante
-  overflow: "hidden",
+  padding: 0,
+  // ❌ quita overflow
   color: "#fff",
   textAlign: "center",
   boxShadow: "0 20px 50px rgba(0,0,0,0.25)"
 };
-
 const avatar: React.CSSProperties = {
   width: 110,
   height: 110,
@@ -1593,11 +1592,10 @@ const closeNotifBtn: React.CSSProperties = {
 
 const profileCover=(isMobile: boolean): React.CSSProperties => ({
   height: isMobile ? 140 : 170,
-  background: "linear-gradient(135deg,#5b3df5,#7c4dff)",
-  borderRadius: "18px 18px 0 0",
-  margin: "-22px -22px 10px -22px",
-  position: "relative",
-  touchAction: "none"
+  borderTopLeftRadius: 24,
+  borderTopRightRadius: 24,
+  overflow: "hidden", // 🔥 aquí sí
+  position: "relative"
 });
 
 /* ===== STATS ===== */
