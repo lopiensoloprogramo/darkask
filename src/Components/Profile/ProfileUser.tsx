@@ -973,7 +973,7 @@ useEffect(() => {
     borderRadius: 10,
     background: "rgba(255,255,255,0.1)"
   }}>
-    📌 {userData.mood}
+  {userData.mood}
   </div>
 )}
 
@@ -991,13 +991,8 @@ useEffect(() => {
                 onChange={handleAvatarChange}
               />
 
-              {/* Cambiar foto */}
-              <button
-                style={btnChangePhoto}
-                onClick={() => document.getElementById("avatarInput")?.click()}
-              >
-                📷 Cambiar foto
-              </button>
+              {/*foto */}
+
                   <button
                     onClick={() => setEditProfileOpen(true)}
                     style={{
@@ -1534,17 +1529,7 @@ const ownerActions: React.CSSProperties = {
   gap: 12
 };
 
-const btnChangePhoto: React.CSSProperties = {
-  background: "rgba(255,255,255,0.15)",
-  border: "2px solid rgba(255,255,255,0.5)",
-  padding: "10px 14px",
-  borderRadius: 14,
-  fontWeight: 600,
-  cursor: "pointer",
-  color: "#fff",
-  backdropFilter: "blur(6px)",
-  transition: "all 0.2s ease"
-};
+
 
 const btnCopyLink: React.CSSProperties = {
   background: "#ffffff",

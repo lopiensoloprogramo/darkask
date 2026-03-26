@@ -2,6 +2,9 @@ import React, { useEffect, useState } from "react";
 import { doc, updateDoc } from "firebase/firestore";
 import { db } from "../../services/firebase";
 
+// 🔥 IMPORTS QUE FALTABAN
+import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
+
 interface Props {
   isOpen: boolean;
   onClose: () => void;
@@ -21,6 +24,8 @@ export default function EditProfileModal({
   const [selectedQuestion, setSelectedQuestion] = useState("");
   const [selectedFact, setSelectedFact] = useState("");
 
+  const [uploadingAvatar, setUploadingAvatar] = useState(false);
+
   // 🔥 cargar datos actuales
   useEffect(() => {
     if (isOpen && userData) {
@@ -30,6 +35,7 @@ export default function EditProfileModal({
     }
   }, [isOpen, userData]);
 
+  // 🔥 GUARDAR PERFIL
   const saveProfileExtras = async () => {
     if (!authUser) return;
 
@@ -45,6 +51,39 @@ export default function EditProfileModal({
       onClose();
     } catch (err) {
       console.error("Error guardando perfil:", err);
+    }
+  };
+
+  // 🔥 SUBIR AVATAR (CORREGIDO)
+  const handleAvatarChange = async (
+    e: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    const file = e.target.files?.[0];
+    if (!file || !authUser) return;
+
+    try {
+      setUploadingAvatar(true);
+
+      const storage = getStorage();
+      const avatarRef = ref(
+        storage,
+        `avatars/${authUser.uid}/avatar.jpg`
+      );
+
+      await uploadBytes(avatarRef, file);
+
+      const downloadURL = await getDownloadURL(avatarRef);
+
+      const userRef = doc(db, "users", authUser.uid);
+
+      await updateDoc(userRef, {
+        photoURL: downloadURL
+      });
+
+    } catch (err) {
+      console.error("Error subiendo avatar:", err);
+    } finally {
+      setUploadingAvatar(false);
     }
   };
 
@@ -96,6 +135,22 @@ export default function EditProfileModal({
           placeholder="Algo interesante sobre ti..."
           style={{ ...input, minHeight: 80, resize: "none" }}
         />
+
+        {/* CAMBIAR FOTO */}
+        <input
+          type="file"
+          accept="image/*"
+          id="avatarInput"
+          style={{ display: "none" }}
+          onChange={handleAvatarChange}
+        />
+
+        <button
+          style={btnChangePhoto}
+          onClick={() => document.getElementById("avatarInput")?.click()}
+        >
+          {uploadingAvatar ? "Subiendo..." : "📷 Cambiar foto"}
+        </button>
 
         <div style={actions}>
           <button style={btnCancel} onClick={onClose}>
@@ -173,4 +228,15 @@ const btnCancel: React.CSSProperties = {
   borderRadius: 10,
   cursor: "pointer",
   fontWeight: 600
+};
+
+const btnChangePhoto: React.CSSProperties = {
+  background: "#6366f1",
+  color: "#fff",
+  padding: "10px 14px",
+  borderRadius: 10,
+  border: "none",
+  fontWeight: 600,
+  cursor: "pointer",
+  transition: "all 0.2s ease"
 };
