@@ -920,9 +920,21 @@ useEffect(() => {
         <span>{getActivityStatus(userData.lastActive ?? 0)}</span>
       </div>
 
+                                {/* STATS */}
+                      <div style={statsRow}>
+                        <div style={statItem}>
+                          💬 <strong>{totalAnswers}</strong>
+                        </div>
 
+                        <div style={statItem}>
+                          ❤️ <strong>{totalLikes}</strong>
+                        </div>
 
-
+                        <div style={statItem}>
+                          ⭐ <strong>{userData.score || 0}</strong>
+                        </div>
+                      </div>
+  
   <>
  
 
@@ -965,24 +977,7 @@ useEffect(() => {
   </div>
 )}
 
-  </>
-
-
-                                {/* STATS */}
-                      <div style={statsRow}>
-                        <div style={statItem}>
-                          💬 <strong>{totalAnswers}</strong>
-                        </div>
-
-                        <div style={statItem}>
-                          ❤️ <strong>{totalLikes}</strong>
-                        </div>
-
-                        <div style={statItem}>
-                          ⭐ <strong>{userData.score || 0}</strong>
-                        </div>
-                      </div>
-                 
+  </>               
 
    
                   {isOwner ? (
