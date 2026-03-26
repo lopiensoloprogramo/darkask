@@ -901,7 +901,7 @@ useEffect(() => {
   <>
  
 
-    <div>
+   
       
         {userData.mood && (
       <div style={profileSection}>
@@ -909,13 +909,14 @@ useEffect(() => {
         <p>{userData.mood}</p>
       </div>
 )}
-      <p style={{ fontWeight: 700, marginBottom: 4 }}>
-        🤓 Dato curioso
-      </p>
+      <div style={profileSection}>
+        <p style={{ fontWeight: 700, marginBottom: 4 }}>
+          🤓 Dato curioso
+        </p>
 
-      <p style={{ opacity: 0.9 }}>
-        {userData.funFact || "Este usuario aún no ha agregado un dato 👀"}
-      </p>
+        <p style={{ opacity: 0.9 }}>
+          {userData.funFact || "Este usuario aún no ha agregado un dato 👀"}
+        </p>
     </div>
       
 {userData.fixedQuestion && (
