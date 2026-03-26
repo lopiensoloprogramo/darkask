@@ -901,26 +901,14 @@ useEffect(() => {
   <>
  
 
-    <div style={{
-      marginTop: 12,
-      padding: "12px 16px",
-      borderRadius: 14,
-      background: "rgba(255,255,255,0.08)",
-      maxWidth: 420,
-      marginLeft: "auto",
-      marginRight: "auto"
-    }}>
+    <div>
       
-      {userData.mood && (
-        <div style={{
-          marginTop: 10,
-          padding: 10,
-          borderRadius: 10,
-          background: "rgba(255,255,255,0.1)"
-        }}>
-        {userData.mood}
-        </div>
-      )}
+        {userData.mood && (
+      <div style={profileSection}>
+        <p style={{ fontWeight: 700 }}>🎭 Estado</p>
+        <p>{userData.mood}</p>
+      </div>
+)}
       <p style={{ fontWeight: 700, marginBottom: 4 }}>
         🤓 Dato curioso
       </p>
@@ -931,12 +919,7 @@ useEffect(() => {
     </div>
       
 {userData.fixedQuestion && (
-  <div style={{
-    marginTop: 10,
-    padding: 10,
-    borderRadius: 10,
-    background: "rgba(255,255,255,0.1)"
-  }}>
+  <div style={profileSection}>
     📌 {userData.fixedQuestion}
   </div>
 )}
@@ -1573,5 +1556,13 @@ const coverButton: React.CSSProperties = {
   fontSize: 14
 };
 
-
+const profileSection: React.CSSProperties = {
+  marginTop: 12,
+  padding: "14px 16px",
+  borderRadius: 16,
+  background: "rgba(255,255,255,0.15)",
+  backdropFilter: "blur(10px)",
+  border: "1px solid rgba(255,255,255,0.2)",
+  boxShadow: "0 8px 20px rgba(0,0,0,0.15)"
+};
 

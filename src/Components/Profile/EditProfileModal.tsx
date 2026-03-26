@@ -219,7 +219,10 @@ const modal: React.CSSProperties = {
   display: "flex",
   flexDirection: "column",
   gap: 12,
-  boxShadow: "0 20px 60px rgba(0,0,0,0.3)" // 🔥 importante
+  boxShadow: "0 20px 60px rgba(0,0,0,0.3)",
+
+  maxHeight: "80vh",   // 🔥 clave
+  overflowY: "auto"    // 🔥 scroll interno
 };
 
 const label: React.CSSProperties = {
@@ -240,7 +243,11 @@ const input: React.CSSProperties = {
 const actions: React.CSSProperties = {
   display: "flex",
   justifyContent: "space-between",
-  marginTop: 10
+  marginTop: 10,
+  position: "sticky",
+  bottom: 0,
+  background: "white",
+  paddingTop: 10
 };
 
 const btnSave: React.CSSProperties = {
