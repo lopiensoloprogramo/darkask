@@ -981,7 +981,30 @@ useEffect(() => {
       <button onClick={startEditingBio} style={btnEditBio}>
         ✏️ Editar bio
       </button>
+      
     )}
+    {userData.mood && (
+  <p style={{ marginTop: 6 }}>
+    😎 Mood: {userData.mood}
+  </p>
+)}
+
+{userData.funFact && (
+  <p style={{ marginTop: 6 }}>
+    🤓 Dato: {userData.funFact}
+  </p>
+)}
+
+{userData.fixedQuestion && (
+  <div style={{
+    marginTop: 10,
+    padding: 10,
+    borderRadius: 10,
+    background: "rgba(255,255,255,0.1)"
+  }}>
+    📌 {userData.fixedQuestion}
+  </div>
+)}
   </>
 
 )}
