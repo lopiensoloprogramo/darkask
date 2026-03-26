@@ -1639,18 +1639,5 @@ const coverButton: React.CSSProperties = {
   fontSize: 14
 };
 
-const bioText: React.CSSProperties = {
-  fontSize: 14,
-  fontWeight: 700,
-  marginTop: 10,
-  marginBottom: 12,
-  padding: "10px 14px",
-  lineHeight: 1.5,
-  background: "rgba(255,255,255,0.06)",
-  borderRadius: 12,
-  maxWidth: 420,
-  marginLeft: "auto",
-  marginRight: "auto"
-};
 
 
