@@ -12,6 +12,11 @@ export interface Question {
     likedBy: string[];
     ownerUsername?: string;
     isAuto?: boolean;
+  type?: "text" | "options";
 
+  options?: {
+    text: string;
+    votes: number;
+  }[];
   }
   

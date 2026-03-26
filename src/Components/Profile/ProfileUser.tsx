@@ -87,8 +87,7 @@ export default function ProfileUser({ profileUserId, authUser }: ProfileProps) {
 
   const [uploadingAvatar, setUploadingAvatar] = useState(false);
   const [uploadingCover, setUploadingCover] = useState(false);
-  const [editingBio, setEditingBio] = useState(false);
-  const [bioTextValue, setBioTextValue] = useState("");
+
 
   /* ===== COVER DRAG SYSTEM (PRO) ===== */
 
@@ -579,31 +578,8 @@ const handleCoverChange = async (
   };
 };
 
-const startEditingBio = () => {
-  setBioTextValue(userData?.bio || "");
-  setEditingBio(true);
-};
-const saveBio = async () => {
 
-  if (!authUser) return;
 
-  if (bioTextValue.length > 160) {
-    alert("Máximo 160 caracteres");
-    return;
-  }
-
-  const userRef = doc(db, "users", authUser.uid);
-
-  await updateDoc(userRef, {
-    bio: bioTextValue
-  });
-
-  setUserData(prev =>
-    prev ? { ...prev, bio: bioTextValue } : prev
-  );
-
-  setEditingBio(false);
-};
 
   /* ===== DATA TO SHOW ===== */
   const questionsToShow = isOwner
@@ -945,55 +921,35 @@ useEffect(() => {
       </div>
 
 
-{editingBio ? (
 
-  <div style={{ marginTop: 10 }}>
-
-    <textarea
-      value={bioTextValue}
-      onChange={(e) => setBioTextValue(e.target.value)}
-      maxLength={160}
-      style={bioInput}
-    />
-
-    <div style={bioControls}>
-      <span>{bioTextValue.length}/160</span>
-
-      <button onClick={saveBio} style={btnSaveBio}>
-        Guardar
-      </button>
-
-      <button onClick={() => setEditingBio(false)} style={btnCancelBio}>
-        Cancelar
-      </button>
-    </div>
-
-  </div>
-
-) : (
 
   <>
-    <p style={bioText}>
-      ✨ {userData.bio || "🤫 Este usuario es misterioso... hazle una pregunta 👇"}
-    </p>
+ 
 
     {isOwner && (
-      <button onClick={startEditingBio} style={btnEditBio}>
-        ✏️ Editar bio
-      </button>
+    <div style={{
+      marginTop: 12,
+      padding: "12px 16px",
+      borderRadius: 14,
+      background: "rgba(255,255,255,0.08)",
+      maxWidth: 420,
+      marginLeft: "auto",
+      marginRight: "auto"
+    }}>
+      <p style={{ fontWeight: 700, marginBottom: 4 }}>
+        🤓 Dato curioso
+      </p>
+
+      <p style={{ opacity: 0.9 }}>
+        {userData.funFact || "Este usuario aún no ha agregado un dato 👀"}
+      </p>
+    </div>
       
     )}
-    {userData.mood && (
-  <p style={{ marginTop: 6 }}>
-    😎 Mood: {userData.mood}
-  </p>
-)}
 
-{userData.funFact && (
-  <p style={{ marginTop: 6 }}>
-    🤓 Dato: {userData.funFact}
-  </p>
-)}
+
+ 
+
 
 {userData.fixedQuestion && (
   <div style={{
@@ -1007,7 +963,7 @@ useEffect(() => {
 )}
   </>
 
-)}
+
                                 {/* STATS */}
                       <div style={statsRow}>
                         <div style={statItem}>
@@ -1696,45 +1652,5 @@ const bioText: React.CSSProperties = {
   marginLeft: "auto",
   marginRight: "auto"
 };
-const btnEditBio: React.CSSProperties = {
-  marginTop: 8,
-  background: "rgba(255,255,255,0.15)",
-  border: "2px solid rgba(255,255,255,0.4)",
-  padding: "8px 12px",
-  borderRadius: 12,
-  color: "#fff",
-  cursor: "pointer",
-  fontWeight: 600
-};
-const bioInput: React.CSSProperties = {
-  width: "100%",
-  minHeight: 70,
-  borderRadius: 12,
-  border: "none",
-  padding: 10,
-  resize: "none",
-  outline: "none",
-  fontSize: 14
-};
-const bioControls: React.CSSProperties = {
-  display: "flex",
-  justifyContent: "space-between",
-  alignItems: "center",
-  marginTop: 6
-};
-const btnSaveBio: React.CSSProperties = {
-  background: "#22c55e",
-  border: "none",
-  color: "white",
-  padding: "6px 10px",
-  borderRadius: 8,
-  cursor: "pointer"
-};
-const btnCancelBio: React.CSSProperties = {
-  background: "#ef4444",
-  border: "none",
-  color: "white",
-  padding: "6px 10px",
-  borderRadius: 8,
-  cursor: "pointer"
-};
+
+
