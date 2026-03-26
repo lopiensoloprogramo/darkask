@@ -23,8 +23,8 @@ export default function EditProfileModal({
   const [selectedMood, setSelectedMood] = useState("");
   const [selectedQuestion, setSelectedQuestion] = useState("");
   const [selectedFact, setSelectedFact] = useState("");
-
-  const [uploadingAvatar, setUploadingAvatar] = useState(false);
+  const [avatarFile, setAvatarFile] = useState<File | null>(null);
+  const [avatarPreview, setAvatarPreview] = useState<string | null>(null);
 
   // 🔥 cargar datos actuales
 useEffect(() => {
@@ -35,57 +35,58 @@ useEffect(() => {
   }
 }, [isOpen]);
 
-  // 🔥 GUARDAR PERFIL
-  const saveProfileExtras = async () => {
-    if (!authUser) return;
-
-    try {
-      const userRef = doc(db, "users", authUser.uid);
-
-      await updateDoc(userRef, {
-        mood: selectedMood,
-        fixedQuestion: selectedQuestion,
-        funFact: selectedFact
-      });
-
-      onClose();
-    } catch (err) {
-      console.error("Error guardando perfil:", err);
-    }
+useEffect(() => {
+  return () => {
+    if (avatarPreview) URL.revokeObjectURL(avatarPreview);
   };
+}, [avatarPreview]);
 
-  // 🔥 SUBIR AVATAR (CORREGIDO)
-  const handleAvatarChange = async (
-    e: React.ChangeEvent<HTMLInputElement>
-  ) => {
-    const file = e.target.files?.[0];
-    if (!file || !authUser) return;
+  // 🔥 GUARDAR PERFIL
+ const saveProfileExtras = async () => {
+  if (!authUser) return;
 
-    try {
-      setUploadingAvatar(true);
+  try {
+    const userRef = doc(db, "users", authUser.uid);
 
+    let photoURL = userData.photoURL;
+
+    // 🔥 si hay nueva imagen → subirla
+    if (avatarFile) {
       const storage = getStorage();
+
       const avatarRef = ref(
         storage,
         `avatars/${authUser.uid}/avatar.jpg`
       );
 
-      await uploadBytes(avatarRef, file);
-
-      const downloadURL = await getDownloadURL(avatarRef);
-
-      const userRef = doc(db, "users", authUser.uid);
-
-      await updateDoc(userRef, {
-        photoURL: downloadURL
-      });
-
-    } catch (err) {
-      console.error("Error subiendo avatar:", err);
-    } finally {
-      setUploadingAvatar(false);
+      await uploadBytes(avatarRef, avatarFile);
+      photoURL = await getDownloadURL(avatarRef);
     }
-  };
+
+    await updateDoc(userRef, {
+      mood: selectedMood,
+      fixedQuestion: selectedQuestion,
+      funFact: selectedFact,
+      photoURL: photoURL // 🔥 se guarda aquí
+    });
+
+    onClose();
+
+  } catch (err) {
+    console.error("Error guardando perfil:", err);
+  }
+};
+
+  // 🔥 SUBIR AVATAR (CORREGIDO)
+const handleAvatarChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const file = e.target.files?.[0];
+  if (!file) return;
+
+  setAvatarFile(file);
+
+  const preview = URL.createObjectURL(file);
+  setAvatarPreview(preview);
+};
 
   if (!isOpen) return null;
 
@@ -136,6 +137,20 @@ useEffect(() => {
           style={{ ...input, minHeight: 80, resize: "none" }}
         />
 
+
+            {(avatarPreview || userData?.photoURL) && (
+            <img
+                src={avatarPreview || userData.photoURL}
+                alt="preview"
+                style={{
+                width: 80,
+                height: 80,
+                borderRadius: "50%",
+                objectFit: "cover",
+                margin: "0 auto"
+                }}
+            />
+            )}
         {/* CAMBIAR FOTO */}
         <input
           type="file"
@@ -149,7 +164,7 @@ useEffect(() => {
           style={btnChangePhoto}
           onClick={() => document.getElementById("avatarInput")?.click()}
         >
-          {uploadingAvatar ? "Subiendo..." : "📷 Cambiar foto"}
+
         </button>
 
         <div style={actions}>
