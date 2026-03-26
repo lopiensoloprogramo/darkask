@@ -27,13 +27,13 @@ export default function EditProfileModal({
   const [uploadingAvatar, setUploadingAvatar] = useState(false);
 
   // 🔥 cargar datos actuales
-  useEffect(() => {
-    if (isOpen && userData) {
-      setSelectedMood(userData.mood || "");
-      setSelectedQuestion(userData.fixedQuestion || "");
-      setSelectedFact(userData.funFact || "");
-    }
-  }, [isOpen, userData]);
+useEffect(() => {
+  if (isOpen && userData && !selectedMood && !selectedQuestion && !selectedFact) {
+    setSelectedMood(userData.mood || "");
+    setSelectedQuestion(userData.fixedQuestion || "");
+    setSelectedFact(userData.funFact || "");
+  }
+}, [isOpen]);
 
   // 🔥 GUARDAR PERFIL
   const saveProfileExtras = async () => {
