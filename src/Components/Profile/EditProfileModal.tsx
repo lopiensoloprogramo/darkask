@@ -93,7 +93,7 @@ const handleAvatarChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     <div style={overlay} onClick={onClose}>
       <div style={modal} onClick={(e) => e.stopPropagation()}>
         
-        <h2 style={{ marginBottom: 12 }}>⚙️ Editar perfil</h2>
+        <h2 style={{ marginBottom: 12,marginTop:0 }}>⚙️ Editar perfil</h2>
 
        
    {/* 🔥 SECCIÓN PERFIL */}
