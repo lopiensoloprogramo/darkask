@@ -34,7 +34,7 @@ import coverdefault2 from "../../assets/defecto2.jpg";
 import coverdefault3 from "../../assets/defecto3.jpg";
 import coverdefault4 from "../../assets/defecto4.jpg";
 import { questions } from "../../data/questions";
-
+import EditProfileModal from "./EditProfileModal";
 
 
 /* ===== INTERFACES ===== */
@@ -61,6 +61,9 @@ interface UserData {
     usedQuestions: number[]
     //score de usuario
    score?:number
+   fixedQuestion?: string;
+  mood?: string;
+  funFact?: string;
 }
 /* ===== COMPONENT ===== */
 
@@ -108,7 +111,7 @@ const [coverIndex, setCoverIndex] = useState(0);
 const [fade, setFade] = useState(true);
 const [autoTriggered, setAutoTriggered] = useState(false);
 const [myLikes, setMyLikes] = useState<string[]>([]);
-
+const [editProfileOpen, setEditProfileOpen] = useState(false);
 
 useEffect(() => {
 
@@ -1306,11 +1309,19 @@ useEffect(() => {
             </div>
           )}
 
-
+  <EditProfileModal
+  isOpen={editProfileOpen}
+  onClose={() => setEditProfileOpen(false)}
+  userData={userData}
+  authUser={authUser}
+  answeredQuestions={answeredQuestions}
+/>
 
     </div>
+
 </>
   );
+
 }
 
 /* ===== STYLES ===== */
