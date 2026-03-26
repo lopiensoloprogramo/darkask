@@ -163,7 +163,7 @@ const handleAvatarChange = (e: React.ChangeEvent<HTMLInputElement>) => {
           style={btnChangePhoto}
           onClick={() => document.getElementById("avatarInput")?.click()}
         >
-
+              📷 Cambiar foto
         </button>
 
         <div style={actions}>
