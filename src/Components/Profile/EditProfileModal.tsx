@@ -95,46 +95,59 @@ const handleAvatarChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         
         <h2 style={{ marginBottom: 12 }}>⚙️ Editar perfil</h2>
 
-        {/* MOOD */}
+       
+   {/* 🔥 SECCIÓN PERFIL */}
+        <div style={section}>
+        <span style={sectionTitle}>Perfil</span>
+    {/* MOOD */}
         <label style={label}>Estado (Mood)</label>
         <select
-          value={selectedMood}
-          onChange={(e) => setSelectedMood(e.target.value)}
-          style={input}
+            value={selectedMood}
+            onChange={(e) => setSelectedMood(e.target.value)}
+            style={input}
         >
-          <option value="">Selecciona tu mood</option>
-          <option>🔥 Motivado</option>
-          <option>😴 Cansado</option>
-          <option>💸 Sin dinero</option>
-          <option>🧠 Pensando mucho</option>
-          <option>🎮 Viciando</option>
+            <option value="">Selecciona tu mood</option>
+            <option>🔥 Motivado</option>
+            <option>😴 Cansado</option>
+            <option>💸 Sin dinero</option>
+            <option>🧠 Pensando mucho</option>
+            <option>🎮 Viciando</option>
         </select>
+        </div>
 
-        {/* PREGUNTA FIJA */}
-        <label style={label}>Pregunta destacada</label>
-        <select
-          value={selectedQuestion}
-          onChange={(e) => setSelectedQuestion(e.target.value)}
-          style={input}
-        >
-          <option value="">Selecciona una pregunta</option>
+{/* 🔥 SECCIÓN DESTACADO */}
+<div style={section}>
+  <span style={sectionTitle}>Destacado</span>
 
-          {answeredQuestions.map((q) => (
-            <option key={q.id} value={q.question}>
-              {q.question}
-            </option>
-          ))}
-        </select>
+  <label style={label}>Pregunta destacada</label>
+  <select
+    value={selectedQuestion}
+    onChange={(e) => setSelectedQuestion(e.target.value)}
+    style={input}
+  >
+    <option value="">Selecciona una pregunta</option>
 
-        {/* DATO CURIOSO */}
-        <label style={label}>Dato curioso</label>
-        <textarea
-          value={selectedFact}
-          onChange={(e) => setSelectedFact(e.target.value)}
-          maxLength={120}
-          placeholder="Algo interesante sobre ti..."
-          style={{ ...input, minHeight: 80, resize: "none" }}
-        />
+    {answeredQuestions.map((q) => (
+      <option key={q.id} value={q.question}>
+        {q.question}
+      </option>
+    ))}
+  </select>
+</div>
+
+{/* 🔥 SECCIÓN INFO */}
+<div style={section}>
+  <span style={sectionTitle}>Información</span>
+
+  <label style={label}>Dato curioso</label>
+  <textarea
+    value={selectedFact}
+    onChange={(e) => setSelectedFact(e.target.value)}
+    maxLength={120}
+    placeholder="Algo interesante sobre ti..."
+    style={{ ...input, minHeight: 80, resize: "none" }}
+  />
+</div>
 
 
             {(avatarPreview || userData?.photoURL) && (
@@ -220,7 +233,8 @@ const input: React.CSSProperties = {
   borderRadius: 10,
   border: "1px solid #ddd",
   outline: "none",
-  fontSize: 14
+  fontSize: 14,
+  boxSizing: "border-box" // 🔥 ESTO ARREGLA TODO
 };
 
 const actions: React.CSSProperties = {
@@ -259,4 +273,19 @@ const btnChangePhoto: React.CSSProperties = {
   cursor: "pointer",
   width: "100%",
   marginTop: 10
+};
+const section: React.CSSProperties = {
+  background: "#f9fafb",
+  padding: 12,
+  borderRadius: 12,
+  border: "1px solid #eee",
+  display: "flex",
+  flexDirection: "column",
+  gap: 8
+};
+
+const sectionTitle: React.CSSProperties = {
+  fontWeight: 700,
+  fontSize: 13,
+  opacity: 0.7
 };

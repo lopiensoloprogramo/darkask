@@ -910,6 +910,17 @@ useEffect(() => {
       marginLeft: "auto",
       marginRight: "auto"
     }}>
+      
+      {userData.mood && (
+        <div style={{
+          marginTop: 10,
+          padding: 10,
+          borderRadius: 10,
+          background: "rgba(255,255,255,0.1)"
+        }}>
+        {userData.mood}
+        </div>
+      )}
       <p style={{ fontWeight: 700, marginBottom: 4 }}>
         🤓 Dato curioso
       </p>
@@ -929,16 +940,7 @@ useEffect(() => {
     📌 {userData.fixedQuestion}
   </div>
 )}
-{userData.mood && (
-  <div style={{
-    marginTop: 10,
-    padding: 10,
-    borderRadius: 10,
-    background: "rgba(255,255,255,0.1)"
-  }}>
-  {userData.mood}
-  </div>
-)}
+
 
   </>               
 
