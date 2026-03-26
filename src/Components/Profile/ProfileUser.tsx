@@ -926,7 +926,6 @@ useEffect(() => {
   <>
  
 
-    {isOwner && (
     <div style={{
       marginTop: 12,
       padding: "12px 16px",
@@ -945,12 +944,6 @@ useEffect(() => {
       </p>
     </div>
       
-    )}
-
-
- 
-
-
 {userData.fixedQuestion && (
   <div style={{
     marginTop: 10,
@@ -961,6 +954,17 @@ useEffect(() => {
     📌 {userData.fixedQuestion}
   </div>
 )}
+{userData.mood && (
+  <div style={{
+    marginTop: 10,
+    padding: 10,
+    borderRadius: 10,
+    background: "rgba(255,255,255,0.1)"
+  }}>
+    📌 {userData.mood}
+  </div>
+)}
+
   </>
 
 
