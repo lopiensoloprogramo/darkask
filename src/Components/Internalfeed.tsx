@@ -27,6 +27,8 @@ const spicyWords = [
   "intimidad",
   "coger",
   "tirar",
+  "tiras",
+  "onlyfans",
   "hacerlo",
   "desnuda",
   "desnudo",
@@ -44,7 +46,8 @@ const spicyWords = [
   "hotel",
   "telo",
   "hospedaje",
-  "chongo"
+  "chongo",
+  "cogiendo",
 ];
 const spicyPhrases = [
   "lo hicimos",
@@ -60,7 +63,8 @@ const spicyPhrases = [
   "has cogido",
   "has tirado",
   "en el telo",
-  "en el hotel"
+  "en el hotel",
+  "only fans"
 ];
 
 
