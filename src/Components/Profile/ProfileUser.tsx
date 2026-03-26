@@ -944,7 +944,7 @@ useEffect(() => {
         <span>{getActivityStatus(userData.lastActive ?? 0)}</span>
       </div>
 
-        <p style={{ opacity: 0.85 }}>{userData.email}</p>
+
 {editingBio ? (
 
   <div style={{ marginTop: 10 }}>
