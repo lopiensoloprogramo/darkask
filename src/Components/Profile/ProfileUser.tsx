@@ -957,7 +957,7 @@ useEffect(() => {
                       padding: "12px",
                       borderRadius: "10px",
                       background: "#fff",
-                      color: "white",
+                      color: "#6366f1",
                       border: "none",
                       fontWeight: 700,
                       cursor: "pointer"
