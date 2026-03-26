@@ -25,7 +25,7 @@ export default function EditProfileModal({
   const [selectedFact, setSelectedFact] = useState("");
   const [avatarFile, setAvatarFile] = useState<File | null>(null);
   const [avatarPreview, setAvatarPreview] = useState<string | null>(null);
-
+  const [saving, setSaving] = useState(false);
   // 🔥 cargar datos actuales
 useEffect(() => {
   if (isOpen && userData && !selectedMood && !selectedQuestion && !selectedFact) {
@@ -42,22 +42,19 @@ useEffect(() => {
 }, [avatarPreview]);
 
   // 🔥 GUARDAR PERFIL
- const saveProfileExtras = async () => {
+const saveProfileExtras = async () => {
   if (!authUser) return;
 
   try {
+    setSaving(true);
+
     const userRef = doc(db, "users", authUser.uid);
 
     let photoURL = userData.photoURL;
 
-    // 🔥 si hay nueva imagen → subirla
     if (avatarFile) {
       const storage = getStorage();
-
-      const avatarRef = ref(
-        storage,
-        `avatars/${authUser.uid}/avatar.jpg`
-      );
+      const avatarRef = ref(storage, `avatars/${authUser.uid}/avatar.jpg`);
 
       await uploadBytes(avatarRef, avatarFile);
       photoURL = await getDownloadURL(avatarRef);
@@ -67,13 +64,15 @@ useEffect(() => {
       mood: selectedMood,
       fixedQuestion: selectedQuestion,
       funFact: selectedFact,
-      photoURL: photoURL // 🔥 se guarda aquí
+      photoURL
     });
 
     onClose();
 
   } catch (err) {
-    console.error("Error guardando perfil:", err);
+    console.error(err);
+  } finally {
+    setSaving(false);
   }
 };
 
@@ -172,9 +171,13 @@ const handleAvatarChange = (e: React.ChangeEvent<HTMLInputElement>) => {
             Cancelar
           </button>
 
-          <button style={btnSave} onClick={saveProfileExtras}>
-            Guardar
-          </button>
+                <button
+                style={btnSave}
+                onClick={saveProfileExtras}
+                disabled={saving}
+                >
+                {saving ? "Guardando..." : "Guardar"}
+                </button>
         </div>
 
       </div>
@@ -191,7 +194,7 @@ const overlay: React.CSSProperties = {
   display: "flex",
   justifyContent: "center",
   alignItems: "center",
-  zIndex: 999
+  zIndex: 9999
 };
 
 const modal: React.CSSProperties = {
@@ -199,10 +202,11 @@ const modal: React.CSSProperties = {
   maxWidth: 400,
   background: "white",
   padding: 20,
-  borderRadius: 16,
+  borderRadius: 20,
   display: "flex",
   flexDirection: "column",
-  gap: 10
+  gap: 12,
+  boxShadow: "0 20px 60px rgba(0,0,0,0.3)" // 🔥 importante
 };
 
 const label: React.CSSProperties = {
@@ -246,12 +250,13 @@ const btnCancel: React.CSSProperties = {
 };
 
 const btnChangePhoto: React.CSSProperties = {
-  background: "#6366f1",
+  background: "#0d6efd",
   color: "#fff",
-  padding: "10px 14px",
-  borderRadius: 10,
+  padding: "12px",
+  borderRadius: 12,
   border: "none",
-  fontWeight: 600,
+  fontWeight: 700,
   cursor: "pointer",
-  transition: "all 0.2s ease"
+  width: "100%",
+  marginTop: 10
 };
