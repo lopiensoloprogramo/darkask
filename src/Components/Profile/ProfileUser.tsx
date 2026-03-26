@@ -1020,6 +1020,21 @@ useEffect(() => {
               >
                 📷 Cambiar foto
               </button>
+                  <button
+                    onClick={() => setEditProfileOpen(true)}
+                    style={{
+                      width: "100%",
+                      padding: "12px",
+                      borderRadius: "10px",
+                      background: "#6366f1",
+                      color: "white",
+                      border: "none",
+                      fontWeight: 700,
+                      cursor: "pointer"
+                    }}
+                  >
+                    ⚙️ Editar perfil
+                </button>
 
               {/* Copiar enlace */}
               <button
