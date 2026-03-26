@@ -85,7 +85,7 @@ export default function ProfileUser({ profileUserId, authUser }: ProfileProps) {
 
   const isOwner = authUser?.uid === profileUserId;
 
-  const [uploadingAvatar, setUploadingAvatar] = useState(false);
+
   const [uploadingCover, setUploadingCover] = useState(false);
 
 
@@ -485,40 +485,7 @@ await runTransaction(db, async (transaction) => {
 };
   /*Subir imagen de perfil */
 
-const handleAvatarChange = async (
-  e: React.ChangeEvent<HTMLInputElement>
-) => {
-  const file = e.target.files?.[0];
-  if (!file || !authUser) return;
 
-  try {
-    setUploadingAvatar(true);
-
-    const storage = getStorage();
-    const avatarRef = ref(
-      storage,
-      `avatars/${authUser.uid}/avatar.jpg`
-    );
-
-    await uploadBytes(avatarRef, file);
-
-    const downloadURL = await getDownloadURL(avatarRef);
-
-    const userRef = doc(db, "users", authUser.uid);
-    await updateDoc(userRef, {
-      photoURL: downloadURL
-    });
-
-    setUserData(prev =>
-      prev ? { ...prev, photoURL: downloadURL } : prev
-    );
-
-  } catch (err) {
-    console.error("Error subiendo avatar:", err);
-  } finally {
-    setUploadingAvatar(false);
-  }
-};
 
 
 const handleCoverChange = async (
@@ -823,16 +790,12 @@ useEffect(() => {
                   }} />
       </div>
                   <div style={avatarWrapper}>
-                      {uploadingAvatar ? (
-                        <div style={avatarLoader}></div>
-                      ) : (
-                        <img
-                          src={userData.photoURL || "/default-avatar.png"}
-                          alt="avatar"
-                          style={avatar}
-                        />
-                      )}
-                    </div>
+                    <img
+                      src={userData.photoURL || "/default-avatar.png"}
+                      alt="avatar"
+                      style={avatar}
+                    />
+                  </div>
    
             <div style={headerRow}>
               <h1 style={{
@@ -983,13 +946,7 @@ useEffect(() => {
                   {isOwner ? (
             <div style={ownerActions}>
 
-              <input
-                type="file"
-                accept="image/*"
-                id="avatarInput"
-                style={{ display: "none" }}
-                onChange={handleAvatarChange}
-              />
+
 
               {/*foto */}
 
@@ -1419,7 +1376,6 @@ const btnShare: React.CSSProperties = {
 };
 
 
-
 const rankCard: React.CSSProperties = {
   display: "flex",
   gap: 12,
@@ -1483,14 +1439,6 @@ const avatarWrapper: React.CSSProperties = {
 
 
 
-const avatarLoader: React.CSSProperties = {
-  width: 40,
-  height: 40,
-  border: "4px solid #ddd",
-  borderTopColor: "#ffffff",
-  borderRadius: "50%",
-  animation: "spin 1s linear infinite"
-};
 
 
 const notifOverlay: React.CSSProperties = {
