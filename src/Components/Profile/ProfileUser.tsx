@@ -902,29 +902,30 @@ useEffect(() => {
  
 
    
-      
-        {userData.mood && (
-      <div style={profileSection}>
-        <p style={{ fontWeight: 700 }}>🎭 Estado</p>
-        <p>{userData.mood}</p>
-      </div>
-)}
-      <div style={profileSection}>
-        <p style={{ fontWeight: 700, marginBottom: 4 }}>
-          🤓 Dato curioso
-        </p>
+ <div style={infoContainer}>
 
-        <p style={{ opacity: 0.9 }}>
-          {userData.funFact || "Este usuario aún no ha agregado un dato 👀"}
-        </p>
-    </div>
-      
-{userData.fixedQuestion && (
-  <div style={profileSection}>
-    📌 {userData.fixedQuestion}
-  </div>
-)}
+  {/* ESTADO */}
+  {userData.mood && (
+    <p style={moodStyle}>
+      {userData.mood}
+    </p>
+  )}
 
+  {/* DATO CURIOSO */}
+  {userData.funFact && (
+    <p style={funFactStyle}>
+      “{userData.funFact}”
+    </p>
+  )}
+
+  {/* PREGUNTA */}
+  {userData.fixedQuestion && (
+    <p style={questionStyle}>
+      📌 {userData.fixedQuestion}
+    </p>
+  )}
+
+</div>
 
   </>               
 
@@ -1557,13 +1558,33 @@ const coverButton: React.CSSProperties = {
   fontSize: 14
 };
 
-const profileSection: React.CSSProperties = {
-  marginTop: 12,
-  padding: "14px 16px",
-  borderRadius: 16,
-  background: "rgba(255,255,255,0.15)",
+
+const infoContainer: React.CSSProperties = {
+  marginTop: 14,
+  padding: "16px",
+  borderRadius: 18,
+  background: "rgba(255,255,255,0.12)",
   backdropFilter: "blur(10px)",
-  border: "1px solid rgba(255,255,255,0.2)",
-  boxShadow: "0 8px 20px rgba(0,0,0,0.15)"
+  display: "flex",
+  flexDirection: "column",
+  gap: 10
 };
 
+const moodStyle: React.CSSProperties = {
+  fontWeight: 700,
+  fontSize: 14
+};
+
+const funFactStyle: React.CSSProperties = {
+  fontSize: 13,
+  opacity: 0.9,
+  fontStyle: "italic",
+  lineHeight: 1.4
+};
+
+const questionStyle: React.CSSProperties = {
+  fontSize: 13,
+  background: "rgba(255,255,255,0.2)",
+  padding: "8px 10px",
+  borderRadius: 10
+};
