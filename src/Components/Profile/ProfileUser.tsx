@@ -1576,7 +1576,7 @@ const moodStyle: React.CSSProperties = {
 };
 
 const funFactStyle: React.CSSProperties = {
-  fontSize: 13,
+  fontSize: 16,
   opacity: 0.9,
   fontStyle: "italic",
   lineHeight: 1.4
