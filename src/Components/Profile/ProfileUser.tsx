@@ -919,18 +919,57 @@ useEffect(() => {
 <div style={infoContainer}>
 
   {/* ESTADO */}
-  <p style={moodStyle}>
-    {userData?.mood || "Sin estado 😐"}
+  <p style={{
+    ...moodStyle,
+    cursor: !userData?.mood && isOwner ? "pointer" : "default",
+    opacity: !userData?.mood ? 0.7 : 1
+  }}
+  onClick={() => {
+    if (!userData?.mood && isOwner) {
+      setEditProfileOpen(true);
+    }
+  }}>
+    {userData?.mood 
+      ? userData.mood 
+      : isOwner 
+        ? "⚡ Agrega tu estado para destacar"
+        : "Sin estado 😐"}
   </p>
 
   {/* DATO CURIOSO */}
-  <p style={funFactStyle}>
-    “{userData?.funFact || "Sin dato curioso 🤷‍♂️"}”
+  <p style={{
+    ...funFactStyle,
+    cursor: !userData?.funFact && isOwner ? "pointer" : "default",
+    opacity: !userData?.funFact ? 0.7 : 1
+  }}
+  onClick={() => {
+    if (!userData?.funFact && isOwner) {
+      setEditProfileOpen(true);
+    }
+  }}>
+    {userData?.funFact 
+      ? `“${userData.funFact}”`
+      : isOwner 
+        ? "🤔 Agrega un dato curioso sobre ti"
+        : "“Sin dato curioso 🤷‍♂️”"}
   </p>
 
   {/* PREGUNTA */}
-  <p style={questionStyle}>
-    📌 {userData?.fixedQuestion || "Sin pregunta destacada ❓"}
+  <p style={{
+    ...questionStyle,
+    cursor: !userData?.fixedQuestion && isOwner ? "pointer" : "default",
+    opacity: !userData?.fixedQuestion ? 0.7 : 1
+  }}
+  onClick={() => {
+    if (!userData?.fixedQuestion && isOwner) {
+      setEditProfileOpen(true);
+    }
+  }}>
+    {userData?.fixedQuestion 
+      ? `📌 ${userData.fixedQuestion}`
+      : isOwner 
+        ? "📌 Elige una pregunta destacada"
+        : "📌 Sin pregunta destacada ❓"}
   </p>
 
 </div>
