@@ -391,11 +391,11 @@ const cajaMayor: React.CSSProperties={
 
 const container: React.CSSProperties = {
   padding: 24,
-  maxWidth: 400,
+  maxWidth: 500,
   margin: "0 auto",
 
   // 🔥 clave
-  height: "calc(100vh - 120px)",
+  height: "calc(100vh - 200px)",
 
 };
 
