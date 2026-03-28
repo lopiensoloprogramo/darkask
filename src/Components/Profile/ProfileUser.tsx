@@ -38,6 +38,7 @@ import EditProfileModal from "./EditProfileModal";
 import InternalFeed from "../Internalfeed";
 
 
+
 /* ===== INTERFACES ===== */
 
 interface ProfileProps {
@@ -82,7 +83,7 @@ export default function ProfileUser({ profileUserId, authUser }: ProfileProps) {
   const [sharedQuestion, setSharedQuestion] = useState<Question | null>(null);
 
   const [isMobile, setIsMobile] = useState(window.innerWidth < 900);
-  const [activeTab, setActiveTab] = useState<"answered"|"feed">("feed");
+  const [activeTab, setActiveTab] = useState<"pending" | "answered">("answered");
 
   const isOwner = authUser?.uid === profileUserId;
 
@@ -1022,8 +1023,8 @@ useEffect(() => {
         {isOwner && (
           <div style={tabs}>
             <button
-              style={tab(activeTab === "feed")}
-              onClick={() => setActiveTab("feed")}
+             
+              onClick={() => <InternalFeed/>}
             >
           Feed
             </button>
