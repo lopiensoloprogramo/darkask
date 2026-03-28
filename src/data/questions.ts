@@ -1,5 +1,5 @@
 export const questions = [
-  { id: 1, text: "¿Quién te gusta en secreto?" },
+  { id: 1, text: "¿Un beso daña la amistad? jaja" },
   { id: 2, text: "¿Has sido infiel?" },
   { id: 3, text: "¿Tu ex te superó?" },
   { id: 4, text: "¿Te han roto el corazón?" },
@@ -11,13 +11,13 @@ export const questions = [
   { id: 10, text: "¿Te arrepientes de algo reciente?" },
 
   { id: 11, text: "¿Te han sido infiel?" },
-  { id: 12, text: "¿A quién extrañas?" },
+  { id: 12, text: "¿Extrañas a alguién que esta en el cielo? Quien?" },
   { id: 13, text: "¿Te consideras atractivo/a?" },
   { id: 14, text: "¿Te han rechazado de forma cruel?" },
   { id: 15, text: "¿Te gusta alguien que tiene pareja?" },
   { id: 16, text: "¿Volverías con tu ex?" },
   { id: 17, text: "¿Has hablado mal de alguien cercano?" },
-  { id: 18, text: "¿Cuál es tu peor error?" },
+  { id: 18, text: "¿A que edad tuviste tu primera relación sexual?" },
   { id: 19, text: "¿Te han ghosteado?" },
   { id: 20, text: "¿Has ghosteado a alguien?" },
 
@@ -84,7 +84,7 @@ export const questions = [
     { id: 77, text: "¿Te han dolido cosas que fingiste no sentir?" },
     { id: 78, text: "¿Te has ilusionado demasiado rápido?" },
     { id: 79, text: "¿Has fingido que no te importa alguien?" },
-    { id: 80, text: "¿Te han confundido bonito y luego nada?" },
+    { id: 80, text: "¿Discotecas, bares o ir a cenar, ir al cine?" },
 
     { id: 81, text: "¿Te escribirías con alguien sabiendo que está mal?" },
     { id: 82, text: "¿Has sentido culpa después de algo?" },
@@ -103,7 +103,7 @@ export const questions = [
     { id: 94, text: "¿Te has enamorado de alguien que no te conviene?" },
     { id: 95, text: "¿Cuantas parejas sexuales has tenido???" },
     { id: 96, text: "¿Te han hecho sentir especial y luego nada?" },
-    { id: 97, text: "¿Te han mentido y lo sabías?" },
+    { id: 97, text: "¿Sueles revisar los celulares cuando estas en pareja?" },
     { id: 98, text: "¿Te has quedado donde no debías?" },
     { id: 99, text: "¿Te has guardado algo que querías decir?" },
     { id: 100, text: "¿Hay alguien que aún no superas?" },
@@ -111,4 +111,6 @@ export const questions = [
     { id: 102, text: "¿Cuál es tu tipo de pareja, fisicamente hablando'?" },
     { id: 103, text: "¿Te gusta que te hablen sucio mientras tiras?" },
     { id: 104, text: "¿Harías un trio?" },
+    { id: 105, text: "¿Porque la gente suele ser infiel??" },
+    { id: 106, text: "¿Cómo sería una 'buena' forma de morir para ti?" },
 ];
