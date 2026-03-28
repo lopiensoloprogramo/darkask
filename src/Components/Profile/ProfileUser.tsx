@@ -82,7 +82,7 @@ export default function ProfileUser({ profileUserId, authUser }: ProfileProps) {
   const [selectedQuestion, setSelectedQuestion] = useState<Question | null>(null);
   const [sharedQuestion, setSharedQuestion] = useState<Question | null>(null);
 
-const [isMobile] = useState(() => window.innerWidth < 900);
+const [isMobile,setIsMobile] = useState(() => window.innerWidth < 900);
   const [activeTab, setActiveTab] = useState<"pending" | "answered">("answered");
 const [mainTab, setMainTab] = useState<"feed" | "profile">("feed");
   const isOwner = authUser?.uid === profileUserId;
@@ -115,6 +115,15 @@ const [myLikes, setMyLikes] = useState<string[]>([]);
 const [editProfileOpen, setEditProfileOpen] = useState(false);
 
   
+const layout: React.CSSProperties = {
+  display: "grid",
+  gridTemplateColumns: isMobile ? "1fr" : "280px 3fr 220px",
+  gap: isMobile ? 12 : 24,
+  padding: isMobile ? "12px" : "24px",
+  maxWidth: "1200px",
+  margin: "0 auto"
+};
+
 useEffect(() => {
 
   if (userData?.coverURL) return; // si tiene portada no rotar
@@ -212,7 +221,14 @@ function getActivityStatus(lastActive: number) {
   return "⚪ Activo Hace un tiempo";
 }
 
+useEffect(() => {
+  const handleResize = () => {
+    setIsMobile(window.innerWidth < 900);
+  };
 
+  window.addEventListener("resize", handleResize);
+  return () => window.removeEventListener("resize", handleResize);
+}, []);
 
 
 useEffect(() => {
@@ -417,28 +433,7 @@ useEffect(() => {
 }, [notifications]);
   
 
-useEffect(() => {
-  const style = document.createElement("style");
 
-  style.innerHTML = `
-    @media (min-width: 900px) {
-      .main-layout {
-        display: grid;
-        grid-template-columns: 280px 3fr 220px;
-        gap: 24px;
-        padding: 24px;
-      }
-    }
-  `;
-
-  document.head.appendChild(style);
-
-  return () => {
-  if (style.parentNode) {
-    style.parentNode.removeChild(style);
-  }
-};
-}, []);
 
 
   /* ===== LOGOUT ===== */
@@ -1347,6 +1342,8 @@ useEffect(() => {
 
 /* ===== STYLES ===== */
 
+
+
 const tabs: React.CSSProperties = {
   display: "flex",
   gap: 8,
@@ -1366,14 +1363,7 @@ const tab = (active: boolean): React.CSSProperties => ({
 
 /* --- RESTO DE ESTILOS (SIN CAMBIOS) --- */
 
-const layout: React.CSSProperties = {
-  display: "grid",
-  gridTemplateColumns: "1fr",
-  gap: 12,
-  padding: "12px",
-  maxWidth: "1200",
-  margin: "0 auto"
-};
+
 
 const profileCard: React.CSSProperties = {
   background: "linear-gradient(135deg, #667eea, #764ba2)",
