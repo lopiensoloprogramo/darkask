@@ -696,7 +696,7 @@ useEffect(() => {
 
   
 />
-    <div className="layout" style={layout}>
+    <div className="main-layout" style={layout}>
     
 
       {/* PERFIL */}
