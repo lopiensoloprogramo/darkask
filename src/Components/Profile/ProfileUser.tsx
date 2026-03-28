@@ -5,7 +5,7 @@ import {
   collection,
   query,
   where,
-  
+  setDoc,
   orderBy,
   doc,
 
@@ -155,9 +155,9 @@ useEffect(() => {
       await updateDoc(userRef, {
         profileViews: increment(1)
       });
-      await updateDoc(globalRef, {
+      await setDoc(globalRef, {
         totalViews: increment(1)
-      });
+      }, { merge: true });
 
       // 🔥 guardar tiempo de última visita
       localStorage.setItem(key, now.toString());
