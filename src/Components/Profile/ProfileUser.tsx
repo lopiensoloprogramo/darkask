@@ -35,7 +35,7 @@ import coverdefault3 from "../../assets/defecto3.jpg";
 import coverdefault4 from "../../assets/defecto4.jpg";
 import { questions } from "../../data/questions";
 import EditProfileModal from "./EditProfileModal";
-
+import InternalFeed from "../Internalfeed";
 
 /* ===== INTERFACES ===== */
 
@@ -81,7 +81,7 @@ export default function ProfileUser({ profileUserId, authUser }: ProfileProps) {
   const [sharedQuestion, setSharedQuestion] = useState<Question | null>(null);
 
   const [isMobile, setIsMobile] = useState(window.innerWidth < 900);
-  const [activeTab, setActiveTab] = useState<"pending" | "answered">("answered");
+  const [activeTab, setActiveTab] = useState<"pending" | "answered"|"feed">("feed");
 
   const isOwner = authUser?.uid === profileUserId;
 
@@ -1021,16 +1021,22 @@ useEffect(() => {
         {isOwner && (
           <div style={tabs}>
             <button
+              style={tab(activeTab === "feed")}
+              onClick={() => setActiveTab("feed")}
+            >
+            <InternalFeed/>
+            </button>
+            <button
               style={tab(activeTab === "pending")}
               onClick={() => setActiveTab("pending")}
             >
               Pendientes ({pendingQuestions.length})
             </button>
             <button
-              style={tab(activeTab === "answered")}
+             style={tab(activeTab === "answered")}
               onClick={() => setActiveTab("answered")}
             >
-              Respondidas ({answeredQuestions.length})
+              Res pondidas ({answeredQuestions.length})
             </button>
           </div>
         )}
