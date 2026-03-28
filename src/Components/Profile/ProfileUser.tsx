@@ -942,7 +942,6 @@ useEffect(() => {
 </div>
 
   </>               
-
    
                   {isOwner ? (
             <div style={ownerActions}>
