@@ -84,7 +84,9 @@ export default function ProfileUser({ profileUserId, authUser }: ProfileProps) {
 
 const [isMobile,setIsMobile] = useState(() => window.innerWidth < 900);
   const [activeTab, setActiveTab] = useState<"pending" | "answered">("answered");
-const [mainTab, setMainTab] = useState<"profile" | "feed">("profile");
+const [mainTab, setMainTab] = useState<"feed" | "spicy" | "top" | "profile">(
+  authUser ? "feed" : "profile"
+);
   const isOwner = authUser?.uid === profileUserId;
 
 
@@ -433,6 +435,15 @@ useEffect(() => {
 
 }, [notifications]);
   
+  useEffect(() => {
+    if (!authUser) {
+      setMainTab("profile");
+    } else {
+      setMainTab("feed");
+    }
+  }, [authUser]);
+
+  // resto de tu código...
 
 
 
