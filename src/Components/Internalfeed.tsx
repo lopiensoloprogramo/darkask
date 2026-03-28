@@ -300,19 +300,41 @@ function isSpicy(text?: string) {
           🔥 Recientes
         </button>
 
-        <button
-          style={tab === "top" ? tabActive : tabBtn}
-          onClick={() => setTab("top")}
-        >
-          ⭐ Populares
-        </button>
-
-        <button
-          style={tab === "spicy" ? tabActive : tabBtn}
-          onClick={() => setTab("spicy")}
-        >
-          🧨 Picantes
-        </button>
+          <button
+            style={tab === "top" ? tabActive : tabBtn}
+            onClick={() => {
+                if (!authUser && tab !== "top") {
+                  return (
+                    <div style={{ textAlign: "center", marginTop: 40 }}>
+                      <h3>🔒 Inicia sesión para ver esta sección</h3>
+                      <button onClick={() => navigate("/login")}>
+                        Ir a login
+                      </button>
+                    </div>
+                  );
+                }
+            }}
+          >
+            ⭐ Populares
+          </button>
+<button
+  style={tab === "spicy" ? tabActive : tabBtn}
+  onClick={() => {
+   if (!authUser && tab !== "spicy") {
+  return (
+    <div style={{ textAlign: "center", marginTop: 40 }}>
+      <h3>🔒 Inicia sesión para ver esta sección</h3>
+      <button onClick={() => navigate("/login")}>
+        Ir a login
+      </button>
+    </div>
+  );
+}
+    setTab("spicy");
+  }}
+>
+  ⭐ Populares
+</button>
 
       </div>
 
