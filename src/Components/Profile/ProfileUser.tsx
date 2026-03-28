@@ -82,7 +82,7 @@ export default function ProfileUser({ profileUserId, authUser }: ProfileProps) {
   const [selectedQuestion, setSelectedQuestion] = useState<Question | null>(null);
   const [sharedQuestion, setSharedQuestion] = useState<Question | null>(null);
 
-  const [isMobile, setIsMobile] = useState(window.innerWidth < 900);
+const [isMobile, setIsMobile] = useState(() => window.innerWidth < 900);
   const [activeTab, setActiveTab] = useState<"pending" | "answered">("answered");
 const [mainTab, setMainTab] = useState<"feed" | "profile">("feed");
   const isOwner = authUser?.uid === profileUserId;
@@ -422,6 +422,30 @@ useEffect(() => {
 }, [notifications]);
   
 
+useEffect(() => {
+  const style = document.createElement("style");
+
+  style.innerHTML = `
+    @media (min-width: 900px) {
+      .main-layout {
+        display: grid;
+        grid-template-columns: 280px 3fr 220px;
+        gap: 24px;
+        padding: 24px;
+      }
+    }
+  `;
+
+  document.head.appendChild(style);
+
+  return () => {
+  if (style.parentNode) {
+    style.parentNode.removeChild(style);
+  }
+};
+}, []);
+
+
   /* ===== LOGOUT ===== */
   const handleLogout = async () => {
     await signOut(getAuth());
@@ -677,7 +701,7 @@ useEffect(() => {
 
   
 />
-    <div style={{...layout(isMobile),    background: "#f8fafc",minHeight: "100vh"}}>
+    <div className="layout" style={layout}>
     
 
       {/* PERFIL */}
@@ -1347,14 +1371,14 @@ const tab = (active: boolean): React.CSSProperties => ({
 
 /* --- RESTO DE ESTILOS (SIN CAMBIOS) --- */
 
-const layout = (mobile: boolean): React.CSSProperties => ({
+const layout: React.CSSProperties = {
   display: "grid",
-  gridTemplateColumns: mobile ? "1fr" : "280px 3fr 220px",
-  gap: mobile ? 10 : 24,
-  padding: mobile ? "8px" : 24,
-  maxWidth: mobile ? "100%" : 1200,
+  gridTemplateColumns: "1fr",
+  gap: 10,
+  padding: "8px",
+  maxWidth: "100%",
   margin: "0 auto"
-});
+};
 
 const profileCard: React.CSSProperties = {
   background: "linear-gradient(135deg, #667eea, #764ba2)",
