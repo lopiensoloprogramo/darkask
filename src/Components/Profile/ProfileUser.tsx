@@ -680,7 +680,8 @@ useEffect(() => {
     
 
       {/* PERFIL */}
-      <div style={profileCard}>
+      <div>
+  <div style={profileCard}>
           <input
             type="file"
             accept="image/*"
@@ -1021,7 +1022,10 @@ useEffect(() => {
 
            
       </div>
+      </div>
+    
 {/*Tabs principales*/}
+<div>
 <div style={tabs}>
   <button
     style={tab(mainTab === "feed")}
@@ -1132,11 +1136,13 @@ useEffect(() => {
         ))}
 </>)}
        {/*Final question*/}
-     
+</div>
 
 
-      {/* TOP */}
-      <div>
+
+     <div>
+  {/* TOP */}
+ <div>
         <h2 style={sectionTitle}>🔥 Destacadas</h2>
 
         {topQuestions.length === 0 && <p>No hay ranking aún</p>}
@@ -1151,6 +1157,11 @@ useEffect(() => {
           </div>
         ))}
       </div>
+     </div>
+
+
+    
+     
 
       {/* MODALS */}
       {selectedQuestion && (
