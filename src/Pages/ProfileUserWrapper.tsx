@@ -38,22 +38,28 @@ export default function ProfileUserWrapper() {
       setLoading(true);
 
       // 🔁 CASO 1: viene por UID → redirigir a username
-      if (id) {
-        const snap = await getDoc(doc(db, "users", id));
+        if (id) {
+          const snap = await getDoc(doc(db, "users", id));
 
-        if (snap.exists()) {
-          const data = snap.data();
-          const userUsername = data.username;
+          if (snap.exists()) {
+            const data = snap.data();
+            const userUsername = data.username;
 
-          if (userUsername) {
-            navigate(`/u/${userUsername}`, { replace: true });
-            return;
+            // 🔥 SETEAR SIEMPRE EL ID
+            setProfileUserId(id);
+
+            // 🔁 Redirigir SOLO si hay username
+            if (userUsername) {
+              navigate(`/u/${userUsername}`, { replace: true });
+            }
+
+          } else {
+            setProfileUserId(null);
           }
-        }
 
-        setLoading(false);
-        return;
-      }
+          setLoading(false);
+          return;
+        }
 
       // 🔎 CASO 2: viene por username → buscar UID
       if (username) {
