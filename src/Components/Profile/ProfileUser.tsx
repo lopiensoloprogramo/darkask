@@ -139,21 +139,28 @@ useEffect(() => {
   // ❌ no contar si es el dueño
   if (authUser?.uid === profileUserId) return;
 
-  // 🔐 evitar duplicados (por sesión)
   const key = `viewed_${profileUserId}`;
+  const lastVisit = localStorage.getItem(key);
 
-  if (sessionStorage.getItem(key)) return;
+  const now = Date.now();
+  const ONE_HOUR = 60 * 60 * 1000;
+
+  // 🔐 si visitó hace menos de 1 hora → no contar
+  if (lastVisit && now - Number(lastVisit) < ONE_HOUR) return;
 
   const addView = async () => {
     try {
       const userRef = doc(db, "users", profileUserId);
-
+      const globalRef = doc(db, "stats", "global");
       await updateDoc(userRef, {
         profileViews: increment(1)
       });
+      await updateDoc(globalRef, {
+        totalViews: increment(1)
+      });
 
-      // marcar como visto
-      sessionStorage.setItem(key, "true");
+      // 🔥 guardar tiempo de última visita
+      localStorage.setItem(key, now.toString());
 
     } catch (err) {
       console.error("Error contando vista:", err);
@@ -163,7 +170,6 @@ useEffect(() => {
   addView();
 
 }, [profileUserId, authUser]);
-
 
 useEffect(() => {
   if (!authUser) return;
@@ -200,7 +206,7 @@ function getActivityStatus(lastActive: number) {
   if (hours < 24) return "🌙 Activo hoy";
   if (days < 2) return "🕒 Activo ayer";
 
-  return "⚪ Activo Hace 2 días";
+  return "⚪ Activo Hace un tiempo";
 }
 
 
