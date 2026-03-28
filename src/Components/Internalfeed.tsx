@@ -285,7 +285,7 @@ function isSpicy(text?: string) {
 
    
 
-    <div style={container}>
+  
       
       <h2 style={title}>🔥 Chismes del momento</h2>
 
@@ -368,7 +368,7 @@ function isSpicy(text?: string) {
         );
       })}
 
-    </div>
+    
   
     </div>
   );
@@ -389,15 +389,7 @@ const cajaMayor: React.CSSProperties={
 }
 
 
-const container: React.CSSProperties = {
-  padding: 24,
-  maxWidth: 700,
-  margin: "0 auto",
 
-  // 🔥 clave
-  height: "calc(100vh - 120px)",
-  overflowY: "auto"
-};
 
 const title: React.CSSProperties = {
   fontSize: 26,
@@ -407,7 +399,7 @@ const title: React.CSSProperties = {
 
 const tabsContainer: React.CSSProperties = {
   display: "flex",
-  gap: 10,
+  gap: 7,
   marginBottom: 20
 };
 
