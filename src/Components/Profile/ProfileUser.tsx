@@ -678,7 +678,118 @@ useEffect(() => {
 />
     <div style={{...layout(isMobile),    background: "#f8fafc",minHeight: "100vh"}}>
     
+{/*Tabs principales*/}
+<div style={tabs}>
+  <button
+    style={tab(mainTab === "feed")}
+    onClick={() => setMainTab("feed")}
+  >
+    🔥 Feed
+  </button>
 
+  <button
+    style={tab(mainTab === "profile")}
+    onClick={() => setMainTab("profile")}
+  >
+    👤 Perfil
+  </button>
+</div>
+
+
+
+
+      {/* QUESTIONS */}
+ 
+        
+{mainTab === "feed" ? (
+  <InternalFeed />
+) : (
+  <>
+
+
+   {/* tus tabs internas */}
+    {isOwner && (
+      <div style={tabs}>
+        <button
+          style={tab(activeTab === "pending")}
+          onClick={() => setActiveTab("pending")}
+        >
+          Pendientes ({pendingQuestions.length})
+        </button>
+
+        <button
+          style={tab(activeTab === "answered")}
+          onClick={() => setActiveTab("answered")}
+        >
+          Respondidas ({answeredQuestions.length})
+        </button>
+      </div>
+    )}
+        {questionsToShow.length === 0 && <p>No hay preguntas aún...</p>}
+        {questionsToShow.map(q => (
+                <div
+                  id={q.id}
+                  key={q.id}
+                style={{
+                  ...card,
+                  border:
+                    highlightedId === q.id
+                      ? "2px solid #ff4757"
+                      : "none",
+                  boxShadow:
+                    highlightedId === q.id
+                      ? "0 0 15px rgba(255,71,87,0.5)"
+                      : card.boxShadow
+                   }}
+                   onMouseEnter={(e) => {
+                        (e.currentTarget as HTMLElement).style.transform = "scale(1.03)";
+                      }}
+
+                      onMouseLeave={(e) => {
+                        (e.currentTarget as HTMLElement).style.transform = "scale(1)";
+                      }}
+                >
+            <p style={questionTitle}>{q.question}</p>
+
+            {q.answered ? (
+              
+              <>
+                <div style={answerBox}>{q.answer}</div>
+
+                <div style={likeRow}>
+                 
+
+                  <button
+                    style={heart(myLikes.includes(q.id))}
+                    onClick={() => handleLike(q)}
+                  >
+                    ❤️ {q.likesCount} Me gusta
+                  </button>
+                </div>
+
+                {isOwner && (
+                  <button style={btnShare} onClick={() => setSharedQuestion(q)}>
+                    Compartir
+                  </button>
+                )}
+              </>
+            ) : (
+              <>
+                <div style={pendingBox}>⏳ Pendiente</div>
+
+                {isOwner && (
+                  <button style={btnAnswer} onClick={() => setSelectedQuestion(q)}>
+                    Responder
+                  </button>
+                )}
+              </>
+            )}
+            
+          </div>
+        ))}
+</>)}
+       {/*Final question*/}
+     
       {/* PERFIL */}
       <div style={profileCard}>
           <input
@@ -1021,119 +1132,8 @@ useEffect(() => {
 
            
       </div>
-{/*Tabs principales*/}
-<div style={tabs}>
-  <button
-    style={tab(mainTab === "feed")}
-    onClick={() => setMainTab("feed")}
-  >
-    🔥 Feed
-  </button>
-
-  <button
-    style={tab(mainTab === "profile")}
-    onClick={() => setMainTab("profile")}
-  >
-    👤 Perfil
-  </button>
-</div>
 
 
-
-
-
-      {/* QUESTIONS */}
- 
-        
-{mainTab === "feed" ? (
-  <InternalFeed />
-) : (
-  <>
-
-
-   {/* tus tabs internas */}
-    {isOwner && (
-      <div style={tabs}>
-        <button
-          style={tab(activeTab === "pending")}
-          onClick={() => setActiveTab("pending")}
-        >
-          Pendientes ({pendingQuestions.length})
-        </button>
-
-        <button
-          style={tab(activeTab === "answered")}
-          onClick={() => setActiveTab("answered")}
-        >
-          Respondidas ({answeredQuestions.length})
-        </button>
-      </div>
-    )}
-        {questionsToShow.length === 0 && <p>No hay preguntas aún...</p>}
-        {questionsToShow.map(q => (
-                <div
-                  id={q.id}
-                  key={q.id}
-                style={{
-                  ...card,
-                  border:
-                    highlightedId === q.id
-                      ? "2px solid #ff4757"
-                      : "none",
-                  boxShadow:
-                    highlightedId === q.id
-                      ? "0 0 15px rgba(255,71,87,0.5)"
-                      : card.boxShadow
-                   }}
-                   onMouseEnter={(e) => {
-                        (e.currentTarget as HTMLElement).style.transform = "scale(1.03)";
-                      }}
-
-                      onMouseLeave={(e) => {
-                        (e.currentTarget as HTMLElement).style.transform = "scale(1)";
-                      }}
-                >
-            <p style={questionTitle}>{q.question}</p>
-
-            {q.answered ? (
-              
-              <>
-                <div style={answerBox}>{q.answer}</div>
-
-                <div style={likeRow}>
-                 
-
-                  <button
-                    style={heart(myLikes.includes(q.id))}
-                    onClick={() => handleLike(q)}
-                  >
-                    ❤️ {q.likesCount} Me gusta
-                  </button>
-                </div>
-
-                {isOwner && (
-                  <button style={btnShare} onClick={() => setSharedQuestion(q)}>
-                    Compartir
-                  </button>
-                )}
-              </>
-            ) : (
-              <>
-                <div style={pendingBox}>⏳ Pendiente</div>
-
-                {isOwner && (
-                  <button style={btnAnswer} onClick={() => setSelectedQuestion(q)}>
-                    Responder
-                  </button>
-                )}
-              </>
-            )}
-            
-          </div>
-        ))}
-</>)}
-       {/*Final question*/}
-     
 
       {/* TOP */}
       <div>
