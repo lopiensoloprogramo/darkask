@@ -1322,6 +1322,7 @@ const layout = (mobile: boolean): React.CSSProperties => ({
   maxWidth: mobile ? "100%" : 1200,
   margin: "0 auto"
 });
+
 const profileCard: React.CSSProperties = {
   background: "linear-gradient(135deg, #667eea, #764ba2)",
   borderRadius: 24,
@@ -1330,13 +1331,12 @@ const profileCard: React.CSSProperties = {
   color: "#fff",
   textAlign: "center",
   boxShadow: "0 20px 50px rgba(0,0,0,0.25)",
- width: 90,
-  height: 90
+
 };
 
 const avatar: React.CSSProperties = {
-  width: 110,
-  height: 110,
+  width: 90,
+  height: 90,
   objectFit: "cover"
 
 };
@@ -1448,7 +1448,7 @@ const heart = (active: boolean): React.CSSProperties => ({
 });
 
 const avatarWrapper: React.CSSProperties = {
-  width:90,
+  width: 90,
   height: 90,
   borderRadius: "50%",
   overflow: "hidden",

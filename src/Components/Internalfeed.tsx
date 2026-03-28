@@ -391,9 +391,13 @@ const cajaMayor: React.CSSProperties={
 
 const container: React.CSSProperties = {
   padding: "16px",
-  width: "100%",
-  maxWidth: 800,
-  margin: "0 auto"
+  maxWidth:"800",
+  width:"100%",
+  margin: "0 auto",
+
+  // 🔥 clave
+
+
 };
 
 const title: React.CSSProperties = {
@@ -405,8 +409,8 @@ const title: React.CSSProperties = {
 const tabsContainer: React.CSSProperties = {
   display: "flex",
   gap: 8,
-  marginBottom: 16,
-  overflowX: "auto" // 🔥 clave
+  marginBottom:16,
+  overflowX:"auto"
 };
 
 const tabBtn: React.CSSProperties = {
@@ -427,7 +431,7 @@ const tabActive: React.CSSProperties = {
 const feedCard: React.CSSProperties = {
   background: "#fff",
   borderRadius: 16,
-  padding: 16, // 🔥 menos padding
+  padding: 16,
   marginBottom: 12,
   boxShadow: "0 6px 18px rgba(0,0,0,0.08)"
 };
@@ -453,14 +457,18 @@ const feedUserSub: React.CSSProperties = {
 };
 
 const feedQuestion: React.CSSProperties = {
-  fontSize: "14px",
+  fontSize: 14,
   fontWeight: 600,
-  marginBottom: 6
+  marginBottom:6
 };
 
 const feedAnswer: React.CSSProperties = {
+  background: "linear-gradient(120deg,#ecfdf5,#f0fdf4)",
+  borderRadius: 10,
   padding: "10px 12px",
-  fontSize: "13px"
+  color: "#064e3b",
+  marginBottom: 10,
+  fontSize: 13
 };
 
 const feedMeta: React.CSSProperties = {
