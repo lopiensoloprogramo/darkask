@@ -333,7 +333,7 @@ function isSpicy(text?: string) {
     setTab("spicy");
   }}
 >
-  ⭐ Populares
+  ⭐ Picantes
 </button>
 
       </div>
