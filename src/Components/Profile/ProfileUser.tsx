@@ -1021,7 +1021,6 @@ useEffect(() => {
 
            
       </div>
-
 {/*Tabs principales*/}
 <div style={tabs}>
   <button
@@ -1038,6 +1037,7 @@ useEffect(() => {
     👤 Perfil
   </button>
 </div>
+
 
 
 
