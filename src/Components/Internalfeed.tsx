@@ -48,6 +48,7 @@ const spicyWords = [
   "hospedaje",
   "chongo",
   "cogiendo",
+  "trio"
 ];
 const spicyPhrases = [
   "lo hicimos",

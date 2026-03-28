@@ -110,4 +110,5 @@ export const questions = [
     { id: 101, text: "¿Te crearías un only fans??" },
     { id: 102, text: "¿Cuál es tu tipo de pareja, fisicamente hablando'?" },
     { id: 103, text: "¿Te gusta que te hablen sucio mientras tiras?" },
+    { id: 104, text: "¿Harías un trio?" },
 ];
