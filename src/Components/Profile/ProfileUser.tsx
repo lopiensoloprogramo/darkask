@@ -84,7 +84,7 @@ export default function ProfileUser({ profileUserId, authUser }: ProfileProps) {
 
 const [isMobile,setIsMobile] = useState(() => window.innerWidth < 900);
   const [activeTab, setActiveTab] = useState<"pending" | "answered">("answered");
-const [mainTab, setMainTab] = useState<"feed" | "profile">("feed");
+const [mainTab, setMainTab] = useState<"profile" | "feed">("profile");
   const isOwner = authUser?.uid === profileUserId;
 
 
