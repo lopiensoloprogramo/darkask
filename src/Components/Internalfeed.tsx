@@ -126,6 +126,20 @@ if (!user) {
         );
       }
 
+      if (!authUser && tab !== "recent") {
+        return (
+          <div style={{ textAlign: "center", marginTop: 40 }}>
+            <h3>🔒 Inicia sesión para ver esta sección</h3>
+            <button onClick={() => navigate("/login")}>
+              Ir a login
+            </button>
+          </div>
+        );
+      }
+
+
+
+
       const snap = await getDocs(q!);
 
       const questionsData = snap.docs.map(d => ({
@@ -302,27 +316,13 @@ function isSpicy(text?: string) {
 
           <button
             style={tab === "top" ? tabActive : tabBtn}
-            onClick={() => {
-              if (!authUser) {
-                alert("🔒 Inicia sesión para ver esta sección");
-                return;
-              }
-              setTab("top");
-            }}
-          >
+             onClick={() => setTab("top")}>
             ⭐ Populares
           </button>
 
         <button
           style={tab === "spicy" ? tabActive : tabBtn}
-         onClick={() => {
-              if (!authUser) {
-                alert("🔒 Inicia sesión para ver esta sección");
-                return;
-              }
-              setTab("spicy");
-            }}
-          >
+           onClick={() => setTab("spicy")}>
           🧨 Picantes
         </button>
 
