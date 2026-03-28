@@ -1025,7 +1025,7 @@ useEffect(() => {
               style={tab(activeTab === "feed")}
               onClick={() => setActiveTab("feed")}
             >
-             Feed(<InternalFeed/>)
+             Feed
             </button>
             <button
               style={tab(activeTab === "pending")}
