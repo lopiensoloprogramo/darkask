@@ -41,9 +41,7 @@ export default function App() {
       <Route path="/login" element={<Login />} />
 
       {/* Fallback */}
-   {!loading && (
-  <Route path="*" element={<Navigate to="/" replace />} />
-)}
+
 
       {/* Feed Interno */}
     
