@@ -6,10 +6,7 @@ import type { Question } from "../types/QuestionsInterfaz";
 import { doc, setDoc, deleteDoc, getDoc, updateDoc, increment, serverTimestamp } from "firebase/firestore";
 import { auth } from "../services/firebase";
 import { onAuthStateChanged } from "firebase/auth";
-import InternalHeader from "./InternalHeader";
-import logoBANNER from "../assets/bannernew.png";
-import fbIcon from "../assets/fbICONO.png";
-import inIcon from "../assets/inICONO.png";
+
 
 export default function InternalFeed() {
 
@@ -18,7 +15,7 @@ export default function InternalFeed() {
   const [tab, setTab] = useState<"recent" | "top" | "spicy">("recent");
   const [loading, setLoading] = useState(true);
   const [authUser, setAuthUser] = useState<any>(null);
-  const [isMobile, setIsMobile] = useState(window.innerWidth < 900);
+  
 
 const spicyWords = [
   "sexo",
@@ -69,12 +66,6 @@ const spicyPhrases = [
 ];
 
 
-
-    useEffect(() => {
-      const handleResize = () => setIsMobile(window.innerWidth < 900);
-      window.addEventListener("resize", handleResize);
-      return () => window.removeEventListener("resize", handleResize);
-    }, []);
 
 useEffect(() => {
 
@@ -290,13 +281,7 @@ function isSpicy(text?: string) {
   return (
     <div style={cajaMayor}>
   
-   <InternalHeader
-     isMobile={isMobile}
-     logo={logoBANNER}
-     fbIcon={fbIcon}
-     inIcon={inIcon}
-     
-   />
+  
 
    
 

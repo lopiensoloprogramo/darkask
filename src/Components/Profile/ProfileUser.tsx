@@ -35,7 +35,8 @@ import coverdefault3 from "../../assets/defecto3.jpg";
 import coverdefault4 from "../../assets/defecto4.jpg";
 import { questions } from "../../data/questions";
 import EditProfileModal from "./EditProfileModal";
-//import InternalFeed from "../Internalfeed";
+import InternalFeed from "../Internalfeed";
+
 
 /* ===== INTERFACES ===== */
 
@@ -1024,7 +1025,7 @@ useEffect(() => {
               style={tab(activeTab === "feed")}
               onClick={() => setActiveTab("feed")}
             >
-           Probando Feed
+             Feed(<InternalFeed/>)
             </button>
             <button
               style={tab(activeTab === "pending")}
@@ -1036,7 +1037,7 @@ useEffect(() => {
              style={tab(activeTab === "answered")}
               onClick={() => setActiveTab("answered")}
             >
-              Res pondidas ({answeredQuestions.length})
+              Respondidas ({answeredQuestions.length})
             </button>
           </div>
         )}
