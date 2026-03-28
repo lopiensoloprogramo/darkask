@@ -71,10 +71,10 @@ useEffect(() => {
 
   const unsub = onAuthStateChanged(auth, (user) => {
 
-    if (!user) {
-      navigate("/");
-      return;
-    }
+if (!user) {
+  setAuthUser(null);
+  return;
+}
 
     setAuthUser(user);
 
