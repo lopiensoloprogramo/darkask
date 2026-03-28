@@ -390,11 +390,13 @@ const cajaMayor: React.CSSProperties={
 
 
 const container: React.CSSProperties = {
- 
- 
   padding: 24,
+  maxWidth: 700,
+  margin: "0 auto",
 
-  minHeight: "100vh"
+  // 🔥 clave
+  height: "calc(100vh - 120px)",
+  overflowY: "auto"
 };
 
 const title: React.CSSProperties = {
