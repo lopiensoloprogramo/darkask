@@ -127,15 +127,10 @@ if (!user) {
       }
 
       if (!authUser && tab !== "recent") {
-        return (
-          <div style={{ textAlign: "center", marginTop: 40 }}>
-            <h3>🔒 Inicia sesión para ver esta sección</h3>
-            <button onClick={() => navigate("/login")}>
-              Ir a login
-            </button>
-          </div>
-        );
+        setLoading(false);
+        return;
       }
+
 
 
 
@@ -338,47 +333,56 @@ function isSpicy(text?: string) {
 
       {/* FEED */}
 
-      {!loading && questions.map(q => {
+{/* BLOQUE PROTEGIDO */}
+{!authUser && tab !== "recent" ? (
+  <div style={{ textAlign: "center", marginTop: 40 }}>
+    <h3>🔒 Inicia sesión para ver esta sección</h3>
+    <button onClick={() => navigate("/login")}>
+      Ir a login
+    </button>
+  </div>
+) : (
+  <>
+    {!loading && questions.map(q => {
+      const user = usersMap[q.ownerId];
 
-        const user = usersMap[q.ownerId];
+      return (
+        <div key={q.id} style={feedCard}>
 
-        return (
-          <div key={q.id} style={feedCard}>
+          <div
+            style={feedUser}
+            onClick={() => navigate(`/profile/${q.ownerId}`)}
+          >
+            <img
+              src={user?.photoURL || "https://i.pravatar.cc/40"}
+              style={feedAvatar}
+            />
 
-            <div
-              style={feedUser}
-              onClick={() => navigate(`/profile/${q.ownerId}`)}
-            >
-
-              <img
-                src={user?.photoURL || "https://i.pravatar.cc/40"}
-                style={feedAvatar}
-              />
-
-              <div>
-                <strong>{user?.name || "Usuario"}</strong>
-                <p style={feedUserSub}>respondió una pregunta anónima</p>
-              </div>
-
+            <div>
+              <strong>{user?.name || "Usuario"}</strong>
+              <p style={feedUserSub}>respondió una pregunta anónima</p>
             </div>
-
-            <p style={feedQuestion}>{q.question}</p>
-
-            <div style={feedAnswer}>{q.answer}</div>
-
-            <div style={feedMeta}>
-              <span>⏳ {timeAgo(q.answeredAt || q.timestamp)}</span>
-                      <span
-                        onClick={() => handleLike(q)}
-                        style={{ cursor: "pointer" }}
-                      >
-                        ❤️ {q.likesCount || 0}
-                      </span>
-            </div>
-
           </div>
-        );
-      })}
+
+          <p style={feedQuestion}>{q.question}</p>
+
+          <div style={feedAnswer}>{q.answer}</div>
+
+          <div style={feedMeta}>
+            <span>⏳ {timeAgo(q.answeredAt || q.timestamp)}</span>
+            <span
+              onClick={() => handleLike(q)}
+              style={{ cursor: "pointer" }}
+            >
+              ❤️ {q.likesCount || 0}
+            </span>
+          </div>
+
+        </div>
+      );
+    })}
+  </>
+)}
 
     </div>
   
