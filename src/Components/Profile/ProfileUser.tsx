@@ -84,7 +84,7 @@ export default function ProfileUser({ profileUserId, authUser }: ProfileProps) {
 
   const [isMobile, setIsMobile] = useState(window.innerWidth < 900);
   const [activeTab, setActiveTab] = useState<"pending" | "answered">("answered");
-
+const [mainTab, setMainTab] = useState<"feed" | "profile">("feed");
   const isOwner = authUser?.uid === profileUserId;
 
 
@@ -671,6 +671,10 @@ useEffect(() => {
   logo={logoBANNER}
   fbIcon={fbIcon}
   inIcon={inIcon}
+
+
+
+  
 />
     <div style={{...layout(isMobile),    background: "#f8fafc",minHeight: "100vh"}}>
     
@@ -1018,33 +1022,54 @@ useEffect(() => {
            
       </div>
 
+{/*Tabs principales*/}
+<div style={tabs}>
+  <button
+    style={tab(mainTab === "feed")}
+    onClick={() => setMainTab("feed")}
+  >
+    🔥 Feed
+  </button>
+
+  <button
+    style={tab(mainTab === "profile")}
+    onClick={() => setMainTab("profile")}
+  >
+    👤 Perfil
+  </button>
+</div>
+
+
+
+
       {/* QUESTIONS */}
-      <div>
-        {isOwner && (
-          <div style={tabs}>
-            <button
-             
-              onClick={() => <InternalFeed/>}
-            >
-          Feed
-            </button>
-            <button
-              style={tab(activeTab === "pending")}
-              onClick={() => setActiveTab("pending")}
-            >
-              Pendientes ({pendingQuestions.length})
-            </button>
-            <button
-             style={tab(activeTab === "answered")}
-              onClick={() => setActiveTab("answered")}
-            >
-              Respondidas ({answeredQuestions.length})
-            </button>
-          </div>
-        )}
+ 
+        
+{mainTab === "feed" ? (
+  <InternalFeed />
+) : (
+  <>
 
+
+   {/* tus tabs internas */}
+    {isOwner && (
+      <div style={tabs}>
+        <button
+          style={tab(activeTab === "pending")}
+          onClick={() => setActiveTab("pending")}
+        >
+          Pendientes ({pendingQuestions.length})
+        </button>
+
+        <button
+          style={tab(activeTab === "answered")}
+          onClick={() => setActiveTab("answered")}
+        >
+          Respondidas ({answeredQuestions.length})
+        </button>
+      </div>
+    )}
         {questionsToShow.length === 0 && <p>No hay preguntas aún...</p>}
-
         {questionsToShow.map(q => (
                 <div
                   id={q.id}
@@ -1106,7 +1131,9 @@ useEffect(() => {
             
           </div>
         ))}
-      </div>
+</>)}
+       {/*Final question*/}
+     
 
       {/* TOP */}
       <div>
