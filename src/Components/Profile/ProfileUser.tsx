@@ -148,8 +148,10 @@ useEffect(() => {
 useEffect(() => {
   if (!profileUserId) return;
 
-  // ❌ no contar si es el dueño
-  if (authUser?.uid === profileUserId) return;
+  // 🔥 SI NO HAY USUARIO → SOLO LEE, NO ESCRIBAS
+  if (!authUser) return;
+
+  if (authUser.uid === profileUserId) return;
 
   const key = `viewed_${profileUserId}`;
   const lastVisit = localStorage.getItem(key);
@@ -157,21 +159,21 @@ useEffect(() => {
   const now = Date.now();
   const ONE_HOUR = 60 * 60 * 1000;
 
-  // 🔐 si visitó hace menos de 1 hora → no contar
   if (lastVisit && now - Number(lastVisit) < ONE_HOUR) return;
 
   const addView = async () => {
     try {
       const userRef = doc(db, "users", profileUserId);
       const globalRef = doc(db, "stats", "global");
+
       await updateDoc(userRef, {
         profileViews: increment(1)
       });
+
       await setDoc(globalRef, {
         totalViews: increment(1)
       }, { merge: true });
 
-      // 🔥 guardar tiempo de última visita
       localStorage.setItem(key, now.toString());
 
     } catch (err) {
@@ -182,7 +184,6 @@ useEffect(() => {
   addView();
 
 }, [profileUserId, authUser]);
-
 useEffect(() => {
   if (!authUser) return;
 
