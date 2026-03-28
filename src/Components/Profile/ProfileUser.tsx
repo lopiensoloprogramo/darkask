@@ -1316,10 +1316,10 @@ const tab = (active: boolean): React.CSSProperties => ({
 
 const layout = (mobile: boolean): React.CSSProperties => ({
   display: "grid",
-  gridTemplateColumns: mobile ? "1fr" : "320px 2fr 320px",
-  gap: mobile ? 12 : 28,
-  padding: mobile ? "10px 8px" : 28, // 🔥 menos padding en celular
-  maxWidth: mobile ? 500 : 1200,
+  gridTemplateColumns: mobile ? "1fr" : "280px 3fr 220px",
+  gap: mobile ? 10 : 24,
+  padding: mobile ? "8px" : 24,
+  maxWidth: mobile ? "100%" : 1200,
   margin: "0 auto"
 });
 const profileCard: React.CSSProperties = {
@@ -1330,7 +1330,8 @@ const profileCard: React.CSSProperties = {
   color: "#fff",
   textAlign: "center",
   boxShadow: "0 20px 50px rgba(0,0,0,0.25)",
-
+ width: 90,
+  height: 90
 };
 
 const avatar: React.CSSProperties = {
@@ -1447,8 +1448,8 @@ const heart = (active: boolean): React.CSSProperties => ({
 });
 
 const avatarWrapper: React.CSSProperties = {
-  width: 110,
-  height: 110,
+  width:90,
+  height: 90,
   borderRadius: "50%",
   overflow: "hidden",
   display: "flex",
@@ -1456,7 +1457,7 @@ const avatarWrapper: React.CSSProperties = {
   justifyContent: "center",
   border: "4px solid white",
   background: "#f3f4f6",
-  margin: "-60px auto 10px auto",
+  margin: "-50px auto 10px auto",
   position: "relative",
   zIndex: 2
 };
@@ -1555,7 +1556,7 @@ const closeNotifBtn: React.CSSProperties = {
 /* ===== PROFILE COVER ===== */
 
 const profileCover=(isMobile: boolean): React.CSSProperties => ({
-  height: isMobile ? 140 : 170,
+  height: isMobile ? 120 : 170,
   borderTopLeftRadius: 24,
   borderTopRightRadius: 24,
   overflow: "hidden", // 🔥 aquí sí
