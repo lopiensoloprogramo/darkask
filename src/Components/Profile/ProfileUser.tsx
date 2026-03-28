@@ -986,22 +986,7 @@ useEffect(() => {
               >
                 🚪 Cerrar sesión
               </button>
-                  <button
-                  onClick={() => navigate("/feed")}
-                  style={{
-                    width: "100%",
-                    padding: "12px",
-                    borderRadius: "10px",
-                    background: "#ff9800",
-                    color: "white",
-                    border: "none",
-                    fontWeight: 700,
-                    cursor: "pointer",
-                    marginTop: "10px"
-                  }}
-                >
-                🔥Respuestas de Todos
-                </button>
+
 
 
 

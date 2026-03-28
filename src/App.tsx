@@ -4,7 +4,6 @@ import { getAuth, onAuthStateChanged } from "firebase/auth";
 import ProfileUserWrapper from "./Pages/ProfileUserWrapper";
 import LatestAnsweredQuestions from "./Components/LatestAnsweredQuestions";
 import Login from "./Components/Login";
-import Internalfeed from "./Components/Internalfeed";
 import Estadisticas from "./data/Estadisticas";
 
 export default function App() {
@@ -45,7 +44,7 @@ export default function App() {
       <Route path="*" element={<Navigate to="/" replace />} />
 
       {/* Feed Interno */}
-      <Route path="/feed" element={<Internalfeed />} />
+    
       <Route path="/estadisticas" element={<Estadisticas />} />
     </Routes>
     </>
