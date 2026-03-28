@@ -82,7 +82,7 @@ export default function ProfileUser({ profileUserId, authUser }: ProfileProps) {
   const [sharedQuestion, setSharedQuestion] = useState<Question | null>(null);
 
   const [isMobile, setIsMobile] = useState(window.innerWidth < 900);
-  const [activeTab, setActiveTab] = useState<"pending" | "answered"|"feed">("feed");
+  const [activeTab, setActiveTab] = useState<"answered"|"feed">("feed");
 
   const isOwner = authUser?.uid === profileUserId;
 
@@ -1025,7 +1025,7 @@ useEffect(() => {
               style={tab(activeTab === "feed")}
               onClick={() => setActiveTab("feed")}
             >
-          <InternalFeed/>
+          Feed
             </button>
             <button
               style={tab(activeTab === "pending")}
