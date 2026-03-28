@@ -114,6 +114,7 @@ const [autoTriggered, setAutoTriggered] = useState(false);
 const [myLikes, setMyLikes] = useState<string[]>([]);
 const [editProfileOpen, setEditProfileOpen] = useState(false);
 
+  
 useEffect(() => {
 
   if (userData?.coverURL) return; // si tiene portada no rotar
@@ -920,21 +921,21 @@ useEffect(() => {
   {/* ESTADO */}
   {userData.mood && (
     <p style={moodStyle}>
-      {userData.mood}
+      {userData.mood||"Sin estado😐"}
     </p>
   )}
 
   {/* DATO CURIOSO */}
   {userData.funFact && (
     <p style={funFactStyle}>
-      “{userData.funFact}”
+      “{userData.funFact||"Sin dato curioso🤷‍♂️"}”
     </p>
   )}
 
   {/* PREGUNTA */}
   {userData.fixedQuestion && (
     <p style={questionStyle}>
-      📌 {userData.fixedQuestion}
+      📌 {userData.fixedQuestion||"Sin pregunta destacada❓"}
     </p>
   )}
 
