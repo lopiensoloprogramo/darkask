@@ -385,13 +385,13 @@ const cajaMayor: React.CSSProperties={
  
   width:"100%",
   margin: "auto",
-  boxSizing: "border-box"
+
 }
 
 
 const container: React.CSSProperties = {
   padding: 24,
-  maxWidth: 400,
+  maxWidth: 300,
   margin: "0 auto",
 
   // 🔥 clave
