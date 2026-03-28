@@ -916,28 +916,22 @@ useEffect(() => {
  
 
    
- <div style={infoContainer}>
+<div style={infoContainer}>
 
   {/* ESTADO */}
-  {userData.mood && (
-    <p style={moodStyle}>
-      {userData.mood||"Sin estado😐"}
-    </p>
-  )}
+  <p style={moodStyle}>
+    {userData?.mood || "Sin estado 😐"}
+  </p>
 
   {/* DATO CURIOSO */}
-  {userData.funFact && (
-    <p style={funFactStyle}>
-      “{userData.funFact||"Sin dato curioso🤷‍♂️"}”
-    </p>
-  )}
+  <p style={funFactStyle}>
+    “{userData?.funFact || "Sin dato curioso 🤷‍♂️"}”
+  </p>
 
   {/* PREGUNTA */}
-  {userData.fixedQuestion && (
-    <p style={questionStyle}>
-      📌 {userData.fixedQuestion||"Sin pregunta destacada❓"}
-    </p>
-  )}
+  <p style={questionStyle}>
+    📌 {userData?.fixedQuestion || "Sin pregunta destacada ❓"}
+  </p>
 
 </div>
 
