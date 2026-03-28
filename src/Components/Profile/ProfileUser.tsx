@@ -919,7 +919,7 @@ useEffect(() => {
 <div style={infoContainer}>
 
   {/* ESTADO */}
-  <p style={{...moodStyle, color: userData?.mood ? "#fff" : "#ccc"}}>
+  <p style={moodStyle}>
     {userData?.mood || "Sin estado 😐"}
   </p>
 
