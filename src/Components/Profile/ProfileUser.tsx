@@ -956,7 +956,7 @@ useEffect(() => {
                       cursor: "pointer"
                     }}
                   >
-                    ⚙️ Editar perfil
+                    ⚙️ Editar perfil 
                 </button>
 
               {/* Copiar enlace */}
@@ -1024,7 +1024,7 @@ useEffect(() => {
               style={tab(activeTab === "feed")}
               onClick={() => setActiveTab("feed")}
             >
-            <InternalFeed/>
+           Probando Feed
             </button>
             <button
               style={tab(activeTab === "pending")}
