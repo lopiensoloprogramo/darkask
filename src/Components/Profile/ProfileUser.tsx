@@ -82,7 +82,7 @@ export default function ProfileUser({ profileUserId, authUser }: ProfileProps) {
   const [selectedQuestion, setSelectedQuestion] = useState<Question | null>(null);
   const [sharedQuestion, setSharedQuestion] = useState<Question | null>(null);
 
-const [isMobile, setIsMobile] = useState(() => window.innerWidth < 900);
+const [isMobile] = useState(() => window.innerWidth < 900);
   const [activeTab, setActiveTab] = useState<"pending" | "answered">("answered");
 const [mainTab, setMainTab] = useState<"feed" | "profile">("feed");
   const isOwner = authUser?.uid === profileUserId;
@@ -213,12 +213,7 @@ function getActivityStatus(lastActive: number) {
 }
 
 
-  /* ===== RESPONSIVE ===== */
-  useEffect(() => {
-    const handleResize = () => setIsMobile(window.innerWidth < 900);
-    window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
-  }, []);
+
 
 useEffect(() => {
   const style = document.createElement("style");
@@ -1374,9 +1369,9 @@ const tab = (active: boolean): React.CSSProperties => ({
 const layout: React.CSSProperties = {
   display: "grid",
   gridTemplateColumns: "1fr",
-  gap: 10,
-  padding: "8px",
-  maxWidth: "100%",
+  gap: 12,
+  padding: "12px",
+  maxWidth: "1200",
   margin: "0 auto"
 };
 
