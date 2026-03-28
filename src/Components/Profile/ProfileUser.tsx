@@ -1281,7 +1281,7 @@ if (loading || !userData) {
                                 read: true
                               });
                             }
-
+                            setMainTab("profile"); 
                             // 🔹 Cambiamos a la pestaña donde está la pregunta
                             setActiveTab("pending");
 
