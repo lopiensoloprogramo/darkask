@@ -668,9 +668,13 @@ useEffect(() => {
   if (loading)
     return <p style={{ textAlign: "center", marginTop: 40 }}>Cargando perfil...</p>;
 
-  if (!userData)
-    return <p style={{ textAlign: "center", marginTop: 40 }}>Perfil no encontrado.</p>;
-
+if (loading || !userData) {
+  return (
+    <p style={{ textAlign: "center", marginTop: 40 }}>
+      Cargando perfil...
+    </p>
+  );
+}
 
 
 
