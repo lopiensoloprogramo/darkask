@@ -989,8 +989,8 @@ useEffect(() => {
                       width: "100%",
                       padding: "12px",
                       borderRadius: "10px",
-                      background: "#fff",
-                      color: "#6366f1",
+                      background: "#6366f1",
+                      color: "#fff",
                       border: "none",
                       fontWeight: 700,
                       cursor: "pointer"
@@ -1538,8 +1538,8 @@ const ownerActions: React.CSSProperties = {
 
 
 const btnCopyLink: React.CSSProperties = {
-  background: "#ffffff",
-  color: "#5b3df5",
+  background: "#ff0000",
+  color: "#fff",
   padding: "12px 14px",
   borderRadius: 14,
   border: "none",
