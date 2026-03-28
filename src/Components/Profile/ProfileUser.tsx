@@ -35,7 +35,7 @@ import coverdefault3 from "../../assets/defecto3.jpg";
 import coverdefault4 from "../../assets/defecto4.jpg";
 import { questions } from "../../data/questions";
 import EditProfileModal from "./EditProfileModal";
-import InternalFeed from "../Internalfeed";
+//import InternalFeed from "../Internalfeed";
 
 
 /* ===== INTERFACES ===== */
