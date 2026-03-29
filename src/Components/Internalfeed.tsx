@@ -397,23 +397,20 @@ ESTILOS
 ====================== */
 
 
-const cajaMayor: React.CSSProperties={
- 
-  width:"100%",
+const cajaMayor: React.CSSProperties = {
+  width: "100%",
   margin: "auto",
- 
-}
-
+  minWidth: 0, // 🔥 clave
+  overflow: "hidden" // 🔥 evita que empuje el layout
+};
 
 const container: React.CSSProperties = {
-  padding: "10px",
- 
-  width:"100%",
+  padding: "16px",
+  maxWidth: "800px", // ✅ corregido
+  width: "100%",
   margin: "0 auto",
-
-  // 🔥 clave
-
-
+  minWidth: 0, // 🔥 clave
+  boxSizing: "border-box"
 };
 
 const title: React.CSSProperties = {
@@ -449,7 +446,9 @@ const feedCard: React.CSSProperties = {
   borderRadius: 16,
   padding: 16,
   marginBottom: 12,
-  boxShadow: "0 6px 18px rgba(0,0,0,0.08)"
+  boxShadow: "0 6px 18px rgba(0,0,0,0.08)",
+  minWidth: 0, // 🔥 clave
+  overflow: "hidden" // 🔥 evita desbordes
 };
 
 const feedUser: React.CSSProperties = {
@@ -475,7 +474,8 @@ const feedUserSub: React.CSSProperties = {
 const feedQuestion: React.CSSProperties = {
   fontSize: 14,
   fontWeight: 600,
-  marginBottom:6
+  marginBottom:6,
+  wordBreak: "break-word" // 🔥 clave
 };
 
 const feedAnswer: React.CSSProperties = {
@@ -484,7 +484,8 @@ const feedAnswer: React.CSSProperties = {
   padding: "10px 12px",
   color: "#064e3b",
   marginBottom: 10,
-  fontSize: 13
+  fontSize: 13,
+  wordBreak: "break-word" // 🔥 clave
 };
 
 const feedMeta: React.CSSProperties = {
