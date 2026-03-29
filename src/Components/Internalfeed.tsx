@@ -20,6 +20,7 @@ export default function InternalFeed() {
 const spicyWords = [
   "sexo",
   "sexual",
+  "sexuales",
   "intimo",
   "intimidad",
   "coger",
