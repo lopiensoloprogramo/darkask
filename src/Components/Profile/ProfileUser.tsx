@@ -224,15 +224,33 @@ function getActivityStatus(lastActive: number) {
   return "⚪ Activo Hace un tiempo";
 }
 
+
+
 useEffect(() => {
-  const handleResize = () => {
-    setIsMobile(window.innerWidth < 900);
+  const media = window.matchMedia("(max-width: 900px)");
+
+  const listener = (e: MediaQueryListEvent | MediaQueryList) => {
+    setIsMobile(e.matches);
   };
 
-  window.addEventListener("resize", handleResize);
-  return () => window.removeEventListener("resize", handleResize);
-}, []);
+  // inicial
+  setIsMobile(media.matches);
 
+  // listener moderno
+  if (media.addEventListener) {
+    media.addEventListener("change", listener);
+  } else {
+    media.addListener(listener); // fallback
+  }
+
+  return () => {
+    if (media.removeEventListener) {
+      media.removeEventListener("change", listener);
+    } else {
+      media.removeListener(listener);
+    }
+  };
+}, []);
 
 useEffect(() => {
   const style = document.createElement("style");
