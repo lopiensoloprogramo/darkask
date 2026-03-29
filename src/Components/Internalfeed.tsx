@@ -401,12 +401,12 @@ const cajaMayor: React.CSSProperties={
  
   width:"100%",
   margin: "auto",
-
+  maxWidth:"800px",
 }
 
 
 const container: React.CSSProperties = {
-  padding: "16px",
+  padding: "10px",
   maxWidth:"800px",
   width:"100%",
   margin: "0 auto",
