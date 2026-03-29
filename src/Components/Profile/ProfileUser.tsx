@@ -1551,7 +1551,7 @@ const notifOverlay: React.CSSProperties = {
   display: "flex",
   justifyContent: "center",
   alignItems: "center",
-  zIndex: 999
+  zIndex: 9999
 };
 
 const notifModal: React.CSSProperties = {
