@@ -49,7 +49,7 @@ export default function Estadisticas() {
 
       <p>🤖 Preguntas automáticas: {autoCount ?? "..."}</p>
       <p>⏳ Preguntas pendientes: {pendingCount ?? "..."}</p>
-      <p>🌍 Visitas totales en perfiles: {globalViews ?? "..."}</p>
+      <p>🌍 Visitas totales en perfiles hoy: {globalViews ?? "..."}</p>
  
     </div>
   );
