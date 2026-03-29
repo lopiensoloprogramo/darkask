@@ -82,7 +82,7 @@ export default function ProfileUser({ profileUserId, authUser }: ProfileProps) {
   const [selectedQuestion, setSelectedQuestion] = useState<Question | null>(null);
   const [sharedQuestion, setSharedQuestion] = useState<Question | null>(null);
 
-const [isMobile,setIsMobile] = useState(() => window.innerWidth < 900);
+const [isMobile, setIsMobile] = useState(false);
   const [activeTab, setActiveTab] = useState<"pending" | "answered">("answered");
 const [mainTab, setMainTab] = useState<"feed" | "spicy" | "top" | "profile">(
   authUser ? "feed" : "profile"
