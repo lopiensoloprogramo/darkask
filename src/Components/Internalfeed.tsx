@@ -407,7 +407,7 @@ const cajaMayor: React.CSSProperties={
 
 const container: React.CSSProperties = {
   padding: "16px",
-  maxWidth:"800",
+  maxWidth:"800px",
   width:"100%",
   margin: "0 auto",
 

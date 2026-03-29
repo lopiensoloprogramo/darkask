@@ -227,7 +227,7 @@ function getActivityStatus(lastActive: number) {
 
 
 useEffect(() => {
-  const media = window.matchMedia("(max-width: 800px)");
+  const media = window.matchMedia("(max-width: 900px)");
 
   const listener = (e: MediaQueryListEvent | MediaQueryList) => {
     setIsMobile(e.matches);
