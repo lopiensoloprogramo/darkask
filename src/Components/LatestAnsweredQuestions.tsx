@@ -428,16 +428,18 @@ const handleLogin = () => {
 
                     <div style={feedMeta}>
                     <span>⏳ {timeAgo(q.answeredAt || q.timestamp)}</span>
-                    <span
-                      onClick={() => handleLike(q)}
-                      style={{
-                        cursor: "pointer",
-                        color: userLikes[q.id] ? "#ef4444" : "#9ca3af",
-                        fontWeight: "bold"
-                      }}
-                    >
-                      ❤️ {q.likesCount || 0}
-                    </span>
+                        <div style={likeContainer}>
+                          <button
+                            onClick={() => handleLike(q)}
+                            style={likeButton(userLikes[q.id])}
+                          >
+                            ❤️
+                          </button>
+
+                          <span style={likeCount}>
+                            {q.likesCount || 0}
+                          </span>
+                        </div>
                     </div>
 
                   </div>
@@ -803,3 +805,30 @@ const btnVermas: React.CSSProperties={
   color:"#fff",
   fontSize:14
 }
+const likeContainer: React.CSSProperties = {
+  display: "flex",
+  alignItems: "center",
+  gap: 6,
+};
+
+const likeButton = (active: boolean): React.CSSProperties => ({
+  border: "none",
+  cursor: "pointer",
+  fontSize: 18,
+  borderRadius: "50%",
+  width: 34,
+  height: 34,
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "center",
+  transition: "all 0.2s ease",
+  
+  background: active ? "#ffe4e6" : "#f3f4f6",
+  color: active ? "#ef4444" : "#9ca3af",
+});
+
+const likeCount: React.CSSProperties = {
+  fontSize: 14,
+  fontWeight: 600,
+  color: "#374151"
+};
