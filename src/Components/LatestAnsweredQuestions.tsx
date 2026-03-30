@@ -419,6 +419,7 @@ const handleLogin = () => {
                               borderRadius: 12,
                               objectFit: "contain",
                               maxHeight:"300px",
+                               background: "#000" 
                             }}
                           />
                         )}
