@@ -405,7 +405,7 @@ const handleLogin = () => {
                     </div>
 
                     <p style={feedQuestion}>{q.question}</p>
-                  
+
                     <div style={feedAnswer}>
                         {q.answer}
 
@@ -417,7 +417,8 @@ const handleLogin = () => {
                               width: "100%",
                               marginTop: 10,
                               borderRadius: 12,
-                              objectFit: "contain"
+                              objectFit: "contain",
+                              maxHeight:"300px",
                             }}
                           />
                         )}
