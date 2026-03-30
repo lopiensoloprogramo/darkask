@@ -62,7 +62,6 @@ const [userLikes, setUserLikes] = useState<Record<string, boolean>>({});
 
 
 
-
 // ======================================
 // LIKE CON TRANSACCIÓN (EVITA ERRORES)
 // ======================================
@@ -384,7 +383,7 @@ const handleLogin = () => {
               {questions.map(q => {
 
                 const user = usersMap[q.ownerId];
-
+                const isLiked = authUser ? userLikes[q.id] : false;
                 return (
                   <div key={q.id} style={{ ...feedCard, ...fadeIn, ...hoverLift }}>
 
@@ -430,8 +429,9 @@ const handleLogin = () => {
                     <span>⏳ {timeAgo(q.answeredAt || q.timestamp)}</span>
                         <div style={likeContainer}>
                           <button
+                          
                             onClick={() => handleLike(q)}
-                            style={likeButton(userLikes[q.id])}
+                            style={likeButton(isLiked)}
                           >
                             ❤️
                           </button>
