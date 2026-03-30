@@ -419,8 +419,8 @@ const handleLogin = () => {
                               borderRadius: 12,
                               objectFit: "contain",
                               maxHeight:"300px",
-                              maxWidth:"400px",
-                               background: "#000" 
+                              margin:"auto",
+                              background: "#000" 
                             }}
                           />
                         )}
