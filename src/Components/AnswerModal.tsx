@@ -179,7 +179,8 @@ export default function AnswerModal({
                 width: "100%",
                 borderRadius: 8,
                 maxHeight: 200,
-                objectFit: "cover"
+                objectFit: "contain",
+                background: "#000"
               }}
             />
 
