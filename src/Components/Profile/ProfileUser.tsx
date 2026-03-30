@@ -1171,6 +1171,21 @@ if (loading || !userData) {
               <>
                 <div style={answerBox}>{q.answer}</div>
 
+                    {q.imageUrl && (
+                        <img
+                          src={q.imageUrl}
+                          alt="respuesta"
+                          style={{
+                            width: "100%",
+                            maxHeight: 400,
+                            objectFit: "contain",
+                            borderRadius: 12,
+                            marginTop: 10,
+                            background: "#000"
+                          }}
+                        />
+                      )}
+
                 <div style={likeRow}>
                  
 
