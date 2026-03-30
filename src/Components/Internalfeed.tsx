@@ -367,7 +367,18 @@ function isSpicy(text?: string) {
 
           <p style={feedQuestion}>{q.question}</p>
 
-          <div style={feedAnswer}>{q.answer}</div>
+          {/* 📸 IMAGEN */}
+              {q.imageUrl && (
+                <img
+                  src={q.imageUrl}
+                  style={feedImage}
+                />
+              )}
+
+              {/* 💬 RESPUESTA */}
+              {q.answer && (
+                <div style={feedAnswer}>{q.answer}</div>
+              )}
 
           <div style={feedMeta}>
             <span>⏳ {timeAgo(q.answeredAt || q.timestamp)}</span>
@@ -510,4 +521,12 @@ const spinner: React.CSSProperties = {
   borderTop: "4px solid #6366f1",
   borderRadius: "50%",
   animation: "spin 1s linear infinite"
+};
+
+const feedImage: React.CSSProperties = {
+  width: "100%",
+  borderRadius: 12,
+  marginBottom: 8,
+  maxHeight: 300,
+  objectFit: "cover",
 };

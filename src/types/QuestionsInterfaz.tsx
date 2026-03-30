@@ -13,7 +13,7 @@ export interface Question {
     ownerUsername?: string;
     isAuto?: boolean;
   type?: "text" | "options";
-
+imageUrl?: string;
   options?: {
     text: string;
     votes: number;
