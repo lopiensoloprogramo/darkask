@@ -112,6 +112,8 @@ const handleAvatarChange = (e: React.ChangeEvent<HTMLInputElement>) => {
             <option>💸 Sin dinero</option>
             <option>🧠 Pensando mucho</option>
             <option>🎮 Viciando</option>
+            <option>🥵 Hot</option>
+            <option>😎 Chill</option>
         </select>
         </div>
 
