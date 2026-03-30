@@ -419,6 +419,7 @@ const handleLogin = () => {
                               borderRadius: 12,
                               objectFit: "contain",
                               maxHeight:"300px",
+                              maxWidth:"600px",
                               margin:"auto",
                               background: "#000" 
                             }}
@@ -569,7 +570,8 @@ const feedCard: React.CSSProperties = {
 const feedQuestion: React.CSSProperties = {
   fontSize: 15,
   fontWeight: 600,
-  marginBottom: 8
+  marginBottom: 8,
+  wordBreak: "break-word"
 };
 
 const feedAnswer: React.CSSProperties = {
