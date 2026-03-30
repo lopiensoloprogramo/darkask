@@ -87,14 +87,20 @@ export default function AnswerModal({
       // 🔥 subir imagen si existe
         if (imageFile) {
 
-          if (!auth.currentUser) {
-            return alert("Debes iniciar sesión");
+          const user = auth.currentUser;
+
+          if (!user) {
+            alert("Debes iniciar sesión");
+            return;
           }
 
-          const fileRef = ref(
-            storage,
-            `answers/${auth.currentUser.uid}/${Date.now()}.jpg`
-          );
+          // 🔥 FORZAR TOKEN ACTUALIZADO
+          await user.getIdToken(true);
+
+                const fileRef = ref(
+          storage,
+          `answers/${user.uid}/${Date.now()}.jpg`
+        );
 
           await uploadBytes(fileRef, imageFile);
           imageUrl = await getDownloadURL(fileRef);
