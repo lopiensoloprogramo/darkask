@@ -407,7 +407,7 @@ const handleLogin = () => {
                     <p style={feedQuestion}>{q.question}</p>
 
                     <div style={feedAnswer}>
-                        {q.answer}
+                        <p>{q.answer}</p>
 
                         {q.imageUrl && (
                           <img
@@ -419,7 +419,6 @@ const handleLogin = () => {
                               borderRadius: 12,
                               objectFit: "contain",
                               maxHeight:"300px",
-                              maxWidth:"600px",
                               margin:"auto",
                               background: "#000" 
                             }}
