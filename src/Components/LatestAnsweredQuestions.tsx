@@ -5,7 +5,7 @@ import {
   query, 
   orderBy, 
   limit as firestoreLimit, 
-  getDocs, 
+  getDocs, getDoc,
   where,
   startAfter,
   doc,
@@ -104,17 +104,21 @@ const [userLikes, setUserLikes] = useState<Record<string, boolean>>({});
 
   // usuarios
   const ownerIds = [...new Set(newQuestions.map(q => q.ownerId))];
-  const usersSnap = await getDocs(collection(db, "users"));
 
-  setUsersMap(prev => {
-    const map = { ...prev };
-    usersSnap.docs.forEach(doc => {
-      if (ownerIds.includes(doc.id)) {
-        map[doc.id] = doc.data();
+const newUsersMap = { ...usersMap };
+
+await Promise.all(
+  ownerIds.map(async (id) => {
+    if (!newUsersMap[id]) {
+      const snap = await getDoc(doc(db, "users", id));
+      if (snap.exists()) {
+        newUsersMap[id] = snap.data();
       }
-    });
-    return map;
-  });
+    }
+  })
+);
+
+setUsersMap(newUsersMap);
 
   // paginación
   const lastVisible = snap.docs[snap.docs.length - 1];
@@ -401,8 +405,23 @@ const handleLogin = () => {
                     </div>
 
                     <p style={feedQuestion}>{q.question}</p>
+                  
+                    <div style={feedAnswer}>
+                        {q.answer}
 
-                    <div style={feedAnswer}>{q.answer}</div>
+                        {q.imageUrl && (
+                          <img
+                            src={q.imageUrl}
+                            alt="respuesta"
+                            style={{
+                              width: "100%",
+                              marginTop: 10,
+                              borderRadius: 12,
+                              objectFit: "contain"
+                            }}
+                          />
+                        )}
+                      </div>
 
                     <div style={feedMeta}>
                     <span>⏳ {timeAgo(q.answeredAt || q.timestamp)}</span>
