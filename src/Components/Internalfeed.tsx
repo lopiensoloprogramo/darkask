@@ -371,7 +371,13 @@ function isSpicy(text?: string) {
               {q.imageUrl && (
                 <img
                   src={q.imageUrl}
-                  style={feedImage}
+                 style={{
+                  width: "100%",
+                  maxHeight: 400,
+                  objectFit: "contain !important" as any,
+                  borderRadius: 12,
+                  marginBottom: 8,
+                }}
                   
                 />
               )}
@@ -524,11 +530,3 @@ const spinner: React.CSSProperties = {
   animation: "spin 1s linear infinite"
 };
 
-const feedImage: React.CSSProperties = {
-  width: "100%",
-  borderRadius: 12,
-  marginBottom: 8,
-  maxHeight: 300,
-  objectFit: "contain",
-  background: "#111",
-};
