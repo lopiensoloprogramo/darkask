@@ -373,7 +373,7 @@ function isSpicy(text?: string) {
                   src={q.imageUrl}
                  style={{
                   width: "100%",
-                  maxHeight: 400,
+                  maxHeight: 300,
                   objectFit: "contain !important" as any,
                   borderRadius: 12,
                   marginBottom: 8,
