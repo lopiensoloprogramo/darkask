@@ -7,7 +7,7 @@ import {
   doc,
   runTransaction
 } from "firebase/firestore";
-
+import { auth } from "../services/firebase";
 import {
   getStorage,
   ref,
@@ -85,15 +85,20 @@ export default function AnswerModal({
       let imageUrl: string | null = null;
 
       // 🔥 subir imagen si existe
-      if (imageFile) {
-        const fileRef = ref(
-          storage,
-          `answers/${question.ownerId}/${Date.now()}.jpg`
-        );
+        if (imageFile) {
 
-        await uploadBytes(fileRef, imageFile);
-        imageUrl = await getDownloadURL(fileRef);
-      }
+          if (!auth.currentUser) {
+            return alert("Debes iniciar sesión");
+          }
+
+          const fileRef = ref(
+            storage,
+            `answers/${auth.currentUser.uid}/${Date.now()}.jpg`
+          );
+
+          await uploadBytes(fileRef, imageFile);
+          imageUrl = await getDownloadURL(fileRef);
+        }
 
       const questionRef = doc(db, "questions", question.id);
       const userRef = doc(db, "users", question.ownerId);
