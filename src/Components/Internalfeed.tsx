@@ -372,6 +372,7 @@ function isSpicy(text?: string) {
                 <img
                   src={q.imageUrl}
                   style={feedImage}
+                  
                 />
               )}
 
