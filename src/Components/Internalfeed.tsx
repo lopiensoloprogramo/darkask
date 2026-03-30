@@ -528,5 +528,6 @@ const feedImage: React.CSSProperties = {
   borderRadius: 12,
   marginBottom: 8,
   maxHeight: 300,
-  objectFit: "cover",
+  objectFit: "contain",
+  background: "#111",
 };
