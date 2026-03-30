@@ -433,7 +433,7 @@ const handleLogin = () => {
                             onClick={() => handleLike(q)}
                             style={likeButton(isLiked)}
                           >
-                            ❤️
+                             {isLiked ? "❤️" : "🤍"}
                           </button>
 
                           <span style={likeCount}>
