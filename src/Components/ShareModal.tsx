@@ -58,6 +58,7 @@ const profileUrl =
           <div style={answerContainer}>
             <p style={answerLabel}>Mi respuesta:</p>
             <p style={answerText}>{question.answer}</p>
+              <p style={answerText}>{question.imageUrl}</p>
           </div>
 
           {/* CTA Viral */}
