@@ -125,8 +125,8 @@ const modal = {
   width: "92%",
   textAlign: "center" as const,
   boxShadow: "0 20px 50px rgba(0,0,0,0.5)",
-   maxHeight: 500,
-   overflow: "hidden",
+
+
 };
 
 const title = {
@@ -166,7 +166,7 @@ const questionText = {
 };
 
 const answerContainer = {
- 
+  background: "rgba(255,255,255,0.08)",
   padding: 14,
   borderRadius: 14,
   marginTop: 10,  
