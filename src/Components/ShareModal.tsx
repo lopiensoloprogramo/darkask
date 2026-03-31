@@ -72,9 +72,12 @@ const downloadImage = async () => {
             <p style={answerText}>{question.answer}</p>    
                 
                 {question.imageUrl && (
-                <img src={question.imageUrl}
+                  <div style={divImagenrespuesta}>
+                  <img src={question.imageUrl}
                   style={shareImageStyle}
                 />
+                  </div>
+            
               )}
           </div>
 
@@ -229,3 +232,8 @@ const shareImageStyle: React.CSSProperties = {
   marginTop: 10,
   boxShadow: "0 10px 25px rgba(0,0,0,0.4)"
 };
+
+const divImagenrespuesta:React.CSSProperties={
+
+   background: "linear-gradient(120deg,#ecfdf5,#f0fdf4)",
+}
