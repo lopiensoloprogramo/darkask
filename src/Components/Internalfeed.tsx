@@ -243,57 +243,44 @@ const handleLike = async (q: Question) => {
 
   try {
 
-    const likeSnap = await getDoc(likeRef);
-    const alreadyLiked = likeSnap.exists();
+  console.log("USER:", authUser?.uid);
 
-    // 🔥 actualizar estado visual primero
-    setUserLikes(prev => ({
-      ...prev,
-      [q.id]: !alreadyLiked
-    }));
+  const likeSnap = await getDoc(likeRef);
+  console.log("LIKE EXISTS:", likeSnap.exists());
 
-    if (alreadyLiked) {
+  if (likeSnap.exists()) {
 
-      // ❌ quitar like
-      await deleteDoc(likeRef);
+    console.log("👉 intentando DELETE like");
+    await deleteDoc(likeRef);
+    console.log("✅ delete OK");
 
-      await updateDoc(questionRef, {
-        likesCount: increment(-1)
-      });
+    console.log("👉 intentando UPDATE question -1");
+    await updateDoc(questionRef, {
+      likesCount: increment(-1)
+    });
+    console.log("✅ update OK");
 
-      setQuestions(prev =>
-        prev.map(item =>
-          item.id === q.id
-            ? { ...item, likesCount: Math.max((item.likesCount || 1) - 1, 0) }
-            : item
-        )
-      );
+  } else {
 
-    } else {
+    console.log("👉 intentando CREATE like");
+    await setDoc(likeRef, {
+      questionId: q.id,
+      userId: authUser.uid,
+      createdAt: serverTimestamp()
+    });
+    console.log("✅ create OK");
 
-      // ✅ dar like
-      await setDoc(likeRef, {
-        questionId: q.id,
-        userId: authUser.uid,
-        createdAt: serverTimestamp()
-      });
+    console.log("👉 intentando UPDATE question +1");
+    await updateDoc(questionRef, {
+      likesCount: increment(1)
+    });
+    console.log("✅ update OK");
 
-      await updateDoc(questionRef, {
-        likesCount: increment(1)
-      });
-
-      setQuestions(prev =>
-        prev.map(item =>
-          item.id === q.id
-            ? { ...item, likesCount: (item.likesCount || 0) + 1 }
-            : item
-        )
-      );
-    }
-
-  } catch (err) {
-    console.error("Error toggle like", err);
   }
+
+} catch (err) {
+  console.error("🔥 ERROR REAL:", err);
+}
 };
 
 function isSpicy(text?: string) {
