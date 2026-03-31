@@ -118,13 +118,13 @@ const overlay = {
 
 const modal = {
   background: "#111",
-  padding: 25,
+  padding: 15,
   borderRadius: 18,
   maxWidth: 420,
   width: "92%",
   textAlign: "center" as const,
   boxShadow: "0 20px 50px rgba(0,0,0,0.5)",
- maxHeight: "85vh", // 🔥 clave
+ maxHeight: "80vh", // 🔥 clave
 
 };
 
