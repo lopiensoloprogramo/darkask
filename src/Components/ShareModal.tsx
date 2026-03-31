@@ -134,8 +134,8 @@ const title = {
 
 const card = {
   background: "linear-gradient(135deg, #141e30, #243b55)",
-  padding: 30,
-  borderRadius: 22,
+  padding: 20, // antes 30
+  borderRadius: 18,
   color: "white",
   textAlign: "center" as const,
   boxShadow: "0 15px 40px rgba(0,0,0,0.4)",
@@ -158,9 +158,9 @@ const questionLabel = {
 };
 
 const questionText = {
-  fontSize: 20,
+  fontSize: 17, // antes 20
   fontWeight: 700,
-  lineHeight: 1.4,
+  lineHeight: 1.3,
 };
 
 const answerContainer = {
@@ -177,7 +177,7 @@ const answerLabel = {
 };
 
 const answerText = {
-  fontSize: 18,
+  fontSize: 15, // antes 18
   fontWeight: 600,
 };
 
@@ -223,9 +223,9 @@ const downloadBtn = {
 };
 const shareImageStyle: React.CSSProperties = {
   width: "100%",
-  maxHeight: 300,
+  maxHeight: 200,
   objectFit: "contain",
-  borderRadius: 14,
-  marginTop: 12,
+  borderRadius: 12,
+  marginTop: 10,
   boxShadow: "0 10px 25px rgba(0,0,0,0.4)"
 };
