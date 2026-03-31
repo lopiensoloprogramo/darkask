@@ -66,6 +66,29 @@ const spicyPhrases = [
   "only fans"
 ];
 
+useEffect(() => {
+  if (!authUser) return;
+
+  const fetchLikes = async () => {
+    const qLikes = query(
+      collection(db, "likes"),
+      where("userId", "==", authUser.uid)
+    );
+
+    const snap = await getDocs(qLikes);
+
+    const map: Record<string, boolean> = {};
+
+    snap.docs.forEach(doc => {
+      const data = doc.data();
+      map[data.questionId] = true;
+    });
+
+    setUserLikes(map);
+  };
+
+  fetchLikes();
+}, [authUser]);
 
 
 useEffect(() => {
@@ -215,25 +238,23 @@ const handleLike = async (q: Question) => {
     return;
   }
 
-  const likeId = `${q.id}_${authUser.uid}`;
-
-  const likeRef = doc(db, "likes", likeId);
+  const likeRef = doc(db, "likes", `${q.id}_${authUser.uid}`);
   const questionRef = doc(db, "questions", q.id);
 
-  const likeSnap = await getDoc(likeRef);
-const alreadyLiked = userLikes[q.id];
   try {
 
+    const likeSnap = await getDoc(likeRef);
+    const alreadyLiked = likeSnap.exists();
 
-    // actualizar corazón
-setUserLikes(prev => ({
-  ...prev,
-  [q.id]: !alreadyLiked
-}));
+    // 🔥 actualizar estado visual primero
+    setUserLikes(prev => ({
+      ...prev,
+      [q.id]: !alreadyLiked
+    }));
 
-    if (likeSnap.exists()) {
+    if (alreadyLiked) {
 
-      // quitar like
+      // ❌ quitar like
       await deleteDoc(likeRef);
 
       await updateDoc(questionRef, {
@@ -243,14 +264,14 @@ setUserLikes(prev => ({
       setQuestions(prev =>
         prev.map(item =>
           item.id === q.id
-            ? { ...item, likesCount: (item.likesCount || 0) - 1 }
+            ? { ...item, likesCount: Math.max((item.likesCount || 1) - 1, 0) }
             : item
         )
       );
 
     } else {
 
-      // dar like
+      // ✅ dar like
       await setDoc(likeRef, {
         questionId: q.id,
         userId: authUser.uid,
@@ -268,13 +289,11 @@ setUserLikes(prev => ({
             : item
         )
       );
-
     }
 
   } catch (err) {
     console.error("Error toggle like", err);
   }
-
 };
 
 function isSpicy(text?: string) {
