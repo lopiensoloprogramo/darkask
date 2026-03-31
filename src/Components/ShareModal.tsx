@@ -74,7 +74,10 @@ const downloadImage = async () => {
                 {question.imageUrl && (
                   <div style={divImagenrespuesta}>
                   <img src={question.imageUrl}
-                  style={shareImageStyle}
+                 style={{
+                  ...shareImageStyle,
+                  maxHeight: (question.answer?.length || 0) > 120 ? 150 : 150
+                }}
                 />
                   </div>
             
