@@ -69,16 +69,13 @@ const downloadImage = async () => {
           {/* Respuesta */}
           <div style={answerContainer}>
             <p style={answerLabel}>Mi respuesta:</p>
-            <p style={answerText}>{question.answer}</p>
+            <p style={answerText}>{question.answer}</p>    
+          </div>
             {question.imageUrl && (
-                <img
-                  src={question.imageUrl}
+                <img src={question.imageUrl}
                   style={shareImageStyle}
                 />
               )}
-            
-          </div>
-
           {/* CTA Viral */}
           <div style={cta}>
             👀 Hazme una pregunta anónima
@@ -125,7 +122,7 @@ const modal = {
   width: "92%",
   textAlign: "center" as const,
   boxShadow: "0 20px 50px rgba(0,0,0,0.5)",
-
+ maxHeight: "90vh", // 🔥 clave
 
 };
 
@@ -136,11 +133,10 @@ const title = {
 
 const card = {
   background: "linear-gradient(135deg, #141e30, #243b55)",
-  padding: 20, // antes 30
+  padding: 18, // 🔽
   borderRadius: 18,
   color: "white",
   textAlign: "center" as const,
-  boxShadow: "0 15px 40px rgba(0,0,0,0.4)",
 };
 
 const brand = {
