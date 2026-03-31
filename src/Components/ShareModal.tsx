@@ -15,19 +15,31 @@ const profileUrl =
     ? `${window.location.origin}/u/${username}`
     : "";
 
-  const downloadImage = () => {
-    const element = document.getElementById("share-image");
-    if (!element) return;
+const downloadImage = async () => {
+  const element = document.getElementById("share-image");
+  if (!element) return;
 
-    import("html-to-image").then(({ toPng }) => {
-      toPng(element, { cacheBust: true }).then((dataUrl) => {
-        const link = document.createElement("a");
-        link.download = "darkask-respuesta.png";
-        link.href = dataUrl;
-        link.click();
+  // 🔥 esperar que imágenes carguen
+  const images = element.getElementsByTagName("img");
+  await Promise.all(
+    Array.from(images).map(img => {
+      if (img.complete) return Promise.resolve();
+      return new Promise(res => {
+        img.onload = res;
+        img.onerror = res;
       });
-    });
-  };
+    })
+  );
+
+  const { toPng } = await import("html-to-image");
+
+  const dataUrl = await toPng(element, { cacheBust: true });
+
+  const link = document.createElement("a");
+  link.download = "darkask-respuesta.png";
+  link.href = dataUrl;
+  link.click();
+};
 
   const copyLink = async () => {
     try {
@@ -58,7 +70,13 @@ const profileUrl =
           <div style={answerContainer}>
             <p style={answerLabel}>Mi respuesta:</p>
             <p style={answerText}>{question.answer}</p>
-              <p style={answerText}>{question.imageUrl}</p>
+            {question.imageUrl && (
+                <img
+                  src={question.imageUrl}
+                  style={shareImageStyle}
+                />
+              )}
+            
           </div>
 
           {/* CTA Viral */}
@@ -202,4 +220,12 @@ const downloadBtn = {
   padding: "8px 14px",
   borderRadius: 10,
   cursor: "pointer",
+};
+const shareImageStyle: React.CSSProperties = {
+  width: "100%",
+  maxHeight: 300,
+  objectFit: "contain",
+  borderRadius: 14,
+  marginTop: 12,
+  boxShadow: "0 10px 25px rgba(0,0,0,0.4)"
 };
