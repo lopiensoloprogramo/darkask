@@ -126,6 +126,7 @@ const modal = {
   textAlign: "center" as const,
   boxShadow: "0 20px 50px rgba(0,0,0,0.5)",
    maxHeight: 500,
+   overflow: "hidden",
 };
 
 const title = {
