@@ -70,12 +70,14 @@ const downloadImage = async () => {
           <div style={answerContainer}>
             <p style={answerLabel}>Mi respuesta:</p>
             <p style={answerText}>{question.answer}</p>    
-          </div>
-            {question.imageUrl && (
+                
+                {question.imageUrl && (
                 <img src={question.imageUrl}
                   style={shareImageStyle}
                 />
               )}
+          </div>
+
           {/* CTA Viral */}
           <div style={cta}>
             👀 Hazme una pregunta anónima
@@ -122,7 +124,7 @@ const modal = {
   width: "92%",
   textAlign: "center" as const,
   boxShadow: "0 20px 50px rgba(0,0,0,0.5)",
- maxHeight: "90vh", // 🔥 clave
+ maxHeight: "85vh", // 🔥 clave
 
 };
 
