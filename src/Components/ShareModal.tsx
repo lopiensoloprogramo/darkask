@@ -118,7 +118,8 @@ const overlay = {
   background: "rgba(0,0,0,0.7)",
   display: "flex",
   justifyContent: "center",
-  alignItems: "center",
+  alignItems: "flex-start", // 🔥 antes center
+  paddingTop: 40, 
   zIndex: 9999,
 };
 
