@@ -125,6 +125,7 @@ const modal = {
   width: "92%",
   textAlign: "center" as const,
   boxShadow: "0 20px 50px rgba(0,0,0,0.5)",
+   maxHeight: 500,
 };
 
 const title = {
@@ -148,7 +149,7 @@ const brand = {
 };
 
 const questionContainer = {
-  marginBottom: 25,
+  marginBottom: 15,
 };
 
 const questionLabel = {
@@ -165,9 +166,9 @@ const questionText = {
 
 const answerContainer = {
   background: "rgba(255,255,255,0.08)",
-  padding: 18,
-  borderRadius: 18,
-  marginTop: 10,
+  padding: 14,
+  borderRadius: 14,
+  marginTop: 10,  
 };
 
 const answerLabel = {
@@ -182,8 +183,8 @@ const answerText = {
 };
 
 const cta = {
-  marginTop: 25,
-  fontSize: 15,
+  marginTop: 15,
+  fontSize: 14,
   fontWeight: 700,
   color: "#00ffcc",
 };
