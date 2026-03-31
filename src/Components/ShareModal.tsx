@@ -33,7 +33,10 @@ const downloadImage = async () => {
 
   const { toPng } = await import("html-to-image");
 
-  const dataUrl = await toPng(element, { cacheBust: true });
+const dataUrl = await toPng(element, {
+  cacheBust: true,
+ pixelRatio: 2 // 🔥 HD
+});
 
   const link = document.createElement("a");
   link.download = "darkask-respuesta.png";
@@ -69,14 +72,17 @@ const downloadImage = async () => {
           {/* Respuesta */}
           <div style={answerContainer}>
             <p style={answerLabel}>Mi respuesta:</p>
-            <p style={answerText}>{question.answer}</p>    
-                
+           <p style={answerText}>
+                {question.answer?.slice(0, 200)}
+              </p>
+                              
                 {question.imageUrl && (
                   <div style={divImagenrespuesta}>
                   <img src={question.imageUrl}
+                  crossOrigin="anonymous"
                  style={{
                   ...shareImageStyle,
-                  maxHeight: (question.answer?.length || 0) > 120 ? 150 : 150
+            maxHeight: (question.answer?.length || 0) > 200 ? 100 : 150
                 }}
                 />
                   </div>
