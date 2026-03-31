@@ -235,5 +235,5 @@ const shareImageStyle: React.CSSProperties = {
 
 const divImagenrespuesta:React.CSSProperties={
 
-   background: "linear-gradient(120deg,#ecfdf5,#f0fdf4)",
+  background: "#000" 
 }
