@@ -15,7 +15,7 @@ export default function InternalFeed() {
   const [tab, setTab] = useState<"recent" | "top" | "spicy">("recent");
   const [loading, setLoading] = useState(true);
   const [authUser, setAuthUser] = useState<any>(null);
-  
+  const [userLikes, setUserLikes] = useState<Record<string, boolean>>({});
 
 const spicyWords = [
   "sexo",
@@ -221,8 +221,15 @@ const handleLike = async (q: Question) => {
   const questionRef = doc(db, "questions", q.id);
 
   const likeSnap = await getDoc(likeRef);
-
+const alreadyLiked = userLikes[q.id];
   try {
+
+
+    // actualizar corazón
+setUserLikes(prev => ({
+  ...prev,
+  [q.id]: !alreadyLiked
+}));
 
     if (likeSnap.exists()) {
 
@@ -346,7 +353,7 @@ function isSpicy(text?: string) {
   <>
     {!loading && questions.map(q => {
       const user = usersMap[q.ownerId];
-
+      const isLiked = authUser ? userLikes[q.id] : false;
       return (
         <div key={q.id} style={feedCard}>
 
@@ -391,9 +398,9 @@ function isSpicy(text?: string) {
             <span>⏳ {timeAgo(q.answeredAt || q.timestamp)}</span>
             <span
               onClick={() => handleLike(q)}
-              style={{ cursor: "pointer" }}
+               style={likeButton(isLiked)}
             >
-              ❤️ {q.likesCount || 0}
+              {isLiked ? "❤️" : "🤍"}
             </span>
           </div>
 
@@ -530,3 +537,18 @@ const spinner: React.CSSProperties = {
   animation: "spin 1s linear infinite"
 };
 
+const likeButton = (active: boolean): React.CSSProperties => ({
+  border: "none",
+  cursor: "pointer",
+  fontSize: 18,
+  borderRadius: "50%",
+  width: 34,
+  height: 34,
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "center",
+  transition: "all 0.2s ease",
+  
+  background: active ? "#ffe4e6" : "#f3f4f6",
+  color: active ? "#ef4444" : "#9ca3af",
+});
