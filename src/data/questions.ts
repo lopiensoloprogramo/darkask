@@ -5,7 +5,7 @@ export const questions = [
 { id: 4, text: "¿Te han chapado mirando demasiado a alguien?" },
 { id: 5, text: "¿Has sentido tensión sexual con alguien que no debías?" },
 { id: 6, text: "¿Te han descubierto stalkeando a tu crush?" },
-{ id: 7, text: "¿Has fantaseado con alguien que no es tu pareja?" },
+{ id: 7, text: "¿Has fantaseado con alguien que no es tu pareja?" }, 
 { id: 8, text: "¿Te han dicho algo y pensaste ‘esto se puso raro’?" },
 { id: 9, text: "¿Has sentido atracción instantánea por alguien desconocido?" },
 { id: 10, text: "¿Te han coqueteado y no supiste qué hacer?" },

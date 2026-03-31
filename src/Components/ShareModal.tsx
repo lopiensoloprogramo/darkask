@@ -226,7 +226,7 @@ const downloadBtn = {
 };
 const shareImageStyle: React.CSSProperties = {
   width: "100%",
-  maxHeight: 200,
+  maxHeight: 150,
   objectFit: "contain",
   borderRadius: 12,
   marginTop: 10,
@@ -235,5 +235,6 @@ const shareImageStyle: React.CSSProperties = {
 
 const divImagenrespuesta:React.CSSProperties={
 
-  background: "#000" 
+  background: "#000" ,
+  borderRadius: 12,
 }
