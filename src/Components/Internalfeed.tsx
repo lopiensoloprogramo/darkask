@@ -243,44 +243,63 @@ const handleLike = async (q: Question) => {
 
   try {
 
-  console.log("USER:", authUser?.uid);
+    const likeSnap = await getDoc(likeRef);
 
-  const likeSnap = await getDoc(likeRef);
-  console.log("LIKE EXISTS:", likeSnap.exists());
+    if (likeSnap.exists()) {
 
-  if (likeSnap.exists()) {
+      // 🔴 QUITAR LIKE
+      await deleteDoc(likeRef);
 
-    console.log("👉 intentando DELETE like");
-    await deleteDoc(likeRef);
-    console.log("✅ delete OK");
+      await updateDoc(questionRef, {
+        likesCount: increment(-1)
+      });
 
-    console.log("👉 intentando UPDATE question -1");
-    await updateDoc(questionRef, {
-      likesCount: increment(-1)
-    });
-    console.log("✅ update OK");
+      // 🔥 ACTUALIZAR UI (AQUÍ VA)
+      setUserLikes(prev => ({
+        ...prev,
+        [q.id]: false
+      }));
 
-  } else {
+      setQuestions(prev =>
+        prev.map(item =>
+          item.id === q.id
+            ? { ...item, likesCount: Math.max((item.likesCount || 1) - 1, 0) }
+            : item
+        )
+      );
 
-    console.log("👉 intentando CREATE like");
-    await setDoc(likeRef, {
-      questionId: q.id,
-      userId: authUser.uid,
-      createdAt: serverTimestamp()
-    });
-    console.log("✅ create OK");
+    } else {
 
-    console.log("👉 intentando UPDATE question +1");
-    await updateDoc(questionRef, {
-      likesCount: increment(1)
-    });
-    console.log("✅ update OK");
+      // 🟢 DAR LIKE
+      await setDoc(likeRef, {
+        questionId: q.id,
+        userId: authUser.uid,
+        createdAt: serverTimestamp()
+      });
 
+      await updateDoc(questionRef, {
+        likesCount: increment(1)
+      });
+
+      // 🔥 ACTUALIZAR UI (AQUÍ VA)
+      setUserLikes(prev => ({
+        ...prev,
+        [q.id]: true
+      }));
+
+      setQuestions(prev =>
+        prev.map(item =>
+          item.id === q.id
+            ? { ...item, likesCount: (item.likesCount || 0) + 1 }
+            : item
+        )
+      );
+
+    }
+
+  } catch (err) {
+    console.error("🔥 ERROR REAL:", err);
   }
-
-} catch (err) {
-  console.error("🔥 ERROR REAL:", err);
-}
 };
 
 function isSpicy(text?: string) {
@@ -406,7 +425,7 @@ function isSpicy(text?: string) {
               onClick={() => handleLike(q)}
                style={likeButton(isLiked)}
             >
-              {isLiked ? "❤️" : "🤍"}
+              {isLiked ? "❤️" : "🤍"}{q.likesCount || 0}
             </span>
           </div>
 
