@@ -293,28 +293,6 @@ useEffect(() => {
   );
 
 
-useEffect(() => {
-  if (!profileUserId) return;
-
-  const isOwner = authUser?.uid === profileUserId;
-
-  if (isOwner) {
-    setMainTab("feed");
-  } else {
-    setMainTab("profile");
-  }
-
-}, [authUser, profileUserId]);
-
-
-
-
-
-
-
-
-
-
   const unsubscribe = onSnapshot(qPending, snapshot => {
     const data = snapshot.docs.map(doc => ({
       id: doc.id,
@@ -327,6 +305,19 @@ useEffect(() => {
   return () => unsubscribe();
 
 }, [profileUserId, isOwner]);
+
+useEffect(() => {
+  if (!profileUserId) return;
+
+  const isOwner = authUser?.uid === profileUserId;
+
+  if (isOwner) {
+    setMainTab("feed");
+  } else {
+    setMainTab("profile");
+  }
+
+}, [authUser, profileUserId]);
 
 useEffect(() => {
   if (!isOwner) return;
