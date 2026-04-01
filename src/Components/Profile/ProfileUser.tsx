@@ -436,18 +436,7 @@ useEffect(() => {
   return () => unsubscribe();
 }, [authUser]);
 
-useEffect(() => {
-  if (!profileUserId) return;
 
-  const isOwner = authUser?.uid === profileUserId;
-
-  if (isOwner) {
-    setMainTab("feed");
-  } else {
-    setMainTab("profile");
-  }
-
-}, [authUser, profileUserId]);
 
 useEffect(() => {
   if (notifications.length > prevNotifCount) {
