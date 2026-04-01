@@ -1,6 +1,6 @@
 export const questions = [
   { id: 1, text: "¿Has pensado en alguien justo cuando estabas en pleno delicioso con otra persona?" },
-{ id: 2, text: "¿Te han dado ganas de besar a alguien sin poder evitarlo?" },
+{ id: 2, text: "¿Te besarías con alguien de tu mismo sexo por 10000 dólares?" },
 { id: 3, text: "¿Has tenido un ‘casi algo’ que te dejó pensando?" },
 { id: 4, text: "¿Cuando fué la ultima ves que diste un beso en la boca?" },
 { id: 5, text: "¿Has sentido celos de alguien sin tener nada oficial?" },
@@ -30,5 +30,15 @@ export const questions = [
 { id: 29, text: "¿Tienes mascotas? cómo se llaman??" },
 { id: 30, text: "¿En que te fijas más cuando buscas pareja?" },
 { id: 31, text: "¿Has sentido obsesión leve por alguien?" },
+{ id: 32, text: "Planes para este fin de semana?" },
+{ id: 33, text: "La última película que viste?" },
+{ id: 34, text: "Inserte foto reciente :D" },
+{ id: 35, text: "¿Mayores, Menores? de tu edad? jaja" },
+{ id: 36, text: "¿Crees que para el amor hay edad? porque?" },
+{ id: 37, text: "¿Qué haces en tus días libres?" },
+{ id: 38, text: "¿Si pudieras retroceder el tiempo, que cambiarías de tu vida?" },
+{ id: 39, text: "¿Tienes contacto con alguna exs pareja? Porque?" },
+{ id: 40, text: "¿Cuándo  unas chelass?" },
+
 ];
 
