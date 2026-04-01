@@ -467,13 +467,6 @@ useEffect(() => {
 
 }, [notifications]);
   
-  useEffect(() => {
-    if (!authUser) {
-      setMainTab("profile");
-    } else {
-      setMainTab("feed");
-    }
-  }, [authUser]);
 
   // resto de tu código...
 
