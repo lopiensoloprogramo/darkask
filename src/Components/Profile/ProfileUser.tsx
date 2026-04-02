@@ -1647,7 +1647,10 @@ const profileCover=(isMobile: boolean): React.CSSProperties => ({
   borderTopLeftRadius: 24,
   borderTopRightRadius: 24,
   overflow: "hidden", // 🔥 aquí sí
-  position: "relative"
+  position: "relative",
+  touchAction: "none",        // 🔥 CLAVE
+  userSelect: "none",         // 🔥 BONUS
+  WebkitUserSelect: "none"    // 🔥 para Safari
 });
 
 /* ===== STATS ===== */
