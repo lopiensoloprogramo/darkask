@@ -856,10 +856,7 @@ if (loading || !userData) {
                     ...coverButton,
                     top: 45
                   }}
-                  onClick={async () => {
-                      setMovingCover(false);
-                      await saveCoverPosition();
-                    }}
+                  onClick={() => setMovingCover(!movingCover)}
                 >
                   {movingCover ? "Guardar" : "↕ Ajustar"}
                 </button>
