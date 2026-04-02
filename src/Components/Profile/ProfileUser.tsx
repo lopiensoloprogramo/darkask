@@ -470,7 +470,16 @@ useEffect(() => {
 
   /* ===== LIKE ===== */
 
+const saveCoverPosition = async () => {
+  if (!authUser) return;
 
+  const userRef = doc(db, "users", authUser.uid);
+
+  await updateDoc(userRef, {
+    coverX: coverPos.x,
+    coverY: coverPos.y
+  });
+};
 
 
 
@@ -777,8 +786,11 @@ if (loading || !userData) {
 
                       }}
 
-                      onTouchEnd={() => {
+                        onTouchEnd={async () => {
+                        if (!dragging) return;
+
                         setDragging(false);
+                        await saveCoverPosition(); // 🔥 AQUÍ
                       }}
 
 
@@ -808,17 +820,16 @@ if (loading || !userData) {
               if (!dragging || !authUser) return;
 
               setDragging(false);
-
-              const userRef = doc(db, "users", authUser.uid);
-
-              await updateDoc(userRef, {
-                coverX: coverPos.x,
-                coverY: coverPos.y
-              });
+              await saveCoverPosition(); // 🔥 AQUÍ
 
             }}
 
-            onMouseLeave={() => setDragging(false)}
+           onMouseLeave={async () => {
+              if (!dragging) return;
+
+              setDragging(false);
+              await saveCoverPosition(); // 🔥 también guardar aquí
+            }}
 >
 
           {isOwner && (
