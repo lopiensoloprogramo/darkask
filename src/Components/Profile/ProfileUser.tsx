@@ -697,6 +697,16 @@ useEffect(() => {
   return () => unsubscribe();
 }, [authUser]);
 
+useEffect(() => {
+  if (!userData) return;
+
+  setCoverPos({
+    x: userData.coverX ?? 50,
+    y: userData.coverY ?? 50
+  });
+
+}, [userData]);
+
 
 
   /* ===== LOADING ===== */
@@ -846,7 +856,10 @@ if (loading || !userData) {
                     ...coverButton,
                     top: 45
                   }}
-                  onClick={() => setMovingCover(!movingCover)}
+                  onClick={async () => {
+                      setMovingCover(false);
+                      await saveCoverPosition();
+                    }}
                 >
                   {movingCover ? "Guardar" : "↕ Ajustar"}
                 </button>
