@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState,useRef } from "react";
 import {
   addDoc,
   updateDoc,
@@ -110,7 +110,6 @@ const [mainTab, setMainTab] = useState<"feed" | "spicy" | "top" | "profile">("pr
 const defaultCovers = [coverdefault1,coverdefault2,coverdefault3,coverdefault4];
 const [coverIndex, setCoverIndex] = useState(0);
 const [fade, setFade] = useState(true);
-const [autoTriggered, setAutoTriggered] = useState(false);
 const [myLikes, setMyLikes] = useState<string[]>([]);
 const [editProfileOpen, setEditProfileOpen] = useState(false);
 
@@ -317,30 +316,28 @@ useEffect(() => {
 
 }, [authUser, profileUserId]);
 
+
+const autoRef = useRef(false);
+
 useEffect(() => {
   if (!isOwner) return;
   if (!userData) return;
-  if (autoTriggered) return; // 🔥 evita loop
+  if (autoRef.current) return;
 
   const autoCount = pendingQuestions.filter(q => q.isAuto).length;
-
   if (autoCount >= 3) return;
 
   const last = (userData as any).lastAutoQuestion || 0;
-const sixHours =  (4 * 60 * 60 * 1000) + (10 * 60 * 1000); // 4 horas + 12 min
-
+  const sixHours =  (4 * 60 * 60 * 1000) + (10 * 60 * 1000); // 4 horas + 12 min
   if (Date.now() - last < sixHours) return;
 
-  if (pendingQuestions.length === 0 || pendingQuestions.length <100) {
+  autoRef.current = true; // 🔥 bloquea de verdad
 
-    setAutoTriggered(true); // 🔥 bloquea siguientes ejecuciones
+  sendAutoQuestion(profileUserId, userData.usedQuestions || []);
 
-    sendAutoQuestion(profileUserId, userData.usedQuestions || []);
-
-    updateDoc(doc(db, "users", profileUserId), {
-      lastAutoQuestion: Date.now()
-    });
-  }
+  updateDoc(doc(db, "users", profileUserId), {
+    lastAutoQuestion: Date.now()
+  });
 
 }, [pendingQuestions, userData, isOwner]);
 
@@ -708,10 +705,6 @@ useEffect(() => {
 }, [userData]);
 
 
-
-  /* ===== LOADING ===== */
-  if (loading)
-    return <p style={{ textAlign: "center", marginTop: 40 }}>Cargando perfil...</p>;
 
 if (loading || !userData) {
   return (
