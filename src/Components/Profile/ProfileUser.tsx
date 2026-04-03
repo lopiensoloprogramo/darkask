@@ -1403,7 +1403,7 @@ if (!hasLoadedOnce || !userData)  {
 />
 
     </div>
-{true && (
+{!isOwner && (
   <button
     onClick={() => setQuestionModalOpen(true)}
     style={flotantepreguntas}
