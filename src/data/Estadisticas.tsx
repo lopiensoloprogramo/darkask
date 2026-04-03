@@ -7,6 +7,7 @@ export default function Estadisticas() {
   const [autoCount, setAutoCount] = useState<number | null>(null);
   const [pendingCount, setPendingCount] = useState<number | null>(null);
   const [globalViews, setGlobalViews] = useState<number | null>(null);
+const [todayViews, setTodayViews] = useState<number | null>(null);
 
   useEffect(() => {
     const fetchStats = async () => {
@@ -14,9 +15,15 @@ export default function Estadisticas() {
       const globalRef = doc(db, "stats", "global");
       const globalSnap = await getDoc(globalRef);
 
-      if (globalSnap.exists()) {
-        setGlobalViews(globalSnap.data().totalViews || 0);
-      }
+          if (globalSnap.exists()) {
+          const data = globalSnap.data();
+
+          setGlobalViews(data.totalViews || 0);
+
+          const today = new Date().toISOString().split("T")[0];
+
+          setTodayViews(data.dailyViews?.[today] || 0);
+        }
 
 
       // 🔥 preguntas automáticas
@@ -49,7 +56,8 @@ export default function Estadisticas() {
 
       <p>🤖 Preguntas automáticas: {autoCount ?? "..."}</p>
       <p>⏳ Preguntas pendientes: {pendingCount ?? "..."}</p>
-      <p>🌍 Visitas totales en perfiles hoy: {globalViews ?? "..."}</p>
+      <p>🌍 Visitas totales en perfiles : {globalViews ?? "..."}</p>
+      <p>🔥 Visitas hoy: {todayViews ?? "..."}</p>
  
     </div>
   );
