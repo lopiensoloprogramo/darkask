@@ -1403,8 +1403,32 @@ if (!hasLoadedOnce || !userData)  {
 />
 
     </div>
-
+{!isOwner && (
+  <button
+    onClick={() => setQuestionModalOpen(true)}
+    style={{
+      position: "fixed",
+      bottom: 20,
+      right: 20,
+      zIndex: 9999,
+      background: "linear-gradient(135deg,#ff4d6d,#ff758f)",
+      color: "#fff",
+      border: "none",
+      borderRadius: "50px",
+      padding: "14px 18px",
+      fontWeight: 700,
+      fontSize: 14,
+      cursor: "pointer",
+      boxShadow: "0 10px 25px rgba(0,0,0,0.3)",
+      transition: "all 0.2s ease"
+    }}
+  >
+    💬 Preguntar
+  </button>
+)}
 </>
+
+
   );
 
 }
