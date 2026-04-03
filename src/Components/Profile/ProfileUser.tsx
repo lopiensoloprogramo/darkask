@@ -125,6 +125,13 @@ const layout: React.CSSProperties = {
   minWidth: 0 // 🔥 ESTE TAMBIÉN
 
 };
+const [hasLoadedOnce, setHasLoadedOnce] = useState(false);
+
+useEffect(() => {
+  if (!loadingUser && !loadingQuestions && userData) {
+    setHasLoadedOnce(true);
+  }
+}, [loadingUser, loadingQuestions, userData]);
 
 useEffect(() => {
 
@@ -709,7 +716,7 @@ useEffect(() => {
 
 
 
-if (loadingUser || loadingQuestions || !userData)  {
+if (!hasLoadedOnce || !userData)  {
   return (
     <p style={{ textAlign: "center", marginTop: 40 }}>
       Cargando perfil...
