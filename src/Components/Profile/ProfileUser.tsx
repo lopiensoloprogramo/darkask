@@ -1751,7 +1751,7 @@ const questionStyle: React.CSSProperties = {
 };
 const flotantepreguntas: React.CSSProperties = {
   position: "fixed",
-  bottom: "calc(env(safe-area-inset-bottom) + 20px)", // 🔥 GOD
+  bottom: "calc(env(safe-area-inset-bottom) + 30px)",
   right: 20,
   zIndex: 9999,
   background: "linear-gradient(135deg,#ff4d6d,#ff758f)",
@@ -1762,5 +1762,6 @@ const flotantepreguntas: React.CSSProperties = {
   fontWeight: 700,
   fontSize: 14,
   cursor: "pointer",
-  boxShadow: "0 10px 25px rgba(0,0,0,0.3)"
+  boxShadow: "0 10px 25px rgba(0,0,0,0.3)",
+  
 };
