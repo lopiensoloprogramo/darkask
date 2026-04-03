@@ -1244,7 +1244,7 @@ if (!hasLoadedOnce || !userData)  {
      <div>
   {/* TOP */}
  <div>
-        <h3 style={sectionTitle}>🔥 Destacadas del Perfil</h3>
+        <h2 style={sectionTitle}>🔥 Destacadas del Perfil</h2>
 
         {topQuestions.length === 0 && <p>No hay ranking aún</p>}
 
