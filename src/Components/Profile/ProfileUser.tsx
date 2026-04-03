@@ -76,7 +76,8 @@ export default function ProfileUser({ profileUserId, authUser }: ProfileProps) {
   const [answeredQuestions, setAnsweredQuestions] = useState<Question[]>([]);
   const [topQuestions, setTopQuestions] = useState<Question[]>([]);
 
-  const [loading, setLoading] = useState(true);
+ const [loadingUser, setLoadingUser] = useState(true);
+ const [loadingQuestions, setLoadingQuestions] = useState(true);
 
   const [questionModalOpen, setQuestionModalOpen] = useState(false);
   const [selectedQuestion, setSelectedQuestion] = useState<Question | null>(null);
@@ -368,7 +369,7 @@ useEffect(() => {
     })) as Question[];
 
     setAnsweredQuestions(data);
-    setLoading(false);
+    setLoadingQuestions(false);
   });
 
   const qTop = query(
@@ -407,6 +408,8 @@ useEffect(() => {
         ...data,
         score: data.score || 0
       });
+
+      setLoadingUser(false); // 🔥 aquí
     }
   });
 
@@ -706,7 +709,7 @@ useEffect(() => {
 
 
 
-if (loading || !userData) {
+if (loadingUser || loadingQuestions || !userData)  {
   return (
     <p style={{ textAlign: "center", marginTop: 40 }}>
       Cargando perfil...
