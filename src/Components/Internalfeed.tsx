@@ -409,7 +409,7 @@ function isSpicy(text?: string) {
                  style={{
                   width: "100%",
                   maxHeight: 300,
-                  objectFit: "contain !important" as any,
+                  objectFit: "contain",
                   borderRadius: 12,
                   marginBottom: 8,
                 }}
