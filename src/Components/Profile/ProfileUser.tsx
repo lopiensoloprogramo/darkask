@@ -1244,7 +1244,7 @@ if (!hasLoadedOnce || !userData)  {
      <div>
   {/* TOP */}
  <div>
-        <h2 style={sectionTitle}>🔥 Destacadas</h2>
+        <h3 style={sectionTitle}>🔥 Destacadas del Perfil</h3>
 
         {topQuestions.length === 0 && <p>No hay ranking aún</p>}
 
@@ -1454,7 +1454,7 @@ const avatar: React.CSSProperties = {
 
 const sectionTitle: React.CSSProperties = {
   marginBottom: 14,
-  fontWeight: 700
+  fontWeight: 600
 };
 
 const card: React.CSSProperties = {
