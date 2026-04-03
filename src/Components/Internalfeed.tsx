@@ -412,6 +412,7 @@ function isSpicy(text?: string) {
                   objectFit: "contain",
                   borderRadius: 12,
                   marginBottom: 8,
+                  background: "#000"
                 }}
                   
                 />
