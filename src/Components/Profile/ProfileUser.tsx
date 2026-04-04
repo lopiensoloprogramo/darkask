@@ -153,7 +153,7 @@ useEffect(() => {
   return () => clearInterval(interval);
 
 }, [userData]);
-
+      const viewCountedRef = useRef(false);
 useEffect(() => {
   if (!profileUserId) return;
 
@@ -162,6 +162,9 @@ useEffect(() => {
 
   if (authUser.uid === profileUserId) return;
 
+
+  if (viewCountedRef.current) return; // 🔥 evita doble ejecución
+  viewCountedRef.current = true;
   const key = `viewed_${profileUserId}`;
   const lastVisit = localStorage.getItem(key);
 
@@ -199,7 +202,7 @@ const addView = async () => {
 
   addView();
 
-}, [profileUserId, authUser]);
+}, [profileUserId]);
 useEffect(() => {
   if (!authUser) return;
 
