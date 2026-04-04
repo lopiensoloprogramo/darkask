@@ -20,16 +20,11 @@ const [todayViews, setTodayViews] = useState<number | null>(null);
 
           setGlobalViews(data.totalViews || 0);
 
-         const today = new Intl.DateTimeFormat("en-CA", {
-              timeZone: "America/Lima",
-              year: "numeric",
-              month: "2-digit",
-              day: "2-digit"
-            }).format(new Date());
+      
 
-          setTodayViews(data.dailyViews?.[today] || 0);
+          setTodayViews(data.today|| 0);
           console.log("DATA:", data);
-          console.log("Visitas hoy",data.dailyViews)
+          console.log("Visitas hoy",data.today)
         }
 
 
