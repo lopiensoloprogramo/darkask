@@ -291,7 +291,7 @@ useEffect(() => {
   likedBy: d.likedBy || [],
   likesCount: d.likesCount || 0,
   score: d.score || 0,
-  isAuto: d.isAuto || false // 🔥
+  isAuto: d.isAuto || false //🔥
 });
 
   const qPending = query(
