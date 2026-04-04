@@ -179,9 +179,12 @@ useEffect(() => {
         profileViews: increment(1)
       });
 
-      await setDoc(globalRef, {
-        totalViews: increment(1)
-      }, { merge: true });
+const today = new Date().toISOString().split("T")[0];
+
+await setDoc(globalRef, {
+  totalViews: increment(1),
+  [`dailyViews.${today}`]: increment(1)
+}, { merge: true });
 
       localStorage.setItem(key, now.toString());
 
