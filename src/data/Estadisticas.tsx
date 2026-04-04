@@ -20,7 +20,12 @@ const [todayViews, setTodayViews] = useState<number | null>(null);
 
           setGlobalViews(data.totalViews || 0);
 
-          const today = new Date().toISOString().split("T")[0];
+         const today = new Intl.DateTimeFormat("en-CA", {
+              timeZone: "America/Lima",
+              year: "numeric",
+              month: "2-digit",
+              day: "2-digit"
+            }).format(new Date());
 
           setTodayViews(data.dailyViews?.[today] || 0);
         }
