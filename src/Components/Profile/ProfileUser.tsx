@@ -114,7 +114,7 @@ const [fade, setFade] = useState(true);
 const [myLikes, setMyLikes] = useState<string[]>([]);
 const [editProfileOpen, setEditProfileOpen] = useState(false);
 
-  
+
 const layout: React.CSSProperties = {
   display: "grid",
   gridTemplateColumns: isMobile ? "1fr" : "280px 3fr 220px",
@@ -375,6 +375,7 @@ useEffect(() => {
     const data = snapshot.docs.map(doc => ({
       id: doc.id,
       ...normalize(doc.data())
+      
     })) as Question[];
 
     setAnsweredQuestions(data);
@@ -1161,8 +1162,11 @@ if (!hasLoadedOnce || !userData)  {
       </div>
     )}
         {questionsToShow.length === 0 && <p>No hay preguntas aún...</p>}
-        {questionsToShow.map(q => (
-                <div
+        {questionsToShow.map(q => {
+            const isLiked = myLikes.includes(q.id); // ✅ válido aquí
+          
+          return(
+               <div
                   id={q.id}
                   key={q.id}
                 style={{
@@ -1213,7 +1217,7 @@ if (!hasLoadedOnce || !userData)  {
                     style={heart(myLikes.includes(q.id))}
                     onClick={() => handleLike(q)}
                   >
-                    ❤️ {q.likesCount} Me gusta
+                     {isLiked ? "❤️" : "🤍"}{q.likesCount || 0}
                   </button>
                 </div>
 
@@ -1236,7 +1240,8 @@ if (!hasLoadedOnce || !userData)  {
             )}
             
           </div>
-        ))}
+           
+        )})}
 </>)}
        {/*Final question*/}
 </div>
