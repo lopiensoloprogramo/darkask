@@ -1244,7 +1244,7 @@ if (!hasLoadedOnce || !userData)  {
      <div>
   {/* TOP */}
  <div>
-        <h2 style={sectionTitle}>🔥 Destacadas del Perfil</h2>
+        <h2 style={sectionTitle}>🔥 Destacadas de {userData.name}</h2>
 
         {topQuestions.length === 0 && <p>No hay ranking aún</p>}
 
@@ -1408,7 +1408,7 @@ if (!hasLoadedOnce || !userData)  {
     onClick={() => setQuestionModalOpen(true)}
     style={flotantepreguntas}
   >
-    💬 Preguntar
+    💬 Preguntar a {userData.name}
   </button>
 )}
 </>
