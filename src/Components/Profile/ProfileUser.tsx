@@ -1408,7 +1408,7 @@ if (!hasLoadedOnce || !userData)  {
     onClick={() => setQuestionModalOpen(true)}
     style={flotantepreguntas}
   >
-    💬 Preguntar a {userData.name}
+    💬 Preguntar
   </button>
 )}
 </>
