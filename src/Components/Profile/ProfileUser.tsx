@@ -170,28 +170,27 @@ useEffect(() => {
 
   if (lastVisit && now - Number(lastVisit) < ONE_HOUR) return;
 
-  const addView = async () => {
-    try {
-      const userRef = doc(db, "users", profileUserId);
-      const globalRef = doc(db, "stats", "global");
+const addView = async () => {
+  try {
+    const userRef = doc(db, "users", profileUserId);
+    const globalRef = doc(db, "stats", "global");
 
-      await updateDoc(userRef, {
-        profileViews: increment(1)
-      });
+    const today = new Date().toISOString().split("T")[0];
 
-const today = new Date().toISOString().split("T")[0];
+    await updateDoc(userRef, {
+      profileViews: increment(1)
+    });
 
-await setDoc(globalRef, {
-  totalViews: increment(1),
-  [`dailyViews.${today}`]: increment(1)
-}, { merge: true });
+    await setDoc(globalRef, {
+      totalViews: increment(1),
+     [`dailyViews.${today}`]: increment(1)
+    }, { merge: true });
 
-      localStorage.setItem(key, now.toString());
-
-    } catch (err) {
-      console.error("Error contando vista:", err);
-    }
-  };
+    localStorage.setItem(key, now.toString());
+  } catch (err) {
+    console.error("Error contando vista:", err);
+  }
+};
 
   addView();
 
