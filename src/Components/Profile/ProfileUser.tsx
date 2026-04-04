@@ -175,7 +175,12 @@ const addView = async () => {
     const userRef = doc(db, "users", profileUserId);
     const globalRef = doc(db, "stats", "global");
 
-    const today = new Date().toISOString().split("T")[0];
+   const today = new Intl.DateTimeFormat("en-CA", {
+  timeZone: "America/Lima",
+  year: "numeric",
+  month: "2-digit",
+  day: "2-digit"
+}).format(new Date());
 
     await updateDoc(userRef, {
       profileViews: increment(1)
