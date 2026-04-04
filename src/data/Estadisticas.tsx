@@ -29,7 +29,7 @@ const [todayViews, setTodayViews] = useState<number | null>(null);
 
           setTodayViews(data.dailyViews?.[today] || 0);
           console.log("DATA:", data);
-          console.log("Visitas hoy",todayViews)
+          console.log("Visitas hoy",data.dailyViews)
         }
 
 
