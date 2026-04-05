@@ -8,7 +8,6 @@ import {
  setDoc,
   orderBy,
   doc,
-getDoc,
   limit,
   arrayUnion,
  serverTimestamp,
@@ -178,40 +177,32 @@ const addView = async () => {
     const userRef = doc(db, "users", profileUserId);
     const globalRef = doc(db, "stats", "global");
 
-  
+    // 🔥 sumar vista al perfil
     await updateDoc(userRef, {
       profileViews: increment(1)
     });
 
-const todayDate = new Intl.DateTimeFormat("en-CA", {
-  timeZone: "America/Lima",
-  year: "numeric",
-  month: "2-digit",
-  day: "2-digit"
-}).format(new Date());
+    // 🔥 generar fecha tipo "2026-04-04"
+    const todayKey = new Intl.DateTimeFormat("en-CA", {
+      timeZone: "America/Lima",
+      year: "numeric",
+      month: "2-digit",
+      day: "2-digit"
+    }).format(new Date());
 
-const globalSnap = await getDoc(globalRef);
+    // 🔥 guardar global + por día
+    await setDoc(
+      globalRef,
+      {
+        totalViews: increment(1),
+        [`viewsByDate.${todayKey}`]: increment(1)
+      },
+      { merge: true }
+    );
 
-if (globalSnap.exists()) {
-  const data = globalSnap.data();
-
-  if (data.todayDate === todayDate) {
-    // mismo día → solo incrementa
-    await updateDoc(globalRef, {
-      totalViews: increment(1),
-      today: increment(1)
-    });
-  } else {
-    // nuevo día → reinicia contador
-    await setDoc(globalRef, {
-      totalViews: increment(1),
-      today: 1,
-      todayDate: todayDate
-    }, { merge: true });
-  }
-}
-
+    // 🔥 guardar control local
     localStorage.setItem(key, now.toString());
+
   } catch (err) {
     console.error("Error contando vista:", err);
   }
