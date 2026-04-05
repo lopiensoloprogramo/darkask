@@ -41,7 +41,9 @@ const [showSearch, setShowSearch] = useState(false);
   const bannerRight: React.CSSProperties = {
     display: "flex",
     alignItems: "center",
-    gap: 12
+    gap: 12,
+    flexShrink: 1,   // 👈 importante
+    minWidth: 0  
   };
 
   const bannerSocial: React.CSSProperties = {
