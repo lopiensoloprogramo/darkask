@@ -24,11 +24,11 @@ const [todayDate, setTodayDate] = useState<string>("");
             month: "2-digit",
             day: "2-digit"
           }).format(new Date());
-
+          const todayViews =data.viewsByDate?.[formato]||0;
           setTodayDate(formato);
-          setTodayViews(data.today|| 0);
+          setTodayViews(todayViews);
           console.log("DATA:", data);
-          console.log("Visitas hoy",formato," ",data.today)
+          console.log("Visitas hoy ",todayViews)
         }
 
 
