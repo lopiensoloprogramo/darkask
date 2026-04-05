@@ -22,9 +22,10 @@ const [showSearch, setShowSearch] = useState(false);
     boxShadow: "0 2px 8px rgba(0,0,0,0.05)",
 
     display: "flex",
+    justifyContent: "space-between",
     alignItems: "center",
 
-    padding: isMobile ? "8px 14px" : "10px 28px",
+    padding: isMobile ? "0px 0px" : "10px 28px",
     height: isMobile ? 56 : 64,
 
     maxWidth: isMobile ? 360 : 1200,
