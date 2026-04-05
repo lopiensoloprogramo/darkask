@@ -5,7 +5,7 @@ import {
   collection,
   query,
   where,
-  /*setDoc*/
+ setDoc,
   orderBy,
   doc,
 
@@ -173,7 +173,7 @@ useEffect(() => {
 
   if (lastVisit && now - Number(lastVisit) < ONE_HOUR) return;
 
-/*const addView = async () => {
+const addView = async () => {
   try {
     const userRef = doc(db, "users", profileUserId);
     const globalRef = doc(db, "stats", "global");
@@ -195,7 +195,7 @@ useEffect(() => {
 };
 
   addView();
-*/
+
 }, [profileUserId]);
 useEffect(() => {
   if (!authUser) return;
@@ -903,7 +903,7 @@ if (!hasLoadedOnce || !userData)  {
                     alignItems: "center",
                     gap: 4
                   }}>
-                    👁️ {formatViews((userData as any).profileViews || 0)}
+                    👁️ {formatViews((userData as any).b || 0)}
                   </span>
               </h1>
         {isOwner && (
