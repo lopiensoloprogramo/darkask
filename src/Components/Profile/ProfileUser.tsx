@@ -908,7 +908,7 @@ if (!hasLoadedOnce || !userData)  {
                     alignItems: "center",
                     gap: 4
                   }}>
-                    👁️ {formatViews((userData as any).b || 0)}
+                    👁️ {formatViews(userData.profileViews ?? 0)}
                   </span>
               </h1>
         {isOwner && (

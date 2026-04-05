@@ -73,6 +73,7 @@ const dataUrl = await toPng(element, {
           <div style={answerContainer}>
             <p style={answerLabel}>Mi respuesta:</p>
            <p style={answerText}>
+          
                 {question.answer?.slice(0, 200)}
               </p>
                               
