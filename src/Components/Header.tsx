@@ -41,12 +41,12 @@ const [showSearch, setShowSearch] = useState(false);
   const bannerRight: React.CSSProperties = {
     display: "flex",
     alignItems: "center",
-    gap: 14
+    gap: 12
   };
 
   const bannerSocial: React.CSSProperties = {
     display: "flex",
-    gap: 10,
+    gap: 8,
     alignItems: "center"
   };
 
