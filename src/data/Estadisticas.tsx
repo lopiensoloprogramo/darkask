@@ -18,11 +18,11 @@ const [todayDate, setTodayDate] = useState<string>("");
           if (globalSnap.exists()) {
           const data = globalSnap.data();
           setGlobalViews(data.totalViews || 0);
-          const formato = new Intl.DateTimeFormat("es-PE", {
+          const formato = new Intl.DateTimeFormat("en-CA", {
             timeZone: "America/Lima",
-            day: "2-digit",
+            year: "numeric",
             month: "2-digit",
-            year: "numeric"
+            day: "2-digit"
           }).format(new Date());
 
           setTodayDate(formato);
