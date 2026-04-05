@@ -29,6 +29,7 @@ const [todayDate, setTodayDate] = useState<string>("");
           setTodayViews(todayViews);
           console.log("DATA:", data);
           console.log("Visitas hoy " ,todayViews)
+          console.log(data.viewsByDate);
         }
 
 
