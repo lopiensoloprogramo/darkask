@@ -8,7 +8,7 @@ export default function Estadisticas() {
   const [pendingCount, setPendingCount] = useState<number | null>(null);
   const [globalViews, setGlobalViews] = useState<number | null>(null);
 const [todayViews, setTodayViews] = useState<number | null>(null);
-
+const [todayDate, setTodayDate] = useState<string>("");
   useEffect(() => {
     const fetchStats = async () => {
 
@@ -17,16 +17,15 @@ const [todayViews, setTodayViews] = useState<number | null>(null);
 
           if (globalSnap.exists()) {
           const data = globalSnap.data();
-         const formato = new Intl.DateTimeFormat("en-CA", {
-                        timeZone: "America/Lima",
-                        year: "numeric",
-                        month: "2-digit",
-                        day: "2-digit"
-                      }).format(new Date());
           setGlobalViews(data.totalViews || 0);
+          const formato = new Intl.DateTimeFormat("es-PE", {
+            timeZone: "America/Lima",
+            day: "2-digit",
+            month: "2-digit",
+            year: "numeric"
+          }).format(new Date());
 
-      
-
+          setTodayDate(formato);
           setTodayViews(data.today|| 0);
           console.log("DATA:", data);
           console.log("Visitas hoy",formato," ",data.today)
@@ -64,7 +63,9 @@ const [todayViews, setTodayViews] = useState<number | null>(null);
       <p>🤖 Preguntas automáticas: {autoCount ?? "..."}</p>
       <p>⏳ Preguntas pendientes: {pendingCount ?? "..."}</p>
       <p>🌍 Visitas totales en perfiles : {globalViews ?? "..."}</p>
-      <p>🔥 Visitas hoy: {todayViews ?? "..."}</p>
+  <p>
+  🔥 Hoy {todayDate} : {todayViews ?? "..."}
+</p>
  
     </div>
   );
