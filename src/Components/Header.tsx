@@ -65,7 +65,7 @@ const [showSearch, setShowSearch] = useState(false);
         <img
           src={logo}
           style={{
-            width: isMobile ? 140 : 200,
+            width: isMobile ? 110 : 200,
             height: "auto",
             objectFit: "contain",
             display: "block",
