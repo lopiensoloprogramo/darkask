@@ -28,7 +28,7 @@ const [todayDate, setTodayDate] = useState<string>("");
           setTodayDate(formato);
           setTodayViews(todayViews);
           console.log("DATA:", data);
-          console.log("Visitas hoy ",formato," ",todayViews)
+          console.log("Visitas hoy " ,todayViews)
         }
 
 
