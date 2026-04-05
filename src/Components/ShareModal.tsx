@@ -94,7 +94,6 @@ const dataUrl = await toPng(element, {
           {/* CTA Viral */}
           <div style={cta}>
             👀 Dime algo sin filtro aquí
-            <p style={ {fontSize:"10"}}>{profileUrl}</p>
           </div>
         </div>
 
