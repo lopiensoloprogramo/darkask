@@ -5,7 +5,6 @@ import {
   collection,
   query,
   where,
- setDoc,
   orderBy,
   doc,
   limit,
@@ -190,18 +189,11 @@ const addView = async () => {
       day: "2-digit"
     }).format(new Date());
 
-    // 🔥 guardar global + por día
-    await setDoc(
-      globalRef,
-      {
-        totalViews: increment(1),
-        [`viewsByDate.${todayKey}`]: increment(1)
-      },
-      { merge: true }
-    );
-
-    // 🔥 guardar control local
-    localStorage.setItem(key, now.toString());
+    // 🔥 IMPORTANTE: usar updateDoc (no setDoc)
+    await updateDoc(globalRef, {
+      totalViews: increment(1),
+      [`viewsByDate.${todayKey}`]: increment(1)
+    });
 
   } catch (err) {
     console.error("Error contando vista:", err);
