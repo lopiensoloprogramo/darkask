@@ -1639,7 +1639,7 @@ const ownerActions: React.CSSProperties = {
 
 
 const btnCopyLink: React.CSSProperties = {
-  background: "#ff0000",
+  background: "#08102B",
   color: "#fff",
   padding: "12px 14px",
   borderRadius: 14,
