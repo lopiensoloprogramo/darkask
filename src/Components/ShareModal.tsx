@@ -56,7 +56,7 @@ const dataUrl = await toPng(element, {
   return (
     <div style={overlay}>
       <div style={modal}>
-        <h2 style={title}>🔥 Comparte en tus redes</h2>
+        <h2 style={title}>🔥 Comparte para que te llegén más preguntas</h2>
 
         {/* AREA EXPORTABLE */}
         <div id="share-image" style={card}>
