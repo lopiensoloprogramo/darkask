@@ -92,7 +92,7 @@ const dataUrl = await toPng(element, {
 
           {/* CTA Viral */}
           <div style={cta}>
-            👀 Hazme una pregunta anónima
+            👀 Dime algo sin filtro aquí {profileUrl}
           </div>
         </div>
 
