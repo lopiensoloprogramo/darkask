@@ -8,7 +8,7 @@ import {
  setDoc,
   orderBy,
   doc,
-
+getDoc,
   limit,
   arrayUnion,
  serverTimestamp,
@@ -183,10 +183,33 @@ const addView = async () => {
       profileViews: increment(1)
     });
 
+const todayDate = new Intl.DateTimeFormat("en-CA", {
+  timeZone: "America/Lima",
+  year: "numeric",
+  month: "2-digit",
+  day: "2-digit"
+}).format(new Date());
+
+const globalSnap = await getDoc(globalRef);
+
+if (globalSnap.exists()) {
+  const data = globalSnap.data();
+
+  if (data.todayDate === todayDate) {
+    // mismo día → solo incrementa
+    await updateDoc(globalRef, {
+      totalViews: increment(1),
+      today: increment(1)
+    });
+  } else {
+    // nuevo día → reinicia contador
     await setDoc(globalRef, {
       totalViews: increment(1),
-     today: increment(1)
+      today: 1,
+      todayDate: todayDate
     }, { merge: true });
+  }
+}
 
     localStorage.setItem(key, now.toString());
   } catch (err) {
