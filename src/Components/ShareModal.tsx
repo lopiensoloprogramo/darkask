@@ -1,3 +1,4 @@
+import { fontWeight } from "html2canvas/dist/types/css/property-descriptors/font-weight";
 import type { Question } from "../types/QuestionsInterfaz";
 
 interface ShareModalProps {
@@ -92,7 +93,8 @@ const dataUrl = await toPng(element, {
 
           {/* CTA Viral */}
           <div style={cta}>
-            👀 Dime algo sin filtro aquí {profileUrl}
+            👀 Dime algo sin filtro aquí
+            <p style={ {fontSize:"10"}}>{profileUrl}</p>
           </div>
         </div>
 
