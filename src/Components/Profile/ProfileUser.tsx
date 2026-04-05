@@ -154,15 +154,12 @@ useEffect(() => {
       const viewCountedRef = useRef(false);
 useEffect(() => {
   if (!profileUserId) return;
-
-  // 🔥 SI NO HAY USUARIO → SOLO LEE, NO ESCRIBAS
   if (!authUser) return;
-
   if (authUser.uid === profileUserId) return;
 
-
-  if (viewCountedRef.current) return; // 🔥 evita doble ejecución
+  if (viewCountedRef.current) return;
   viewCountedRef.current = true;
+
   const key = `viewed_${profileUserId}`;
   const lastVisit = localStorage.getItem(key);
 
@@ -171,38 +168,40 @@ useEffect(() => {
 
   if (lastVisit && now - Number(lastVisit) < ONE_HOUR) return;
 
-const addView = async () => {
-  try {
-    const userRef = doc(db, "users", profileUserId);
-    const globalRef = doc(db, "stats", "global");
+  // 🔥 GUARDA ANTES (CLAVE)
+  localStorage.setItem(key, now.toString());
 
-    // 🔥 sumar vista al perfil
-    await updateDoc(userRef, {
-      profileViews: increment(1)
-    });
+  const addView = async () => {
+    try {
+      const userRef = doc(db, "users", profileUserId);
+      const globalRef = doc(db, "stats", "global");
 
-    // 🔥 generar fecha tipo "2026-04-04"
-    const todayKey = new Intl.DateTimeFormat("en-CA", {
-      timeZone: "America/Lima",
-      year: "numeric",
-      month: "2-digit",
-      day: "2-digit"
-    }).format(new Date());
+      const todayKey = new Intl.DateTimeFormat("en-CA", {
+        timeZone: "America/Lima",
+        year: "numeric",
+        month: "2-digit",
+        day: "2-digit"
+      }).format(new Date());
 
-    // 🔥 IMPORTANTE: usar updateDoc (no setDoc)
-    await updateDoc(globalRef, {
-      totalViews: increment(1),
-      [`viewsByDate.${todayKey}`]: increment(1)
-    });
+      await Promise.all([
+        updateDoc(userRef, {
+          profileViews: increment(1)
+        }),
+        updateDoc(globalRef, {
+          totalViews: increment(1),
+          [`viewsByDate.${todayKey}`]: increment(1)
+        })
+      ]);
 
-  } catch (err) {
-    console.error("Error contando vista:", err);
-  }
-};
+    } catch (err) {
+      console.error("Error contando vista:", err);
+    }
+  };
 
   addView();
 
-}, [profileUserId]);
+}, [profileUserId, authUser]);
+
 useEffect(() => {
   if (!authUser) return;
 
