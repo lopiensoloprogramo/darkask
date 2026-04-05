@@ -1,4 +1,3 @@
-import { fontWeight } from "html2canvas/dist/types/css/property-descriptors/font-weight";
 import type { Question } from "../types/QuestionsInterfaz";
 
 interface ShareModalProps {
