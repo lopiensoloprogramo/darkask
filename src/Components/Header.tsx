@@ -22,7 +22,6 @@ const [showSearch, setShowSearch] = useState(false);
     boxShadow: "0 2px 8px rgba(0,0,0,0.05)",
 
     display: "flex",
-    justifyContent: "space-between",
     alignItems: "center",
 
     padding: isMobile ? "8px 14px" : "10px 28px",
@@ -65,7 +64,7 @@ const [showSearch, setShowSearch] = useState(false);
         <img
           src={logo}
           style={{
-            width: isMobile ? 110 : 200,
+            width: isMobile ? 140 : 200,
             height: "auto",
             objectFit: "contain",
             display: "block",
