@@ -34,7 +34,7 @@ import coverdefault4 from "../../assets/defecto4.jpg";
 import { questions } from "../../data/questions";
 import EditProfileModal from "./EditProfileModal";
 import InternalFeed from "../Internalfeed";
-
+import { sendLikeNotification } from "../../services/notifications";
 
 
 /* ===== INTERFACES ===== */
@@ -551,6 +551,13 @@ await runTransaction(db, async (transaction) => {
     transaction.update(userRef, {
       score: increment(1)
     });
+
+    await sendLikeNotification({
+  toUserId: q.ownerId, // dueño del perfil
+  fromUserId: authUser.uid,
+  questionId: q.id
+});
+
   }
 });
 
@@ -1388,7 +1395,11 @@ if (!hasLoadedOnce || !userData)  {
                             fontWeight: n.read ? "normal" : "600" // texto más fuerte si es nueva
                           }}
                         >
-                          <span>📩 Nueva pregunta recibida</span>
+                          <span>
+                              {n.type === "like"
+                                ? "❤️ Alguien dio like a tu respuesta"
+                                : "📩 Nueva pregunta recibida"}
+                            </span>
 
                           {/* 🔵 Puntito azul solo si NO está leída */}
                           {!n.read && (
