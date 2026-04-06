@@ -2,6 +2,7 @@ import React, { useEffect, useState,useRef } from "react";
 import {
   addDoc,
   updateDoc,
+  deleteDoc,
   collection,
   query,
   where,
@@ -65,6 +66,15 @@ interface UserData {
   mood?: string;
   funFact?: string;
 }
+
+type NotificationType = {
+  id: string;
+  read: boolean;
+  ownerId: string;
+  questionId: string;
+  type?: string;
+  createdAt?: any;
+};
 /* ===== COMPONENT ===== */
 
 export default function ProfileUser({ profileUserId, authUser }: ProfileProps) {
@@ -442,13 +452,33 @@ useEffect(() => {
     orderBy("createdAt", "desc")
   );
 
-  const unsubscribe = onSnapshot(q, (snapshot) => {
-    const data = snapshot.docs.map(doc => ({
-      id: doc.id,
-      ...doc.data()
-    }));
-    setNotifications(data);
-  });
+const MAX_NOTIFS = 10;
+
+const unsubscribe = onSnapshot(q, (snapshot) => {
+  const data = snapshot.docs.map(doc => ({
+    id: doc.id,
+    ...doc.data()
+  })) as NotificationType[];
+
+  setNotifications(data);
+
+  const cleanOldNotifications = async () => {
+
+    const readNotifs = data.filter(n => n.read);
+
+    if (readNotifs.length > MAX_NOTIFS) {
+
+      const extra = readNotifs.slice(0, readNotifs.length - MAX_NOTIFS);
+
+      for (const notif of extra) {
+        await deleteDoc(doc(db, "notifications", notif.id));
+      }
+
+    }
+  };
+
+  cleanOldNotifications();
+});
 
   return () => unsubscribe();
 }, [authUser]);
