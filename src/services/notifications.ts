@@ -15,7 +15,7 @@ export const sendLikeNotification = async ({
     if (toUserId === fromUserId) return;
 
     await addDoc(collection(db, "notifications"), {
-      toUserId,
+      ownerId: toUserId,
       fromUserId,
       type: "like",
       questionId,
