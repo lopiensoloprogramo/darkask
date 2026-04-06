@@ -1348,27 +1348,27 @@ if (!hasLoadedOnce || !userData)  {
                           onClick={async () => {
                             setShowNotifications(false);
 
-                            // 🔹 Si la notificación NO está leída
-                            // la marcamos como leída en Firebase
                             if (!n.read) {
                               await updateDoc(doc(db, "notifications", n.id), {
                                 read: true
                               });
                             }
-                            setMainTab("profile"); 
-                            // 🔹 Cambiamos a la pestaña donde está la pregunta
-                            setActiveTab("pending");
 
-                            // 🔹 Guardamos el id para resaltarlo
+                            setMainTab("profile");
+
+                            if (n.type === "like") {
+                              setActiveTab("answered");
+                            } else {
+                              setActiveTab("pending");
+                            }
+
                             setHighlightedId(n.questionId);
 
-                            // 🔹 Hacemos scroll suave hacia la pregunta
                             setTimeout(() => {
                               const element = document.getElementById(n.questionId);
                               element?.scrollIntoView({ behavior: "smooth", block: "center" });
                             }, 300);
 
-                            // 🔹 Quitamos el resaltado después de 4 segundos
                             setTimeout(() => {
                               setHighlightedId(null);
                             }, 4000);
