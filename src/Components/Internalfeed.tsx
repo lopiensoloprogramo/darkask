@@ -6,7 +6,7 @@ import type { Question } from "../types/QuestionsInterfaz";
 import { doc, setDoc, deleteDoc, getDoc, updateDoc, increment, serverTimestamp } from "firebase/firestore";
 import { auth } from "../services/firebase";
 import { onAuthStateChanged } from "firebase/auth";
-
+import { sendLikeNotification } from "../services/notifications";
 
 export default function InternalFeed() {
 
@@ -274,6 +274,7 @@ const handleLike = async (q: Question) => {
     } else {
 
       // 🟢 DAR LIKE
+// 🟢 DAR LIKE
       await setDoc(likeRef, {
         questionId: q.id,
         userId: authUser.uid,
@@ -283,6 +284,15 @@ const handleLike = async (q: Question) => {
       await updateDoc(questionRef, {
         likesCount: increment(1)
       });
+
+      // 🔥 NOTIFICACIÓN
+      if (q.ownerId !== authUser.uid) {
+        await sendLikeNotification({
+          toUserId: q.ownerId,
+          fromUserId: authUser.uid,
+          questionId: q.id
+        });
+      }
 
       // 🔥 ACTUALIZAR UI (AQUÍ VA)
       setUserLikes(prev => ({
