@@ -166,6 +166,12 @@ if (!user) {
         ...d.data()
       })) as Question[];
 
+      questionsData.sort((a, b) => {
+        const dateA = a.answeredAt?.toDate?.() || new Date(0);
+        const dateB = b.answeredAt?.toDate?.() || new Date(0);
+        return dateB.getTime() - dateA.getTime();
+      });
+
      let filtered = questionsData;
 
     if (tab === "spicy") {
@@ -200,7 +206,7 @@ if (!user) {
 
     fetchQuestions();
 
-  }, [tab]);
+  }, [tab,authUser]);
 
 
 
