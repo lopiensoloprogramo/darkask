@@ -454,7 +454,7 @@ useEffect(() => {
 
 const MAX_NOTIFS = 10;
 
-const unsubscribe = onSnapshot(q, (snapshot) => {
+const unsubscribe = onSnapshot(q, async (snapshot) => {
   const data = snapshot.docs.map(doc => ({
     id: doc.id,
     ...doc.data()
@@ -462,22 +462,33 @@ const unsubscribe = onSnapshot(q, (snapshot) => {
 
   setNotifications(data);
 
-  const cleanOldNotifications = async () => {
+  const now = Date.now();
 
-    const readNotifs = data.filter(n => n.read);
+  // 🔥 solo leídas Y antiguas (ej: más de 30 segundos)
+  const readOldNotifs = data.filter(n => {
+    if (!n.read) return false;
 
-    if (readNotifs.length > MAX_NOTIFS) {
+    const created = n.createdAt?.seconds
+      ? n.createdAt.seconds * 1000
+      : 0;
 
-      const extra = readNotifs.slice(0, readNotifs.length - MAX_NOTIFS);
+    return now - created > 30000; // ⏳ 30 segundos de margen
+  });
 
-      for (const notif of extra) {
-        await deleteDoc(doc(db, "notifications", notif.id));
-      }
+  if (readOldNotifs.length > MAX_NOTIFS) {
 
+    const sorted = [...readOldNotifs].sort(
+      (a, b) =>
+        (a.createdAt?.seconds || 0) -
+        (b.createdAt?.seconds || 0)
+    );
+
+    const toDelete = sorted.slice(0, readOldNotifs.length - MAX_NOTIFS);
+
+    for (const notif of toDelete) {
+      await deleteDoc(doc(db, "notifications", notif.id));
     }
-  };
-
-  cleanOldNotifications();
+  }
 });
 
   return () => unsubscribe();
