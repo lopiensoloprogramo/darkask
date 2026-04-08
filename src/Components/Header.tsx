@@ -91,8 +91,8 @@ const [showSearch, setShowSearch] = useState(false);
             {showSearch && <ProfileSearch />}
         {/* REDES */}
         <div style={bannerSocial}>
-          <a href="https://www.facebook.com/profile.php?id=61573291472194" target="blank" 
-          rel="nooper noreferrer"
+          <a href="https://www.facebook.com/profile.php?id=61573291472194" target="_blank" 
+          rel="noopener noreferrer"
            style={{ display: "flex" }}
           >
              <img src={fbIcon} style={bannerIcon} />
