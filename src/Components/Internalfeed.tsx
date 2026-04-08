@@ -440,7 +440,7 @@ function isSpicy(text?: string) {
               )}
 
           <div style={feedMeta}>
-            <span>⏳ {timeAgo(q.answeredAt || q.timestamp)}</span>
+            <span style={styleshace}>⏳ {timeAgo(q.answeredAt || q.timestamp)}</span>
             <span
               onClick={() => handleLike(q)}
                style={likeButton(isLiked)}
@@ -597,3 +597,9 @@ const likeButton = (active: boolean): React.CSSProperties => ({
   background: active ? "#ffe4e6" : "#f3f4f6",
   color: active ? "#ef4444" : "#9ca3af",
 });
+
+
+const styleshace: React.CSSProperties = {
+fontSize:"8px"
+};
+
