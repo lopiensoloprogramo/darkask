@@ -44,8 +44,8 @@ const [showSearch, setShowSearch] = useState(false);
     gap: 12,
     flexShrink: 1,   // 👈 importante
     minWidth: 0 ,
-    border:"1px solid black"
-
+    border:"1px solid black",
+    height:"auto"
   };
 
   const bannerSocial: React.CSSProperties = {
