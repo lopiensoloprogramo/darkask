@@ -55,7 +55,8 @@ const [showSearch, setShowSearch] = useState(false);
   const bannerIcon: React.CSSProperties = {
     width: 26,
     height: 26,
-    cursor: "pointer"
+    cursor: "pointer",
+    display: "block" 
   };
 
   return (
@@ -93,14 +94,16 @@ const [showSearch, setShowSearch] = useState(false);
         <div style={bannerSocial}>
           <a href="https://www.facebook.com/profile.php?id=61573291472194" target="_blank" 
           rel="noopener noreferrer"
-           style={{ display: "flex" }}
+           style={{ display: "flex" ,
+             lineHeight: 0 
+           }}
           >
              <img src={fbIcon} style={bannerIcon} />
           </a>
          
             <a href="https://www.instagram.com/ladarkask?igsh=NjE4ZGpncGdoN2Uy" target="_blank" 
             rel="noopener noreferrer"
-            style={{ display: "flex" }}
+            style={{ display: "flex", lineHeight: 0  }}
             >
               <img src={inIcon} style={bannerIcon} />
             </a>
