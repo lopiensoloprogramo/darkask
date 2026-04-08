@@ -77,7 +77,7 @@ const Header: React.FC<Props> = ({ isMobile, logo, fbIcon, inIcon }) => {
           src={logo}
           style={{
             width: isMobile ? 140 : 200,
-            height: isMobile ? 50 : 70, // 🔥 control real del logo
+            height: isMobile ? 50 : "100%", // 🔥 control real del logo
             objectFit: "contain",
             display: "block",
             cursor: "pointer"
