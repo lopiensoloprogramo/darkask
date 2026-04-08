@@ -16,7 +16,7 @@ const [showSearch, setShowSearch] = useState(false);
     position: "sticky",
     top: 0,
     zIndex: 1000,
-    width: "100%",
+    width: "98%",
     background: "#fff",
     borderBottom: "1px solid #e5e5e5",
     boxShadow: "0 2px 8px rgba(0,0,0,0.05)",
@@ -28,7 +28,7 @@ const [showSearch, setShowSearch] = useState(false);
     padding: isMobile ? "0px 0px" : "10px 28px",
     height: isMobile ? 56 : 64,
 
-    maxWidth: isMobile ? 360 : "98%",
+    maxWidth: isMobile ? 360 : "1vw",
 
     margin: "0 auto"
   };
