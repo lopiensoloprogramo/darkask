@@ -787,7 +787,7 @@ if (!hasLoadedOnce || !userData)  {
 
 
 
-  /* ===== UI ===== */
+  /* ===== UI INTERFAZ===== */
   return (
 
 <>
@@ -1020,7 +1020,7 @@ if (!hasLoadedOnce || !userData)  {
 
       <div style={{ display: "flex", alignItems: "center", gap: 6 ,justifyContent: "center"}}>
      
-        <span>{getActivityStatus(userData.lastActive ?? 0)}</span>
+        <span style={Activostyles}>{getActivityStatus(userData.lastActive ?? 0)}</span>
       </div>
 
                                 {/* STATS */}
@@ -1831,3 +1831,8 @@ const flotantepreguntas: React.CSSProperties = {
   boxShadow: "0 10px 25px rgba(0,0,0,0.3)",
   
 };
+
+const Activostyles: React.CSSProperties={
+
+  fontSize:"10px"
+}
