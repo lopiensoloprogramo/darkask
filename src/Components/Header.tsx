@@ -44,7 +44,7 @@ const [showSearch, setShowSearch] = useState(false);
     gap: 12,
     flexShrink: 1,   // 👈 importante
     minWidth: 0 ,
-    height:"80px"
+
 
   };
 
