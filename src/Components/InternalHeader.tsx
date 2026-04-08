@@ -28,7 +28,7 @@ const [showSearch, setShowSearch] = useState(false);
     padding: isMobile ? "8px 14px" : "10px 0px",
     height: isMobile ? 56 : 64,
 
-   maxWidth: isMobile ? 400 : 1000,
+   maxWidth: isMobile ? 400 : "100%",
     margin: "0 auto"
   };
 
