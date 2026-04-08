@@ -45,7 +45,7 @@ const [showSearch, setShowSearch] = useState(false);
     flexShrink: 1,   // 👈 importante
     minWidth: 0 ,
     border:"1px solid black",
-    height:"auto"
+ 
   };
 
   const bannerSocial: React.CSSProperties = {
@@ -70,7 +70,7 @@ const [showSearch, setShowSearch] = useState(false);
           src={logo}
           style={{
             width: isMobile ? 150 : 200,
-            height: "auto",
+           
             objectFit: "contain",
             display: "block",
             cursor: "pointer"
