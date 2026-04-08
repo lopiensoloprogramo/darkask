@@ -125,7 +125,7 @@ const [editProfileOpen, setEditProfileOpen] = useState(false);
 
 const layout: React.CSSProperties = {
   display: "grid",
-  gridTemplateColumns: isMobile ? "1fr" : "280px 3fr 220px",
+  gridTemplateColumns: isMobile ? "1fr" : "280px 3fr 1fr",
   gap: isMobile ? 10 : 24,
   padding: isMobile ? "8px" : "24px",
   maxWidth: "99%",

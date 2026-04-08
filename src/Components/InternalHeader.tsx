@@ -16,7 +16,7 @@ const [showSearch, setShowSearch] = useState(false);
     position: "sticky",
     top: 0,
     zIndex: 1000,
-    width: "99%",
+    width: "100%",
     background: "#fff",
     borderBottom: "1px solid #e5e5e5",
     boxShadow: "0 2px 8px rgba(0,0,0,0.05)",
