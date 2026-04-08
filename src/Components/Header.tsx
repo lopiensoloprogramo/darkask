@@ -43,7 +43,9 @@ const [showSearch, setShowSearch] = useState(false);
     alignItems: "center",
     gap: 12,
     flexShrink: 1,   // 👈 importante
-    minWidth: 0  
+    minWidth: 0 ,
+     height: isMobile ? 56 : 64,
+
   };
 
   const bannerSocial: React.CSSProperties = {
@@ -57,7 +59,7 @@ const [showSearch, setShowSearch] = useState(false);
     width: 26,
     height: 26,
     cursor: "pointer",
-    display: "block" 
+  
   };
 
   return (
