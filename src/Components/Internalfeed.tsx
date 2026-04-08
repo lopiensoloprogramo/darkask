@@ -600,6 +600,6 @@ const likeButton = (active: boolean): React.CSSProperties => ({
 
 
 const styleshace: React.CSSProperties = {
-fontSize:"8px"
+fontSize:"10px"
 };
 
