@@ -49,7 +49,8 @@ const [showSearch, setShowSearch] = useState(false);
   const bannerSocial: React.CSSProperties = {
     display: "flex",
     gap: 8,
-    alignItems: "center"
+    alignItems: "center",
+    height: isMobile ? 56 : 64,
   };
 
   const bannerIcon: React.CSSProperties = {
