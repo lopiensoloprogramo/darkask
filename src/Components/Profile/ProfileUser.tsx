@@ -1838,5 +1838,5 @@ const Activostyles: React.CSSProperties={
 }
 const titleFeed: React.CSSProperties={
 
-  fontSize:"20px"
+  fontSize:"1.5rem"
 }
