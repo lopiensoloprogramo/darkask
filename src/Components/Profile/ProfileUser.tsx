@@ -128,7 +128,7 @@ const layout: React.CSSProperties = {
   gridTemplateColumns: isMobile ? "280px" : "1fr 3fr 1.5fr",
   gap: isMobile ? 10 : 24,
   padding: isMobile ? "8px" : "24px",
-  maxWidth: "99%",
+  maxWidth: "100%",
   margin: "0 auto",
   minWidth: 0 // 🔥 ESTE TAMBIÉN
 
