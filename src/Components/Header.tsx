@@ -50,7 +50,7 @@ const [showSearch, setShowSearch] = useState(false);
     display: "flex",
     gap: 8,
     alignItems: "center",
-    margin:"1px solid black"
+    border:"1px solid black"
   };
 
   const bannerIcon: React.CSSProperties = {
