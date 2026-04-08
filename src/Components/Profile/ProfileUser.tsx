@@ -1315,7 +1315,7 @@ if (!hasLoadedOnce || !userData)  {
             <div style={rankNumber}>#{i + 1}</div>
             <div>
               <strong>{q.question}</strong>
-              <p style={rankMeta}>❤️ {q.likesCount} · ⭐ {q.score}</p>
+              <p style={rankMeta}>❤️ {q.likesCount} likes</p>
             </div>
           </div>
         ))}
