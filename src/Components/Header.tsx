@@ -44,7 +44,7 @@ const [showSearch, setShowSearch] = useState(false);
     gap: 12,
     flexShrink: 1,   // 👈 importante
     minWidth: 0 ,
-
+    height:"80px"
 
   };
 
@@ -99,7 +99,7 @@ const [showSearch, setShowSearch] = useState(false);
           rel="noopener noreferrer"
            style={{ display: "flex" ,
       
-             height: "80px"
+            
            }}
           >
              <img src={fbIcon} style={bannerIcon} />
