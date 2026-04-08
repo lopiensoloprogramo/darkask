@@ -91,7 +91,13 @@ const [showSearch, setShowSearch] = useState(false);
             {showSearch && <ProfileSearch />}
         {/* REDES */}
         <div style={bannerSocial}>
-          <img src={fbIcon} style={bannerIcon} />
+          <a href="https://www.facebook.com/profile.php?id=61573291472194" target="blank" 
+          rel="nooper noreferrer"
+           style={{ display: "flex" }}
+          >
+             <img src={fbIcon} style={bannerIcon} />
+          </a>
+         
             <a href="https://www.instagram.com/ladarkask?igsh=NjE4ZGpncGdoN2Uy" target="_blank" 
             rel="noopener noreferrer"
             style={{ display: "flex" }}
