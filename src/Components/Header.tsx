@@ -27,7 +27,7 @@ const Header: React.FC<Props> = ({ isMobile, logo, fbIcon, inIcon }) => {
     alignItems: "center",
 
     padding: isMobile ? "0 8px" : "10px 28px",
-    height: isMobile ? 56 : 64,
+    height: isMobile ? 56 : 70,
 
     margin: "0 auto"
   };
