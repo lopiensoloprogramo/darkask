@@ -43,7 +43,7 @@ const [showSearch, setShowSearch] = useState(false);
     display: "flex",
     alignItems: "center",
     gap: 12,
-    flexShrink: 1,   // 👈 importante
+    flexShrink: 0,   // 👈 importante
     minWidth: 0 ,
     border:"1px solid black",
     height: isMobile ? 40 : 50,
