@@ -17,7 +17,7 @@ const Header: React.FC<Props> = ({ isMobile, logo, fbIcon, inIcon }) => {
     position: "sticky",
     top: 0,
     zIndex: 1000,
-    width: "100%", // 🔥 full ancho real
+    width: "99%", // 🔥 full ancho real
     background: "#fff",
     borderBottom: "1px solid #e5e5e5",
     boxShadow: "0 2px 8px rgba(0,0,0,0.05)",
