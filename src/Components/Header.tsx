@@ -44,7 +44,7 @@ const [showSearch, setShowSearch] = useState(false);
     gap: 12,
     flexShrink: 1,   // 👈 importante
     minWidth: 0 ,
-
+    border:"1px solid black"
 
   };
 
@@ -52,7 +52,7 @@ const [showSearch, setShowSearch] = useState(false);
     display: "flex",
     gap: 8,
     alignItems: "center",
-    border:"1px solid black"
+
   };
 
   const bannerIcon: React.CSSProperties = {
