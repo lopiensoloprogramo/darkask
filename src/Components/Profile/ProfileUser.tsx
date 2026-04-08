@@ -1175,7 +1175,7 @@ if (!hasLoadedOnce || !userData)  {
     style={tab(mainTab === "feed")}
     onClick={() => setMainTab("feed")}
   >
-    🔥 Feed
+    <span style={titleFeed}>🔥 Feed</span>
   </button>
 
   <button
@@ -1835,4 +1835,8 @@ const flotantepreguntas: React.CSSProperties = {
 const Activostyles: React.CSSProperties={
 
   fontSize:"10px"
+}
+const titleFeed: React.CSSProperties={
+
+  fontSize:"20px"
 }
