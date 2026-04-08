@@ -44,7 +44,7 @@ const [showSearch, setShowSearch] = useState(false);
     gap: 12,
     flexShrink: 1,   // 👈 importante
     minWidth: 0 ,
-     height: isMobile ? 56 : 64,
+  
 
   };
 
@@ -98,7 +98,8 @@ const [showSearch, setShowSearch] = useState(false);
           <a href="https://www.facebook.com/profile.php?id=61573291472194" target="_blank" 
           rel="noopener noreferrer"
            style={{ display: "flex" ,
-             lineHeight: 0 
+             lineHeight: 0,
+             height: "100%"
            }}
           >
              <img src={fbIcon} style={bannerIcon} />
@@ -106,7 +107,7 @@ const [showSearch, setShowSearch] = useState(false);
          
             <a href="https://www.instagram.com/ladarkask?igsh=NjE4ZGpncGdoN2Uy" target="_blank" 
             rel="noopener noreferrer"
-            style={{ display: "flex", lineHeight: 0  }}
+            style={{ display: "flex", lineHeight: 0 ,height: "100%" }}
             >
               <img src={inIcon} style={bannerIcon} />
             </a>
