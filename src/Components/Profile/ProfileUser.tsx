@@ -790,28 +790,34 @@ const handleShare = async () => {
   const profileUrl = `${window.location.origin}/u/${userData.username}`;
   const message = `😈 Dime algo sin filtro...\n${profileUrl}`;
 
-  // 📱 Share nativo
-  if (navigator.share) {
-    try {
-      await navigator.share({
-        title: "Hazme una pregunta 😈",
-        text: message,
-        url: profileUrl,
-      });
-      return;
-    } catch (err) {}
-  }
-
-  // 🔥 detectar móvil
   const isMobile = /Android|iPhone|iPad/i.test(navigator.userAgent);
 
-  const whatsappUrl = isMobile
-    ? `https://wa.me/?text=${encodeURIComponent(message)}`
-    : `https://web.whatsapp.com/send?text=${encodeURIComponent(message)}`;
+  // 📱 MÓVIL → WhatsApp o share nativo
+  if (isMobile) {
+    if (navigator.share) {
+      try {
+        await navigator.share({
+          title: "Hazme una pregunta 😈",
+          text: message,
+          url: profileUrl,
+        });
+        return;
+      } catch {}
+    }
 
-  window.open(whatsappUrl, "_blank");
+    const whatsappUrl = `https://wa.me/?text=${encodeURIComponent(message)}`;
+    window.open(whatsappUrl, "_blank");
+    return;
+  }
+
+  // 💻 PC → copiar link automático
+  try {
+    await navigator.clipboard.writeText(profileUrl);
+    alert("🔥 Link copiado. Pégalo en Instagram o WhatsApp para recibir preguntas 😈");
+  } catch {
+    prompt("Copia tu link:", profileUrl);
+  }
 };
-
 
   /* ===== UI INTERFAZ===== */
   return (
@@ -1298,7 +1304,7 @@ const handleShare = async () => {
                 </div>
 
                 {isOwner && (
-                  <button style={btnShare} onClick={() => setSharedQuestion(q)}>
+                  <button style={btnShare} onClick={() => handleShare}>
                    😈 Comparte y recibe preguntas
                   </button>
                 )}
