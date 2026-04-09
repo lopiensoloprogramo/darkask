@@ -23,6 +23,7 @@ export default function EditProfileModal({
   const [selectedMood, setSelectedMood] = useState("");
   const [selectedQuestion, setSelectedQuestion] = useState("");
   const [selectedFact, setSelectedFact] = useState("");
+  const [selectedGender, setSelectedGender] = useState("");
   const [avatarFile, setAvatarFile] = useState<File | null>(null);
   const [avatarPreview, setAvatarPreview] = useState<string | null>(null);
   const [saving, setSaving] = useState(false);
@@ -32,6 +33,7 @@ useEffect(() => {
     setSelectedMood(userData.mood || "");
     setSelectedQuestion(userData.fixedQuestion || "");
     setSelectedFact(userData.funFact || "");
+     setSelectedGender(userData.gender || ""); // 🔥 Sexo
   }
 }, [isOpen]);
 
@@ -64,7 +66,8 @@ const saveProfileExtras = async () => {
       mood: selectedMood,
       fixedQuestion: selectedQuestion,
       funFact: selectedFact,
-      photoURL
+      photoURL,
+      gender: selectedGender // 🔥 CLAVE
     });
 
     onClose();
@@ -149,6 +152,17 @@ const handleAvatarChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     placeholder="Algo interesante sobre ti..."
     style={{ ...input, minHeight: 80, resize: "none" }}
   />
+<label style={label}>Sexo</label>
+<select
+  value={selectedGender}
+  onChange={(e) => setSelectedGender(e.target.value)}
+  style={input}
+>
+  <option value="">Selecciona tu sexo</option>
+  <option value="Hombre">👨 Hombre</option>
+  <option value="Mujer">👩 Mujer</option>
+  <option value="Otro">😈 Misterioso</option>
+</select>
 </div>
 
 
