@@ -785,13 +785,39 @@ if (!hasLoadedOnce || !userData)  {
 
 
 
-const copylink=()=>{
+const copyLink = async () => {
+  if (!userData?.username) return;
 
-   const link = `${window.location.origin}/u/${userData.username}`;
-                  navigator.clipboard.writeText(link);
-                  alert("Enlace copiado 🔗");
+  const profileUrl = `${window.location.origin}/u/${userData.username}`;
 
-}
+  try {
+    await navigator.clipboard.writeText(profileUrl);
+    alert("Enlace copiado 🔥");
+  } catch {
+    alert("No se pudo copiar el enlace");
+  }
+};
+
+const handleShare = async () => {
+  if (!userData?.username) return;
+
+  const profileUrl = `${window.location.origin}/u/${userData.username}`;
+
+  if (navigator.share) {
+    try {
+      await navigator.share({
+        title: "Hazme una pregunta 😈",
+        text: "Respóndeme sin filtro 👀",
+        url: profileUrl,
+      });
+    } catch (err) {
+      console.log("Cancelado");
+    }
+  } else {
+    copyLink(); // fallback
+  }
+};
+
 
   /* ===== UI INTERFAZ===== */
   return (
@@ -1132,15 +1158,12 @@ const copylink=()=>{
                 </button>
 
               {/* Copiar enlace */}
-              <button
-                style={btnCopyLink}
-                onClick={() => {
-                  if (!userData?.username) return;
-                  copylink
-                }}
-              >
-                🔗 Copiar mi enlace
-              </button>
+            <button
+              style={btnCopyLink}
+              onClick={handleShare}
+            >
+              😈 Comparte y recibe preguntas
+            </button>
 
               {/* Cerrar sesión */}
               <button
