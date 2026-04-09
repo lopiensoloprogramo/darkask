@@ -782,40 +782,31 @@ if (!hasLoadedOnce || !userData)  {
   );
 }
 
-
-
-
-const copyLink = async () => {
-  if (!userData?.username) return;
-
-  const profileUrl = `${window.location.origin}/u/${userData.username}`;
-
-  try {
-    await navigator.clipboard.writeText(profileUrl);
-    alert("Enlace copiado 🔥");
-  } catch {
-    alert("No se pudo copiar el enlace");
-  }
-};
+/*Copiar y pegar*/
 
 const handleShare = async () => {
   if (!userData?.username) return;
 
   const profileUrl = `${window.location.origin}/u/${userData.username}`;
+  const message = `😈 Dime algo sin filtro...\n${profileUrl}`;
 
+  // 📱 Móvil → share nativo
   if (navigator.share) {
     try {
       await navigator.share({
         title: "Hazme una pregunta 😈",
-        text: "Respóndeme sin filtro 👀",
+        text: message,
         url: profileUrl,
       });
+      return;
     } catch (err) {
       console.log("Cancelado");
     }
-  } else {
-    copyLink(); // fallback
   }
+
+  // 💬 WhatsApp (PC o fallback)
+  const whatsappUrl = `https://wa.me/?text=${encodeURIComponent(message)}`;
+  window.open(whatsappUrl, "_blank");
 };
 
 
@@ -1158,12 +1149,12 @@ const handleShare = async () => {
                 </button>
 
               {/* Copiar enlace */}
-            <button
-              style={btnCopyLink}
-              onClick={handleShare}
-            >
-              😈 Comparte y recibe preguntas
-            </button>
+              <button
+                style={btnCopyLink}
+                onClick={handleShare}
+              >
+                😈 Comparte y recibe preguntas
+              </button>
 
               {/* Cerrar sesión */}
               <button
