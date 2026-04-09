@@ -785,7 +785,13 @@ if (!hasLoadedOnce || !userData)  {
 
 
 
+const copylink=()=>{
 
+   const link = `${window.location.origin}/u/${userData.username}`;
+                  navigator.clipboard.writeText(link);
+                  alert("Enlace copiado 🔗");
+
+}
 
   /* ===== UI INTERFAZ===== */
   return (
@@ -1130,9 +1136,7 @@ if (!hasLoadedOnce || !userData)  {
                 style={btnCopyLink}
                 onClick={() => {
                   if (!userData?.username) return;
-                  const link = `${window.location.origin}/u/${userData.username}`;
-                  navigator.clipboard.writeText(link);
-                  alert("Enlace copiado 🔗");
+                  copylink
                 }}
               >
                 🔗 Copiar mi enlace
