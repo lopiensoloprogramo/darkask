@@ -790,7 +790,7 @@ const handleShare = async () => {
   const profileUrl = `${window.location.origin}/u/${userData.username}`;
   const message = `😈 Dime algo sin filtro...\n${profileUrl}`;
 
-  // 📱 Móvil → share nativo
+  // 📱 Share nativo
   if (navigator.share) {
     try {
       await navigator.share({
@@ -799,13 +799,16 @@ const handleShare = async () => {
         url: profileUrl,
       });
       return;
-    } catch (err) {
-      console.log("Cancelado");
-    }
+    } catch (err) {}
   }
 
-  // 💬 WhatsApp (PC o fallback)
- const whatsappUrl = `https://web.whatsapp.com/send?text=${encodeURIComponent(message)}`;
+  // 🔥 detectar móvil
+  const isMobile = /Android|iPhone|iPad/i.test(navigator.userAgent);
+
+  const whatsappUrl = isMobile
+    ? `https://wa.me/?text=${encodeURIComponent(message)}`
+    : `https://web.whatsapp.com/send?text=${encodeURIComponent(message)}`;
+
   window.open(whatsappUrl, "_blank");
 };
 
