@@ -48,6 +48,7 @@ const saveProfileExtras = async () => {
   if (!authUser) return;
 
   try {
+    console.log(userData);
     setSaving(true);
 
     const userRef = doc(db, "users", authUser.uid);
@@ -68,6 +69,7 @@ const saveProfileExtras = async () => {
       funFact: selectedFact,
       photoURL,
       gender: selectedGender // 🔥 CLAVE
+      
     });
 
     onClose();
