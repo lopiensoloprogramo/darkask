@@ -1304,7 +1304,7 @@ const handleShare = async () => {
                 </div>
 
                 {isOwner && (
-                  <button style={btnShare} onClick={() => handleShare}>
+                  <button style={btnShare} onClick={handleShare}>
                    😈 Comparte y recibe preguntas
                   </button>
                 )}
