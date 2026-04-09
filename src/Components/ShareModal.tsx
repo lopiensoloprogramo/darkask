@@ -143,7 +143,8 @@ const modal = {
 
 const title = {
   color: "white",
-  marginBottom: 15,
+  marginBottom: 10,
+  marginTop:"0px"
 };
 
 const card = {
