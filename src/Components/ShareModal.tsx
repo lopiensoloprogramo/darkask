@@ -153,7 +153,7 @@ const card = {
   borderRadius: 18,
   color: "white",
   textAlign: "center" as const,
-  maxHeight: "55vh", // 🔥 CLAVE
+  maxHeight: "56vh", // 🔥 CLAVE
   overflow: "hidden", // 🔥 evita que empuje
 };
 
@@ -193,7 +193,7 @@ const answerLabel = {
 };
 
 const answerText = {
-  fontSize: 14, // antes 18
+  fontSize: 15, // antes 18
   fontWeight: 600,
 };
 
