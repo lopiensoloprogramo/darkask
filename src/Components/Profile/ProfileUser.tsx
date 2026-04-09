@@ -805,7 +805,7 @@ if (!hasLoadedOnce || !userData)  {
     
 
       {/* PERFIL */}
-      <div>
+      <div style={{ minWidth: 0 }}>
   <div style={profileCard}>
           <input
             type="file"
@@ -1169,7 +1169,7 @@ if (!hasLoadedOnce || !userData)  {
       </div>
     
 {/*Tabs principales*/}
-<div>
+<div style={{ minWidth: 0 }}>
 <div style={tabs}>
   <button
     style={tab(mainTab === "feed")}
@@ -1303,7 +1303,7 @@ if (!hasLoadedOnce || !userData)  {
 
 
 
-     <div>
+     <div style={{ minWidth: 0 }}>
   {/* TOP */}
  <div>
         <h2 style={sectionTitle}>🔥 Destacadas de {userData.name}</h2>
@@ -1545,7 +1545,8 @@ const questionTitle: React.CSSProperties = {
   fontWeight: 700,
   fontSize: 16,
   marginBottom: 8,
-  color: "#222"
+  color: "#222",
+  wordBreak: "break-word"
 };
 
 const answerBox: React.CSSProperties = {
