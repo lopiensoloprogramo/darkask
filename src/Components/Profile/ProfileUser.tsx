@@ -805,7 +805,7 @@ const handleShare = async () => {
   }
 
   // 💬 WhatsApp (PC o fallback)
-  const whatsappUrl = `https://wa.me/?text=${encodeURIComponent(message)}`;
+ const whatsappUrl = `https://web.whatsapp.com/send?text=${encodeURIComponent(message)}`;
   window.open(whatsappUrl, "_blank");
 };
 
