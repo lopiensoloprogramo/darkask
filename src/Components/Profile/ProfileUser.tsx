@@ -792,28 +792,31 @@ const handleShare = async () => {
 
   const isMobile = /Android|iPhone|iPad/i.test(navigator.userAgent);
 
-  // 📱 MÓVIL → WhatsApp o share nativo
-  if (isMobile) {
-    if (navigator.share) {
-      try {
-        await navigator.share({
-          title: "Hazme una pregunta 😈",
-          text: message,
-          url: profileUrl,
-        });
-        return;
-      } catch {}
+  // 📱 MÓVIL
+  if (isMobile && navigator.share) {
+    try {
+      await navigator.share({
+        title: "Hazme una pregunta 😈",
+        text: message // 🔥 SOLO text, SIN url
+      });
+      return; // ✅ si comparte → salir
+    } catch (err) {
+      // ❌ si cancela → NO hacer nada
+      return;
     }
+  }
 
+  // 📱 fallback móvil (solo si no existe share API)
+  if (isMobile) {
     const whatsappUrl = `https://wa.me/?text=${encodeURIComponent(message)}`;
     window.open(whatsappUrl, "_blank");
     return;
   }
 
-  // 💻 PC → copiar link automático
+  // 💻 PC → copiar link
   try {
     await navigator.clipboard.writeText(profileUrl);
-    alert("🔥 Link copiado. Pégalo en Instagram o WhatsApp para recibir preguntas 😈");
+    alert("🔥 Link copiado. Pégalo en tus redes bro");
   } catch {
     prompt("Copia tu link:", profileUrl);
   }
