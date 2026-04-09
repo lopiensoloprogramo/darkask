@@ -200,10 +200,11 @@ const cta = {
   fontSize: 14,
   fontWeight: 700,
   color: "#00ffcc",
+  marginBottom:0
 };
 
 const buttonContainer = {
-  marginTop: 20,
+  marginTop: 10,
   display: "flex",
   justifyContent: "space-between",
   gap: 10,
