@@ -82,7 +82,7 @@ const dataUrl = await toPng(element, {
                   crossOrigin="anonymous"
                  style={{
                   ...shareImageStyle,
-            maxHeight: (question.answer?.length || 0) > 200 ? 100 : 150
+            maxHeight: (question.answer?.length || 0) > 150 ? 90 : 140
                 }}
                 />
                   </div>
@@ -138,7 +138,7 @@ const modal = {
   textAlign: "center" as const,
   boxShadow: "0 20px 50px rgba(0,0,0,0.5)",
  maxHeight: "85vh", // 🔥 clave
-
+  overflow: "hidden", // 🔥 importante
 };
 
 const title = {
@@ -149,10 +149,12 @@ const title = {
 
 const card = {
   background: "linear-gradient(135deg, #141e30, #243b55)",
-  padding: 18, // 🔽
+  padding: 18,
   borderRadius: 18,
   color: "white",
   textAlign: "center" as const,
+  maxHeight: "55vh", // 🔥 CLAVE
+  overflow: "hidden", // 🔥 evita que empuje
 };
 
 const brand = {
@@ -191,7 +193,7 @@ const answerLabel = {
 };
 
 const answerText = {
-  fontSize: 15, // antes 18
+  fontSize: 14, // antes 18
   fontWeight: 600,
 };
 
