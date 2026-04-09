@@ -137,7 +137,7 @@ const modal = {
   width: "92%",
   textAlign: "center" as const,
   boxShadow: "0 20px 50px rgba(0,0,0,0.5)",
- maxHeight: "80vh", // 🔥 clave
+ maxHeight: "85vh", // 🔥 clave
 
 };
 
@@ -236,7 +236,7 @@ const downloadBtn = {
 };
 const shareImageStyle: React.CSSProperties = {
   width: "100%",
-  maxHeight: 150,
+  maxHeight: 120,
   objectFit: "contain",
   borderRadius: 12,
   marginTop: 10,
