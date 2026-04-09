@@ -1278,7 +1278,7 @@ if (!hasLoadedOnce || !userData)  {
 
                 {isOwner && (
                   <button style={btnShare} onClick={() => setSharedQuestion(q)}>
-                    Compartir
+                   😈Comparte y recibe preguntas
                   </button>
                 )}
               </>
@@ -1584,7 +1584,8 @@ const btnShare: React.CSSProperties = {
   border: "none",
   padding: "8px 12px",
   borderRadius: 10,
-  cursor: "pointer"
+  cursor: "pointer",
+  fontSize:"12px"
 };
 
 
