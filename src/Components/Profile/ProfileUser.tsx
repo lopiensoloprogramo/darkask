@@ -1278,7 +1278,7 @@ if (!hasLoadedOnce || !userData)  {
 
                 {isOwner && (
                   <button style={btnShare} onClick={() => setSharedQuestion(q)}>
-                   😈Comparte y recibe preguntas
+                   😈 Comparte y recibe preguntas
                   </button>
                 )}
               </>
